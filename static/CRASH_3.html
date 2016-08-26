@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>pierce homepage</title>
+    <style>
+        body{margin:0}
+        canvas{
+            background-color: #66CCFF;
+        }
+    </style>
+    <script>
+        window.onload = init;
+        var wHeight = window.innerHeight;
+        var wWidth = window.innerWidth;
+
+        function init() {
+            var canvas = $("#canvas");
+            canvas.height = wHeight;
+            canvas.width = wWidth;
+
+            var ctx = canvas.getContext('2d');
+
+            var cx1= 100, cy1 = 100;
+            var cx2 = wWidth/2, cy2 = wHeight/2;
+
+            var radius = 50;
+
+            var mx=wWidth/2, my=wHeight/2; //mouse position
+
+            var sx1=0, sy1=0, sx2, sy2; //speed vector
+            var slow = 0.98;
+            draw();
+
+            function draw() {
+
+                ctx.clearRect(0, 0, wWidth, wHeight);
+                ctx.beginPath();
+                ctx.fillStyle = '#337799';
+                ctx.arc(cx1, cy1, radius, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.closePath();
+//                ctx.beginPath();
+//                ctx.fillStyle = '#cccc66';
+//                ctx.arc(cx2, cy2, radius*2, 0, Math.PI * 2);
+//                ctx.fill();
+//                ctx.closePath();
+                adjust();
+                requestAnimationFrame(draw);
+            }
+
+            function ptop(x1, y1, x2, y2) {
+                return Math.sqrt(
+                        (x1-x2)*(x1-x2) + (y1-y2)*(y1-y2)
+                );
+            }
+
+            //x1 to x2
+            function getDirection(x1, y1, x2, y2) {
+                var _len = ptop(x1, y1, x2, y2);
+                return [(x2-x1)/_len, (y2-y1)/_len];
+            }
+
+            function adjust() {
+                var d = getDirection(cx1, cy1, mx, my);
+                sx1 += d[0];
+                sy1 += d[1];
+
+                cx1 += sx1;
+                cy1 += sy1;
+                sx1 *= slow;
+                sy1 *= slow;
+            }
+
+            var isDrag = false;
+
+            document.addEventListener('mousemove', function(e) {
+                mx = e.clientX;
+                my = e.clientY;
+
+//                if (isDrag) {
+//                    cx1 = mx - dx; cy1=my - dy;
+//                    ifCrash(_speed);
+//                }
+
+            });
+
+            function ifCrash(spd) {
+                if(isCrash()) {
+                    var _dx = cx1 - cx2;
+                    var _dy = cy1 - cy2;
+                    var _dlen = Math.sqrt( _dx*_dx + _dy*_dy );
+                    cx1 = cx2 + _dx * (radius) * 3 / _dlen;
+                    cy1 = cy2 + _dy * (radius) * 3 / _dlen;
+
+                    //hit
+                    speed = spd;
+                    hitx = -_dx / radius / 3;
+                    hity = -_dy / radius / 3;
+                }
+            }
+
+            function isCrash() {
+                return ptop(cx1, cy1, cx2, cy2) <= radius * 3;
+            }
+
+            function hitBorder() {
+                if(cx2+radius*2 >= wWidth && hitx > 0) hitx = -hitx;
+                if(cx2-radius*2 <=0 && hitx < 0) hitx = -hitx;
+                if(cy2+radius*2 >= wHeight && hity > 0) hity = -hity;
+                if(cy2-radius*2 <=0 && hity < 0) hity = -hity;
+            }
+
+            document.addEventListener('mouseup', function(e) {
+                isDrag = false;
+            });
+
+            window.onresize = function() {
+                wHeight = window.innerHeight;
+                wWidth = window.innerWidth;
+                canvas.height = wHeight;
+                canvas.width = wWidth;
+                cx2 = wWidth/2; cy2 = wHeight/2;
+            };
+
+
+        }
+
+        function $(tag) {
+            if(tag == null || tag == undefined ) {
+                return 0;
+            }
+            if(tag.length == 0) return 0;
+            if(tag[0] == '#') {
+                var id = tag.substr(1, tag.length-1);
+                return document.getElementById(id);
+            }
+        }
+    </script>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+</body>
