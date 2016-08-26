@@ -15,18 +15,29 @@
 
             var ctx = canvas.getContext('2d');
 
-            ctx.fillStyle = 'green';
+            ctx.fillStyle = '#336699';
 
             var bx = 100, by = 100;
             var dx,dy;
             var side = 100;
 
+            var cx = 500, cy =350;
+            var cRadius = 50;
+
+            var diff = 0.1;
+
             draw();
 
             function draw() {
+
+                ctx.beginPath();
                 ctx.clearRect(0, 0, wWidth, wHeight);
                 ctx.fillRect(bx, by, side, side);
+                ctx.arc(cx, cy, cRadius, 0, Math.PI*2 );
+                ctx.fill();
+                ctx.closePath();
                 requestAnimationFrame(draw);
+
             }
 
             var isDrag = false;
@@ -45,10 +56,25 @@
                 var mx = e.clientX;
                 var my = e.clientY;
 
-                if (isDrag) {
-                    bx = mx - dx; by=my - dy;
+                if (isDrag && isDuang() ) {
+                    bx = mx - dx; by = my - dy;
                 }
 
+                function isDuang() {
+                    var _dhold = cRadius + diff;
+                    var _dp1 = ptop(bx, by, cx, cy);
+                    if(_dp1 <= cRadius) {
+                        //P1 Duang
+                        var _dx = (bx - cx) * _dhold / _dp1;
+                        var _dy = (by - cy) * _dhold / _dp1;
+
+                        bx = cx + _dx;
+                        by = cy + _dy;
+                        return false;
+                    }
+
+                    return true;
+                }
             });
 
             document.addEventListener('mouseup', function(e) {
@@ -71,6 +97,22 @@
                 return document.getElementById(id);
             }
         }
+
+        function ptop(x1, y1, x2, y2) {
+            var dis = Math.sqrt(
+                    (x2-x1)*(x2-x1) + (y2-y1)*(y2-y1)
+            );
+            console.log(dis);
+            return dis;
+        }
+
+        function ptol(px, py, lx1, ly1, lx2, ly2) {
+            var k = (ly2-ly1)/(lx2-lx1);
+            var b =  (lx1*ly2 - lx2*ly1) / (x1-x2);
+
+            return (k*px - py + b) / (Math.sqrt(k*k+1));
+        }
+
     </script>
 </head>
 <body>
