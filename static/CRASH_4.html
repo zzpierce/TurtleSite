@@ -29,6 +29,7 @@
             var mx=wWidth/2, my=wHeight/2; //mouse position
 
             var sx1=0, sy1=0, sx2=0, sy2=0; //speed vector
+
             var slow = 0.98;
             draw();
 
@@ -42,8 +43,7 @@
                 ctx.closePath();
                 ctx.beginPath();
                 ctx.fillStyle = '#cccc66';
-                ctx.arc(cx2, cy2, radius, 0, Math.PI * 2);
-                ctx.fill();
+                ctx.fillRect(cx2-2*radius, cy2-2*radius, radius*4, radius*4);
                 ctx.closePath();
 
                 adjust();
@@ -72,13 +72,6 @@
                 sx1 *= slow;
                 sy1 *= slow;
 
-                cx2 += sx2;
-                cy2 += sy2;
-                sx2 *= slow;
-                sy2 *= slow;
-
-                ifCrash();
-                hitBorder();
             }
 
             function ifCrash() {
@@ -117,7 +110,7 @@
                 return x1*x2 + y1*y2;
             }
 
-            //球相撞
+            //相撞
             function isCrash() {
                 return ptop(cx1, cy1, cx2, cy2) <= radius * 2;
             }
