@@ -23,13 +23,18 @@
 
             var cx1= 100, cy1 = 100;
             var cx2 = wWidth/2, cy2 = wHeight/2;
+            var theta = 0;
+            var angleSpeed = 0;
 
             var radius = 50;
+            var bRadius = 2*radius;
+            var sqrt2 = Math.sqrt(2.0);
 
             var mx=wWidth/2, my=wHeight/2; //mouse position
 
-            var sx1=0, sy1=0, sx2=0, sy2=0; //speed vector
+            var sx1=0, sy1=0, sx2=0, sy2=0;//speed vector
 
+            var hitx = 0, hity = 0; //hit point
             var slow = 0.98;
             draw();
 
@@ -43,10 +48,16 @@
                 ctx.closePath();
                 ctx.beginPath();
                 ctx.fillStyle = '#cccc66';
-                ctx.fillRect(cx2-2*radius, cy2-2*radius, radius*4, radius*4);
+                ctx.moveTo(P(1)[0], P(1)[1]);
+                ctx.lineTo(P(2)[0], P(2)[1]);
+                ctx.lineTo(P(3)[0], P(3)[1]);
+                ctx.lineTo(P(4)[0], P(4)[1]);
+                ctx.lineTo(P(1)[0], P(1)[1]);
+                ctx.fill();
                 ctx.closePath();
 
                 adjust();
+
                 requestAnimationFrame(draw);
             }
 
@@ -63,45 +74,61 @@
             }
 
             function adjust() {
+
                 var d = getDirection(cx1, cy1, mx, my);
                 sx1 += d[0];
                 sy1 += d[1];
 
-                cx1 += sx1;
-                cy1 += sy1;
-                sx1 *= slow;
-                sy1 *= slow;
+                cx1 += sx1; cy1 += sy1;
+                cx2 += sx2; cy2 += sy2;
 
+                theta += angleSpeed;
+
+                ifCrash();
+
+                sx1 *= slow; sy1 *= slow;
+                sx2 *= slow; sy2 *= slow;
+                angleSpeed *= slow;
             }
 
             function ifCrash() {
                 if(isCrash()) {
 
-                    //如果两个球的运动方向是在互相远离，则不用判断碰撞
-                    if(pMulti(sx1, sy1, cx2-cx1, cy2-cy1) <= 0
-                        && pMulti(sx2, sy2, cx1-cx2, cy1-cy2) <= 0) return;
+                    //如果球在远离方块，则不视为碰撞
+                    if(pMulti(sx1, sy1, cx2-cx1, cy2-cy1) <= 0) return;
 
-                    var _dx = cx2 - cx1;
-                    var _dy = cy2 - cy1;
+                    var _dx = hitx - cx1;
+                    var _dy = hity - cy1;
+                    var _hx = cx2 - hitx, _hy = cy2 - hity;
 
-                    //调整位置，防止两球重叠
-                    var _dlen = Math.sqrt( _dx*_dx + _dy*_dy );
-                    cx1 = cx2 - _dx * (radius) * 2 / _dlen;
-                    cy1 = cy2 - _dy * (radius) * 2 / _dlen;
+                    var vLen = Math.sqrt(_dx*_dx + _dy*_dy);
+                    //调整位置，防止球进入方块
+                    cx1 = hitx - _dx * (radius/vLen);
+                    cy1 = hity - _dy * (radius/vLen);
 
-                    //利用向量公式计算碰撞后的方向
+                    //利用向量公式计算碰撞后球的方向
                     var uv = sx1*_dx + sy1*_dy;
-                    var vLen = ptop(0, 0, _dx, _dy);
                     var scale = uv / (vLen * vLen);
                     var _addx2 = scale * _dx;
                     var _addy2 = scale * _dy;
 
-                    sx1 = sx1 - _addx2;
-                    sy1 = sy1 - _addy2;
+                    //碰撞后方块的移动速度
+                    //如果球的速度很小则视为没有动量
+                    if(Math.abs(sx1) + Math.abs(sy1) > 5.0){
+                        sx2 += _addx2 / 30; sy2 += _addy2 / 30;
+                    }
 
-                    sx2 += _addx2;
-                    sy2 += _addy2;
+                    sx1 = sx1 - _addx2 * 1.6;
+                    sy1 = sy1 - _addy2 * 1.6;
 
+                    //碰撞后方块的转速，使用叉乘实现
+
+                    var _cross = _dx*_hy - _hx*_dy;
+
+//                    console.log("CROSS: " + _cross);
+//                    console.log("SCALE: " + scale);
+
+                    angleSpeed += _cross* scale / 30000;
                 }
             }
 
@@ -110,17 +137,72 @@
                 return x1*x2 + y1*y2;
             }
 
-            //相撞
-            function isCrash() {
-                return ptop(cx1, cy1, cx2, cy2) <= radius * 2;
+            function ptoABGai(xp, yp, xa, ya, xb, yb) {
+                var _apLen = ptop(xp, yp, xa, ya);
+                var _bpLen = ptop(xp, yp, xb, yb);
+
+                var _abLen = ptop(xa, ya, xb, yb);
+
+                var _apPab = (xp-xa)*(xb-xa) + (yp-ya)*(yb-ya);
+                var _cosPAB= _apPab / (_apLen*_abLen);
+
+                var _bpPba = (xp-xb)*(xa-xb) + (yp-yb)*(ya-yb);
+                var _cosPBA = _bpPba / (_bpLen*_abLen);
+
+                var _sinPAB = Math.sqrt(1-_cosPAB*_cosPAB);
+
+                //TODO 顺便求一下碰撞点  与函数本身没有关系
+                var _res, _hitx, _hity;
+                if(_cosPBA < 0) {
+                    _hitx = xb; _hity = yb; _res = _bpLen;
+                } else if(_cosPAB < 0) {
+                    _hitx = xa; _hity = ya; _res = _apLen;
+                } else {
+                    var _scale = _apLen * _cosPAB / (bRadius*2);
+                    _hitx = xa + (xb-xa)*_scale;
+                    _hity = ya + (yb-ya)*_scale;
+                    _res = _apLen*_sinPAB;
+                }
+
+                return [_hitx, _hity, _res];
+
             }
 
-            //球撞到边缘
-            function hitBorder() {
-                if(cx2+radius >= wWidth && sx2 > 0) sx2 = -sx2;
-                if(cx2-radius <=0 && sx2 < 0) sx2 = -sx2;
-                if(cy2+radius >= wHeight && sy2 > 0) sy2 = -sy2;
-                if(cy2-radius <=0 && sy2 < 0) sy2 = -sy2;
+            //获取正方形的顶点坐标
+            function P(i) {
+                var _alpha = 0;
+                switch(i) {
+                    case 1: _alpha = -0.75*Math.PI;break;
+                    case 2: _alpha = -0.25*Math.PI;break;
+                    case 3: _alpha = 0.25*Math.PI;break;
+                    case 4: _alpha = 0.75*Math.PI;break;
+                }
+
+                var _x = sqrt2*bRadius * Math.cos(_alpha+theta);
+                var _y = sqrt2*bRadius*Math.sin(_alpha+theta);
+                return [cx2+_x, cy2+_y];
+            }
+
+            //相撞
+            function isCrash() {
+
+                var _p1 = P(1), _p2 = P(2), _p3=P(3), _p4 = P(4);
+
+                //到四个边
+                var _limit = Math.sqrt(13*radius*radius);
+                var _ans = [];
+                var _r;
+                if(ptop(cx1, cy1, cx2, cy2) <= _limit) {
+                    _ans[0] = ptoABGai(cx1, cy1, _p1[0], _p1[1], _p2[0], _p2[1]);
+                    _ans[1] = ptoABGai(cx1, cy1, _p3[0], _p3[1], _p2[0], _p2[1]);
+                    _ans[2] = ptoABGai(cx1, cy1, _p3[0], _p3[1], _p4[0], _p4[1]);
+                    _ans[3] = ptoABGai(cx1, cy1, _p1[0], _p1[1], _p4[0], _p4[1]);
+                    hitx = _ans[0][0]; hity = _ans[0][1]; _r = _ans[0][2];
+                    if(_ans[1][2] < _r){hitx = _ans[1][0]; hity = _ans[1][1]; _r=_ans[1][2];}
+                    if(_ans[2][2] < _r){hitx = _ans[2][0]; hity = _ans[2][1]; _r=_ans[2][2];}
+                    if(_ans[3][2] < _r){hitx = _ans[3][0]; hity = _ans[3][1]; _r=_ans[3][2];}
+                }
+                return _r < radius;
             }
 
             document.addEventListener('mousemove', function(e) {
@@ -135,7 +217,6 @@
                 canvas.width = wWidth;
                 cx2 = wWidth/2; cy2 = wHeight/2;
             };
-
 
         }
 
