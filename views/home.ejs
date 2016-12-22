@@ -4,28 +4,29 @@
         <meta charset="utf-8" />
         <title>pierce homepage</title>
         <script>
-            var linkMap = {
-                "世界的中心": "crash_test/CRASH_0.html",
-                "La Isla Bonita": "crash_test/CRASH_2.html",
-                "带球过人": "crash_test/CRASH_3.html",
-                "高等数学1": "crash_test/CRASH_4.html",
-                "愤怒的小鸟": "crash_test/CRASH_5.html"
-            }
-            window.onload = function(){
-
-                var ulNode = document.getElementById("content-list");
-
-                for(var i in linkMap) {
-                    var liNode = document.createElement("li");
-                    var link = document.createElement("a");
-                    var liContent = document.createTextNode(i);
-                    link.appendChild(liContent);
-                    link.setAttribute('href', linkMap[i]);
-                    liNode.appendChild(link);
-
-                    ulNode.appendChild(liNode);
-                }
-            };
+            location.href = "dist/index.html";
+//            var linkMap = {
+//                "世界的中心": "crash_test/CRASH_0.html",
+//                "La Isla Bonita": "crash_test/CRASH_2.html",
+//                "带球过人": "crash_test/CRASH_3.html",
+//                "高等数学1": "crash_test/CRASH_4.html",
+//                "愤怒的小鸟": "crash_test/CRASH_5.html"
+//            }
+//            window.onload = function(){
+//
+//                var ulNode = document.getElementById("content-list");
+//
+//                for(var i in linkMap) {
+//                    var liNode = document.createElement("li");
+//                    var link = document.createElement("a");
+//                    var liContent = document.createTextNode(i);
+//                    link.appendChild(liContent);
+//                    link.setAttribute('href', linkMap[i]);
+//                    liNode.appendChild(link);
+//
+//                    ulNode.appendChild(liNode);
+//                }
+//            };
         </script>
     </head>
     <body>
