@@ -1,24 +1,23 @@
 <template>
-  <div class="container" v-bind:style="bgAttr">
+  <div class="container">
     <div class="title" >
       <ul>
-        <li @mouseover="fancy(1)">个</li>
-        <li @mouseover="fancy(2)">人</li>
-        <li @mouseover="fancy(3)">主</li>
-        <li @mouseover="fancy(0)">页</li>
+        <li @mouseover="fancy(1)">M</li>
+        <li @mouseover="fancy(2)">E</li>
+        <li @mouseover="fancy(3)">A</li>
+        <li @mouseover="fancy(0)">T</li>
       </ul>
     </div>
     <div class="signature">zz</div>
   </div>
 </template>
 <script>
-
   export default {
     data: function() {
       return {
         value: "123",
         bgAttr: {
-          "background-color": "darkkhaki"
+          "background-color": "coral"
         },
         colors: [
           "cadetblue",
@@ -30,26 +29,18 @@
     },
     methods: {
       fancy(v) {
-        this.bgAttr["background-color"] = this.colors[v];
+
       }
     }
   };
 </script>
 <style>
-  html, body {
+  body {
     font-size: 12px;
     font-family: "Microsoft YaHei",Arial,Helvetica,sans-serif;
-    background-color: darkkhaki;
     color: #222;
-    -webkit-tap-highlight-color: transparent;
-  }
-
-  .container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    margin: 0;
+    padding: 0;
   }
 
   .container .title {

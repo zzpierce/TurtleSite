@@ -16,6 +16,7 @@ const port = 3000;
 
 
 http.createServer((req, res) => {
+
     var url = parse(req.url), pathname = url.pathname;
     console.log('Request URL: http://127.0.0.1:3000' + url.href);
     // 解析 URL 参数到 resource 对象
@@ -23,6 +24,7 @@ http.createServer((req, res) => {
     //resource.id 存在，表示是 RESTful 的请求
 
     if(req.resource.id) {
+
         res.writeHead(200, {'Content-Type': 'text/plain'});
         restRouter.router(req, res, function(stringfyResult){
             res.end(stringfyResult);

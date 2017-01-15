@@ -38,16 +38,27 @@ function article_dao(){
     this.postMember = function(id, params, callback){
         if(arguments.length >= 2){
             var newId = arguments[0];
-            var params = arguments[1];
             // 执行数据库插入操作，通过Javascript 对象传递参数
             dbConnection.query('INSERT INTO article SET ?', {title: params.title, tags: params.tags, content: params.content} , function(err, result) {
                 if (err) throw err;
                 //执行回调函数
-                callback({id: newId});
+                callback(result);
                 dbConnection.end();
             });
         }
     };
+
+    this.create = function(id, params, callback) {
+        if(arguments.length >=2 ) {
+            dbConnection.query('INSERT INTO article SET ?', {title: params.title, tags: params.tags, content: params.content} , function(err, result) {
+                if (err) throw err;
+                //执行回调函数
+                callback(result);
+                dbConnection.end();
+            });
+        }
+    };
+
 
     this.update = function(id, params, callback){
         if(arguments.length >= 2){

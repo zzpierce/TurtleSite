@@ -3,17 +3,19 @@ import VueRouter from 'vue-router'
 
 Vue.use(VueRouter);
 
-import App from './App.vue'
-import Home from './components/Home.vue'
-import About from './components/About.vue'
+import App from './app.vue'
+import Home from './components/home.vue'
+import About from './components/about.vue'
+import Blog from './components/blog.vue';
 import Crash_0 from './components/Crash_0.vue'
 
 const router = new VueRouter({
   routes: [
-    { path: '/home', component: Home},
+    { path: '/home', component: Home },
     { path: '/about', component: About },
+    { path: '/blog', component: Blog },
     { path: '/**', component: Home },
-    { path: '/crash_0', component: Crash_0}
+    { path: '/crash_0', component: Crash_0 }
   ]
 });
 
