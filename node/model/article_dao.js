@@ -50,12 +50,21 @@ function article_dao(){
 
     this.create = function(id, params, callback) {
         if(arguments.length >=2 ) {
-            dbConnection.query('INSERT INTO article SET ?', {title: params.title, tags: params.tags, content: params.content} , function(err, result) {
-                if (err) throw err;
-                //执行回调函数
-                callback(result);
-                dbConnection.end();
-            });
+            var date = new Date();
+            dbConnection.query('INSERT INTO article SET ?',
+                {
+                    title: params.title,
+                    tags: params.tags,
+                    content: params.content,
+                    create_time: date,
+                    update_time: date
+                }, function(err, result) {
+                    if (err) throw err;
+                    //执行回调函数
+                    callback(result);
+                    dbConnection.end();
+                }
+            );
         }
     };
 

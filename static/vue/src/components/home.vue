@@ -1,6 +1,6 @@
 <template>
-  <div class="container">
-    <div class="title" >
+  <div>
+    <div class="meat" >
       <ul>
         <li @mouseover="fancy(1)">M</li>
         <li @mouseover="fancy(2)">E</li>
@@ -36,35 +36,33 @@
 </script>
 <style>
   body {
-    font-size: 12px;
+    font-size: 15px;
     font-family: "Microsoft YaHei",Arial,Helvetica,sans-serif;
     color: #222;
     margin: 0;
     padding: 0;
   }
 
-  .container .title {
-    font-size: 10em;
+  .meat {
+    font-size: 9em;
     text-align: center;
     font-family: "Microsoft JhengHei", sans-serif;
-    padding-top: 4%;
-    padding-bottom: 4%;
   }
 
-  .title ul {
+  .meat ul {
     padding: 0;
   }
 
-  .title ul>li {
+  .meat ul>li {
     display: inline-block;
   }
 
-  .title ul>li:hover {
+  .meat ul>li:hover {
     cursor: pointer;
     color: white;
   }
 
-  .container .signature {
+  .signature {
     position: absolute;
     bottom: 0;
   }
