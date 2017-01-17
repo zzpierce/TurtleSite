@@ -22,7 +22,7 @@
 
   .container {
     width: 50%;
-    margin: 0 20%;
+    margin: 0 25%;
   }
 
   .nav {
@@ -35,13 +35,20 @@
   .nav li {
     display: inline-block;
     margin-bottom: 20px;
-    margin-right: 20px;
-    padding: 4px;
-    background-color: #f0f0f0;
+    width: 20%;
+    border-right: 1px solid #f0f0f0;
   }
 
-  .nav li a, a:hover, a:active {
-    color: #000;
+  .nav li:last-child {
+    border-right: none;
+  }
+
+  .nav li a {
+    color: #333;
     text-decoration: none;
+  }
+
+  .nav li a:hover, a:active {
+    color: #666;
   }
 </style>
