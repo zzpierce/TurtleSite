@@ -12,13 +12,13 @@ const config = require('./node/config/config');
 
 
 const hostname = "127.0.0.1";
-const port = 3000;
+const port = 80;
 
 
 http.createServer((req, res) => {
 
     var url = parse(req.url), pathname = url.pathname;
-    console.log('Request URL: http://127.0.0.1:3000' + url.href);
+    console.log('Request URL: http://127.0.0.1:80' + url.href);
     // 解析 URL 参数到 resource 对象
     req.resource = restParser.parse(pathname);
     //resource.id 存在，表示是 RESTful 的请求
