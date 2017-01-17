@@ -32,7 +32,7 @@ http.createServer((req, res) => {
     } else {
         staticFileServer(req, res);
     }
-}).listen(port, hostname);
+}).listen(port);
 
 console.log('Server running at http://127.0.0.1:3000/');
 
