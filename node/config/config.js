@@ -6,6 +6,6 @@ exports.staticFileDir = 'view';
 exports.dataSource = {
     host     : 'localhost',
     user     : 'pierce',
-    password : 'Abcd@2016',
+    password : 'Abcd#2016',
     database : 'nodejs'
 };
