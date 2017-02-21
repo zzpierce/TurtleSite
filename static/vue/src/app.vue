@@ -19,24 +19,23 @@
 </template>
 <script></script>
 <style>
-
   .container {
-    width: 50%;
-    margin: 0 25%;
+    width: 100%;
+    margin: 0;
   }
 
   .nav {
-    text-align: center;
-    font-size: 1.5em;
+    font-size: 0.8em;
     list-style: none;
     padding: 0;
+    margin: 0;
+    background-color: #1a5952;
+
   }
 
   .nav li {
     display: inline-block;
-    margin-bottom: 20px;
-    width: 20%;
-    border-right: 1px solid #f0f0f0;
+    margin-left: 13px;
   }
 
   .nav li:last-child {
@@ -44,11 +43,11 @@
   }
 
   .nav li a {
-    color: #333;
+    color: #fff;
     text-decoration: none;
   }
 
   .nav li a:hover, a:active {
-    color: #666;
+    color: #AAA;
   }
 </style>
