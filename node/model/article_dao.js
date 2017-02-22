@@ -29,6 +29,7 @@ function article_dao(){
                 var article = new Article(rows[i]);
                 articles.push(article);
             }
+            console.log(articles);
             //执行回调函数
             callback(articles);
             dbConnection.end();

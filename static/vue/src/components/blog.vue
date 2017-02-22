@@ -1,12 +1,18 @@
 <template>
-  <div>
-    <div class="main">
-      <div jdfgefg
-      <div v-for="article in articles" class="main-row">
-        <div @click="toDetail(article.id)">{{article.title}}</div>
-        <span>更新于 {{article.updateTime}}</span>
-      </div>
+  <div class="main">
+    <div class="intro">
+      <h4 class="title">PIERCE DEB LOG</h4>
     </div>
+    <div class="mid">
+      <div class="mid-left">
+        <div v-for="article in articles" class="article-row">
+          <div @click="toDetail(article.id)">{{article.title}}</div>
+          <span>更新于 {{article.updateTime}}</span>
+        </div>
+      </div>
+      <div class="mid-right"></div>
+    </div>
+    <div class="bottom"></div>
   </div>
 </template>
 <script>
@@ -14,15 +20,15 @@
   export default {
     data: function() {
       return {
-        articles: [{"id":1,"title":"国内有哪些比较好的 CDN？","tags":"电信运营商,调查类问题,CDN","content":"CDN的前2名是蓝讯和网宿，这个业内异议不大。下面规模较大的有帝联、快网等，当然小的CDN不计其数。CDN的加速效果更多的依赖于其广泛的节点部署，所以选择一个相对较大的CDN更靠谱。价格方面，流量较小时确实没什么议价空间。按照和几家CDN接触的经验，流量达到300M以上，价格可以谈到100以下，下限多少则要看谈判能力了。\n\n作者：胡力\n链接：https://www.zhihu.com/question/20536932/answer/15413251\n来源：知乎\n著作权归作者所有，转载请联系作者获得授权。","createTime":"2017-01-16","updateTime":"2017-01-16"},{"id":2,"title":"傲骨贤妻","tags":"美剧","content":"故事主要描述政客Peter（Chris Noth扮演）因性丑闻和政治丑闻被捕入狱后，他的妻子AliciaFlorrick （JuliannaMargulies）不得不结束「家庭主妇」的生活，独立担当起支撑家庭的重任。抛开丈夫的背叛和负面的公众影响不说，光是别人投来的异样眼光，就足以让Alicia这样的官太太羞愧得不敢出门。然而Alicia没有被困难吓倒，她不但要抛头露面，还要重拾自己婚前的职业－－辩护律师。 作为芝加哥一所知名法律公司的初级合伙人，Alicia受到了老朋友Will Gardner（JoshCharles扮演）的欢迎。Will是Alicia读法律学校时的同班同学，也是这是法律公司的高级职员。他很乐意看到 Alicia归来，他想看看时隔十三年之后，这位昔日叱咤风云的女强人在法庭上会有什么样的表现。Alicia还有幸受到公司顶级诉讼律师 DianeLockhart（ChristineBaranski）的大力提携和指导，这多少让她受宠若惊，心存感激。但她很快发现这些「指导」是有条件的，Diane并不像她看起来那么「热心」。要想获得成功，Alicia只能依靠自己。 Alicia在公司里的主要竞争对手是一位20多岁的年轻人，名叫Cary（MattCzuchry扮演）。他最近刚从哈佛大学毕业，表面上待人非常友好。事实上，为了确保自己在公司的地位，为了得到那个人人都垂涎的「高级合伙人」职位，他不惜动用一切手段。如果Alicia成了他的绊脚石，他将毫不犹豫地将她除去。幸运的是，Alicia在公司内并非孤立无援，负责调查取证工作的Kalinda（Archie Panjabi扮演）是Alicia最坚定的支持者。 「自信每一天」，Alicia甚至这句话的含义。从遭人鄙视的政客妻子，到重新振作的职业女性，这条道路或许很漫长，但Alicia不在乎。她要为自己活下去，也要为14岁的儿子Zach（Graham Phillips扮演）和13岁的女儿Grace（MakenzieVega扮演）早作打算。这么多年以来，Alicia第一次感觉到命运掌握在自己手中，她不再是那个软弱可欺、受人摆布的「贤妻」，而是个自由的女人。","createTime":"2017-01-16","updateTime":"2017-01-16"},{"id":3,"title":"格林 Grimm","tags":"美剧","content":"顾名思义，《格林》根据著名的《格林童话》改编，但两者完全不是一回事。\t还记得你小时候读过的那些童话故事吗？《灰姑娘》、《白雪公主》、《小红帽》、《睡美人》、《糖果屋》、《青蛙王子》……那些根本不是童话！它们是智者的警告。\t警察Nick Burkhardt（David Guintoli扮演）刚刚被晋升为命案侦探，正准备在新的工作岗位上大展拳脚，可是他开始见到一些根本不能用言语来解释的可怕景象。Nick的姑姑Marie（Kate Burton客座演出，《实习医生格蕾》）向Nick透露了一个惊天秘密，Nick的生活从此改变。Marie称Burkhardt家族的祖先曾隶属于一个猎人集团，他们的统一代号为「格林」。这个世界中存在大量的超自然生物，它们试图侵占世界、毁灭人类，而「格林」的任务就是阻止它们的阴谋。\t当Nick对家族背景有了更多了解后，越来越意识到自己对「格林」的义务责无旁贷。格林兄弟是假的，但格林童话是真的－－这个新发现不仅会影响Nick的命运，也将影响人类的命运。\tBitsie Tulloch扮演Nick的同居女友Juliette Lambert。来自《越狱》、《陌客》和《非凡家庭》的Reggie Lee扮演Nick的上级Blaknikoff警官。来自《林肯岗》和《问诊》的Russell Hornsby扮演Nick的警察搭档Hank Green。来自《卡布里卡》的Sasha Roiz扮演警队队长Ericson。来自《越狱》的Silas Weir Mitchell扮演已洗心革面、改邪归正的狼人Eddy Monroe，他将帮助Nick对付其他「童话生物」。Kate Burton参与演出。\t该剧由《天使调查团》（Angel）的一对制片组合Jim Kouf、David Greenwalt打造。","createTime":"2017-01-16","updateTime":"2017-01-16"},{"id":4,"title":"闪电侠 The Flash","tags":"美剧","content":"今天见面会上最重要的消息无疑是《绿箭侠》将引导一部新剧的消息——闪电侠（The Flash）将在本季正式登场，并通过数集戏份确立自己的形象。如果观众认可的话，CW将把闪电侠从《绿箭侠》中独立出来，开发一部全新的剧集。DC漫画中的闪电侠至少有四代，这里主要指第二代闪电侠、警察兼科学家Barry Allen（他是最正宗的闪电侠）。 制片人明确表示闪电侠将在2×08、2×09和2×20中登场。按照CW的惯例，第20集将作为新剧的试映集（启动集）。这一集非常关键，所以CW决定邀请试映集之神David Nutter来导演这一集 该剧对闪电侠的特效处理和漫画不一样，他不会「快速跑出一个模糊的影子」，但他的确会有「闪电般的速度」。","createTime":"2017-01-16","updateTime":"2017-01-16"},{"id":5,"title":"灌灌灌灌灌","tags":"tag","content":"呃呃呃额额","createTime":"2017-01-16","updateTime":"2017-01-16"},{"id":6,"title":"hah","tags":"tag","content":"","createTime":"2017-01-16","updateTime":"2017-01-16"},{"id":7,"title":"FFF","tags":"tag","content":"","createTime":"2017-01-16","updateTime":"2017-01-16"},{"id":8,"title":"dsfag","tags":"tag","content":"fdsag","createTime":"2017-01-16","updateTime":"2017-01-16"}],
-        //articles: [],
+        //articles: [{"id":1,"title":"国内有哪些比较好的 CDN？","tags":"电信运营商,调查类问题,CDN","content":"CDN的前2名是蓝讯和网宿，这个业内异议不大。下面规模较大的有帝联、快网等，当然小的CDN不计其数。CDN的加速效果更多的依赖于其广泛的节点部署，所以选择一个相对较大的CDN更靠谱。价格方面，流量较小时确实没什么议价空间。按照和几家CDN接触的经验，流量达到300M以上，价格可以谈到100以下，下限多少则要看谈判能力了。\n\n作者：胡力\n链接：https://www.zhihu.com/question/20536932/answer/15413251\n来源：知乎\n著作权归作者所有，转载请联系作者获得授权。","createTime":"2017-01-16","updateTime":"2017-01-16"},{"id":2,"title":"傲骨贤妻","tags":"美剧","content":"故事主要描述政客Peter（Chris Noth扮演）因性丑闻和政治丑闻被捕入狱后，他的妻子AliciaFlorrick （JuliannaMargulies）不得不结束「家庭主妇」的生活，独立担当起支撑家庭的重任。抛开丈夫的背叛和负面的公众影响不说，光是别人投来的异样眼光，就足以让Alicia这样的官太太羞愧得不敢出门。然而Alicia没有被困难吓倒，她不但要抛头露面，还要重拾自己婚前的职业－－辩护律师。 作为芝加哥一所知名法律公司的初级合伙人，Alicia受到了老朋友Will Gardner（JoshCharles扮演）的欢迎。Will是Alicia读法律学校时的同班同学，也是这是法律公司的高级职员。他很乐意看到 Alicia归来，他想看看时隔十三年之后，这位昔日叱咤风云的女强人在法庭上会有什么样的表现。Alicia还有幸受到公司顶级诉讼律师 DianeLockhart（ChristineBaranski）的大力提携和指导，这多少让她受宠若惊，心存感激。但她很快发现这些「指导」是有条件的，Diane并不像她看起来那么「热心」。要想获得成功，Alicia只能依靠自己。 Alicia在公司里的主要竞争对手是一位20多岁的年轻人，名叫Cary（MattCzuchry扮演）。他最近刚从哈佛大学毕业，表面上待人非常友好。事实上，为了确保自己在公司的地位，为了得到那个人人都垂涎的「高级合伙人」职位，他不惜动用一切手段。如果Alicia成了他的绊脚石，他将毫不犹豫地将她除去。幸运的是，Alicia在公司内并非孤立无援，负责调查取证工作的Kalinda（Archie Panjabi扮演）是Alicia最坚定的支持者。 「自信每一天」，Alicia甚至这句话的含义。从遭人鄙视的政客妻子，到重新振作的职业女性，这条道路或许很漫长，但Alicia不在乎。她要为自己活下去，也要为14岁的儿子Zach（Graham Phillips扮演）和13岁的女儿Grace（MakenzieVega扮演）早作打算。这么多年以来，Alicia第一次感觉到命运掌握在自己手中，她不再是那个软弱可欺、受人摆布的「贤妻」，而是个自由的女人。","createTime":"2017-01-16","updateTime":"2017-01-16"},{"id":3,"title":"格林 Grimm","tags":"美剧","content":"顾名思义，《格林》根据著名的《格林童话》改编，但两者完全不是一回事。\t还记得你小时候读过的那些童话故事吗？《灰姑娘》、《白雪公主》、《小红帽》、《睡美人》、《糖果屋》、《青蛙王子》……那些根本不是童话！它们是智者的警告。\t警察Nick Burkhardt（David Guintoli扮演）刚刚被晋升为命案侦探，正准备在新的工作岗位上大展拳脚，可是他开始见到一些根本不能用言语来解释的可怕景象。Nick的姑姑Marie（Kate Burton客座演出，《实习医生格蕾》）向Nick透露了一个惊天秘密，Nick的生活从此改变。Marie称Burkhardt家族的祖先曾隶属于一个猎人集团，他们的统一代号为「格林」。这个世界中存在大量的超自然生物，它们试图侵占世界、毁灭人类，而「格林」的任务就是阻止它们的阴谋。\t当Nick对家族背景有了更多了解后，越来越意识到自己对「格林」的义务责无旁贷。格林兄弟是假的，但格林童话是真的－－这个新发现不仅会影响Nick的命运，也将影响人类的命运。\tBitsie Tulloch扮演Nick的同居女友Juliette Lambert。来自《越狱》、《陌客》和《非凡家庭》的Reggie Lee扮演Nick的上级Blaknikoff警官。来自《林肯岗》和《问诊》的Russell Hornsby扮演Nick的警察搭档Hank Green。来自《卡布里卡》的Sasha Roiz扮演警队队长Ericson。来自《越狱》的Silas Weir Mitchell扮演已洗心革面、改邪归正的狼人Eddy Monroe，他将帮助Nick对付其他「童话生物」。Kate Burton参与演出。\t该剧由《天使调查团》（Angel）的一对制片组合Jim Kouf、David Greenwalt打造。","createTime":"2017-01-16","updateTime":"2017-01-16"},{"id":4,"title":"闪电侠 The Flash","tags":"美剧","content":"今天见面会上最重要的消息无疑是《绿箭侠》将引导一部新剧的消息——闪电侠（The Flash）将在本季正式登场，并通过数集戏份确立自己的形象。如果观众认可的话，CW将把闪电侠从《绿箭侠》中独立出来，开发一部全新的剧集。DC漫画中的闪电侠至少有四代，这里主要指第二代闪电侠、警察兼科学家Barry Allen（他是最正宗的闪电侠）。 制片人明确表示闪电侠将在2×08、2×09和2×20中登场。按照CW的惯例，第20集将作为新剧的试映集（启动集）。这一集非常关键，所以CW决定邀请试映集之神David Nutter来导演这一集 该剧对闪电侠的特效处理和漫画不一样，他不会「快速跑出一个模糊的影子」，但他的确会有「闪电般的速度」。","createTime":"2017-01-16","updateTime":"2017-01-16"},{"id":5,"title":"灌灌灌灌灌","tags":"tag","content":"呃呃呃额额","createTime":"2017-01-16","updateTime":"2017-01-16"},{"id":6,"title":"hah","tags":"tag","content":"","createTime":"2017-01-16","updateTime":"2017-01-16"},{"id":7,"title":"FFF","tags":"tag","content":"","createTime":"2017-01-16","updateTime":"2017-01-16"},{"id":8,"title":"dsfag","tags":"tag","content":"fdsag","createTime":"2017-01-16","updateTime":"2017-01-16"}],
+        articles: [],
         root: ''
       }
     },
     computed: {
     },
     created: function() {
-      //this.loadArticles();
+      this.loadArticles();
     },
     methods: {
       loadArticles: function() {
@@ -53,8 +59,20 @@
 </script>
 <style>
   .main {
-    margin-top: 20px;
     font-size: 1.2em;
+  }
+
+  .main .intro {
+    min-height: 300px;
+    background: #f5f8fa;
+  }
+
+  .intro .title {
+    margin: 0;
+    color: #333;
+    font-size: 3em;
+    padding-top: 100px;
+    padding-left: 72px;
   }
 
   .main>label {
@@ -64,21 +82,29 @@
     cursor: pointer;
   }
 
-  .main-row {
+  .mid .mid-left {
+    width: 65%;
+  }
+
+  .mid .mid-right {
+    width: 35%;
+  }
+
+  .mid .article-row {
+    text-align: center;
     border-bottom: 1px solid #f2f2f2;
   }
 
-  .main-row>div {
-    display: inline-block;
-    width: 80%;
+  .article-row>div {
+    font-size: 1.6em;
+    font-weight: 700;
     margin-top: 20px;
     color: #333;
   }
 
-  .main-row>span {
+  .article-row>span {
     font-size: 0.6em;
     color: #aaa;
   }
-
 
 </style>

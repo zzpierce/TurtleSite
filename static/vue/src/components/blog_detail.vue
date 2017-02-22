@@ -15,7 +15,7 @@
     },
     created: function() {
       this.blogId = this.$route.params.id;
-      this.loadArticle();
+      //this.loadArticle();
     },
     methods: {
       loadArticle: function() {

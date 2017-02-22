@@ -8,7 +8,7 @@
         <router-link to="/blog">BLOG</router-link>
       </li>
       <li>
-        <router-link to="/home">TRINKETS</router-link>
+        <router-link to="/backend">TRINKETS</router-link>
       </li>
       <li>
         <router-link to="/home">RUNES</router-link>
@@ -19,13 +19,13 @@
 </template>
 <script></script>
 <style>
+  @import url("./style/my.css");
   .container {
     width: 100%;
     margin: 0;
   }
 
   .nav {
-    font-size: 0.8em;
     list-style: none;
     padding: 0;
     margin: 0;

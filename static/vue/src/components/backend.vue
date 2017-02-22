@@ -1,16 +1,16 @@
 <template>
   <div>
     <label>
-      <span class="iconfont icon-add" @click="showNewPanel()"></span>
+      <span class="iconfont icon-add"></span>
     </label>
-    <div class="bottom-panel" v-if="addArticle.flag">
+    <div class="bottom-panel">
       <div class="bottom-row">
         <label>标题：</label>
         <input type="text" v-model="addArticle.title"/>
       </div>
       <div class="bottom-row">
         <label>内容：</label>
-        <textarea v-model="addArticle.content"></textarea>
+        <textarea id="editor"></textarea>
       </div>
       <div class="bottom-row">
         <button @click="newArticle()">YEAH</button>
@@ -19,15 +19,36 @@
   </div>
 </template>
 <script>
+  import SimpleMDE from 'simplemde';
+  import md2html from 'src/lib/markdown';
+  let mde;
   export default {
-    data: function() {
+    data() {
       return {
         addArticle: {
-          flag: false,
           title: "",
+          tags: [],
           content: ""
         }
       }
+    },
+    mounted() {
+      console.log('hah');
+      mde = new SimpleMDE({
+        initialValue: this.content,
+        autoDownloadFontAwesome: true,
+        element: document.getElementById('editor'),
+        previewRender: str => md2html(str),
+        spellChecker: false,
+        toolbar: ['bold', 'italic', 'strikethrough', 'heading-1', 'heading-2', 'heading-3', 'clean-block', '|', 'code', 'quote', 'unordered-list', 'ordered-list', 'table', '|', 'link', 'image', 'horizontal-rule', {
+          name: 'more',
+          action: function customFunction (editor) {
+            //  fix me
+          },
+          className: 'fa fa-chevron-circle-down',
+          title: 'More'
+        }, '|', 'preview', 'side-by-side', 'fullscreen', '|', 'guide']
+      });
     },
     methods: {
       newArticle: function() {
@@ -43,41 +64,10 @@
         }).done(function(data) {
           alert(data);
         });
-      },
-      showNewPanel: function() {
-        this.addArticle.flag = true;
       }
     }
   }
 </script>
 <style>
-  .bottom-panel label {
-    float: left;
-    width: 60px;
-    display: inline-block;
-  }
-
-  .bottom-panel input {
-    width: 90%;
-    height: 25px;
-    font-size: 1em;
-  }
-
-  .bottom-panel textarea {
-    float: left;
-    width: 90%;
-    height: 300px;
-    font-size: 1em;
-    margin-bottom: 20px;
-  }
-
-  .bottom-panel .bottom-row {
-    margin: 20px 0;
-    line-height: 25px;
-    font-size: 1.2em;
-  }
-
-  .bottom-panel button {
-    margin-left: 60px;
-  }
+  @import url('../style/simplemde.css');
 </style>
