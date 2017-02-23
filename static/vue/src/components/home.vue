@@ -37,7 +37,6 @@
 <style>
   body {
     font-size: 15px;
-    font-family: "Microsoft YaHei",Arial,Helvetica,sans-serif;
     color: #222;
     margin: 0;
     padding: 0;

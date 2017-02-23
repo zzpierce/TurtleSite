@@ -37,11 +37,10 @@
         <textarea id="editor"></textarea>
       </div>
       <div class="edit-row">
-        <button @click="newArticle()">YEAH</button>
+        <el-button @click="newArticle()">确定提交</el-button>
       </div>
     </div>
     <div class="right-panel">
-
     </div>
   </div>
 </template>
