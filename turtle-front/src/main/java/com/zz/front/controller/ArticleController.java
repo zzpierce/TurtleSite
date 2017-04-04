@@ -33,7 +33,7 @@ public class ArticleController {
 
     }
 
-    @RequestMapping("/all")
+    @RequestMapping("/getAll")
     @ResponseBody
     public List<Article> getAll() {
         List<Article> articles;
@@ -56,4 +56,16 @@ public class ArticleController {
             return false;
         }
     }
+
+    @RequestMapping("/delete")
+    public boolean delete(@RequestParam(value="id") Long id) {
+        try {
+            articleService.delete(id);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 }
