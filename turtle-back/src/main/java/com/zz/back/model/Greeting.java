@@ -1,4 +1,4 @@
-package com.zz.front;
+package com.zz.back.model;
 
 public class Greeting {
 
