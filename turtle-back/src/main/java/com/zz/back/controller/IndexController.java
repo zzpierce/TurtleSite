@@ -1,4 +1,4 @@
-package com.zz.front.controller;
+package com.zz.back.controller;
 
 
 import org.springframework.stereotype.Controller;

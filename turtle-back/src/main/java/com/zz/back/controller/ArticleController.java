@@ -1,16 +1,17 @@
-package com.zz.front.controller;
+package com.zz.back.controller;
 
 import com.zz.back.model.Article;
 import com.zz.back.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
-import java.util.Map;
 
+@CrossOrigin
 @Controller
 @RequestMapping("/article")
 public class ArticleController {
