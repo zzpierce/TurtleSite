@@ -17,6 +17,14 @@ public class ArticleService {
         return articleDao.findOne(id);
     }
 
+    public List<Article> findByTitle(String title) {
+        return articleDao.findByTitle(title);
+    }
+
+    public List<Article> findByTags(String tags) {
+        return articleDao.findByTags(tags);
+    }
+
     public List<Article> getAll() {
         return (List)articleDao.findAll();
     }

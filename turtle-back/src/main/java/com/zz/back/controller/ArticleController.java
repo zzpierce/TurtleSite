@@ -34,6 +34,28 @@ public class ArticleController {
 
     }
 
+    @RequestMapping("findByTitle")
+    @ResponseBody
+    public List<Article> findByTitle(String title) {
+        try {
+            return articleService.findByTitle("傲骨贤妻");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @RequestMapping("findByTags")
+    @ResponseBody
+    public List<Article> findByTags(String tags) {
+        try {
+            return articleService.findByTags(tags);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     @RequestMapping("/getAll")
     @ResponseBody
     public List<Article> getAll() {

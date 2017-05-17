@@ -53,7 +53,6 @@
         this.$http.get(DEV_URL.LOAD_BLOG_LIST)
           .then(res => {
             this.blogList = res.data;
-            console.log(this.blogList);
           })
           .catch(res => {
             console.log("error happens when load blogs.");
