@@ -49,7 +49,7 @@ public class ArticleController {
     @ResponseBody
     public List<Article> findByTags(String tags) {
         try {
-            return articleService.findByTags(tags);
+             return articleService.findByTags(tags);
         } catch (Exception e) {
             e.printStackTrace();
             return null;

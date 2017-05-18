@@ -3,8 +3,9 @@ import Router from 'vue-router'
 
 import Index from '@/components/index'
 import BlogList from '@/components/blog/blog-list'
+import Blog from '@/components/blog/blog';
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
   routes: [
@@ -17,6 +18,11 @@ export default new Router({
       path: '/blog',
       name: 'blog-list',
       component: BlogList
+    },
+    {
+      path: '/blog/:id',
+      name: 'blog',
+      component: Blog
     }
   ]
 })

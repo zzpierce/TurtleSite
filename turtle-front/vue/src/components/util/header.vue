@@ -14,7 +14,7 @@
   </div>
 </template>
 
-<style scoped>
+<style>
   .my-header {
     margin-top: 0;
     margin-left: auto;
@@ -39,7 +39,7 @@
     float: right;
   }
 
-  .my-header div, li{
+  .my-header div, .my-header li{
     display: inline-block;
   }
 </style>

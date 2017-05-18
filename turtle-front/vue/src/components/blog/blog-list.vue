@@ -3,23 +3,13 @@
     <my-header></my-header>
     <ul>
       <li v-for="blog in blogList">
-        <span>{{blog.title}}</span>
+        <span @click="toBlog(blog.id)">{{blog.title}}</span>
         <span>{{blog.createTime}}</span>
       </li>
     </ul>
   </div>
 </template>
 <style scoped>
-  body {
-    margin: 0;
-    padding: 0;
-  }
-
-  .main {
-    width: 90%;
-    margin: auto;
-  }
-
   ul {
     margin: 0;
     padding: 0;
@@ -36,7 +26,7 @@
   }
 </style>
 <script>
-  import {DEV_URL} from '../../util/constants';
+  import { API } from '../../util/constants';
   import MyHeader from '../util/header.vue';
 
   export default {
@@ -50,13 +40,19 @@
     },
     methods: {
       loadBlogs() {
-        this.$http.get(DEV_URL.LOAD_BLOG_LIST)
+        this.$http.get(API.LOAD_BLOG_LIST)
           .then(res => {
             this.blogList = res.data;
           })
           .catch(res => {
             console.log("error happens when load blogs.");
           });
+      },
+      toBlog(blogId) {
+        this.$router.push({
+          name : 'blog',
+          params : { id : blogId }
+        })
       }
     },
     components: {
