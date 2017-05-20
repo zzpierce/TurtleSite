@@ -2,6 +2,7 @@ package com.zz.back.service;
 
 import com.zz.back.dao.ArticleDao;
 import com.zz.back.model.Article;
+import com.zz.back.util.markrazi.Markrazi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,8 +14,15 @@ public class ArticleService {
     @Autowired
     private ArticleDao articleDao;
 
+    private static Markrazi markrazi = new Markrazi();
+
     public Article getById(Long id) {
-        return articleDao.findOne(id);
+
+        Article article = articleDao.findOne(id);
+        article.setContent(markrazi.doMarkrazi(article.getContent()));
+
+        return article;
+
     }
 
     public List<Article> findByTitle(String title) {
