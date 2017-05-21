@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <my-header></my-header>
-    <div class="main">
+    <div class="blog-main">
       <h1>{{blog.title}}</h1>
       <div class="content" id="content">
         <div v-html="blog.content"></div>

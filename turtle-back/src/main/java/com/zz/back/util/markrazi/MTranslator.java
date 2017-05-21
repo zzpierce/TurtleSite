@@ -1,12 +1,13 @@
 package com.zz.back.util.markrazi;
 
-import com.zz.back.util.markrazi.trans.TransTitle;
+import com.zz.back.util.markrazi.trans.ListTranslator;
+import com.zz.back.util.markrazi.trans.TitleTranslator;
 import com.zz.back.util.markrazi.trans.Translator;
+import com.zz.back.util.markrazi.trans.TranslatorContext;
+import com.zz.back.util.markrazi.util.HTMLTools;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class MTranslator {
 
@@ -14,19 +15,22 @@ public class MTranslator {
 
     static {
         translators = new ArrayList<>();
-        translators.add(new TransTitle());
+        translators.add(new TitleTranslator());
+        translators.add(new ListTranslator());
     }
-
 
     public String doTransfer(String src) {
 
+        TranslatorContext context = new TranslatorContext();
+
         for(Translator translator : translators) {
-            String target = translator.translate(src);
+            String target = translator.translate(src, context);
             if(target != null) {
                 return target;
             }
         }
 
-        return src;
+        return HTMLTools.appendBr(src);
     }
+
 }

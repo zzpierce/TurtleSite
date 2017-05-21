@@ -3,15 +3,16 @@ package com.zz.back.util.markrazi.trans;
 import com.zz.back.util.markrazi.MarkConstant;
 import java.util.regex.Pattern;
 
-public class TransTitle implements Translator{
+public class TitleTranslator extends AbstractTranslator{
 
-    private static Pattern p1 = Pattern.compile(MarkConstant.TITLE_V1);
-    private static Pattern p2 = Pattern.compile(MarkConstant.TITLE_V2);
-    private static Pattern p3 = Pattern.compile(MarkConstant.TITLE_V3);
-    private static Pattern p4 = Pattern.compile(MarkConstant.TITLE_V4);
+    private final Pattern p1 = Pattern.compile(MarkConstant.TITLE_V1);
+    private final Pattern p2 = Pattern.compile(MarkConstant.TITLE_V2);
+    private final Pattern p3 = Pattern.compile(MarkConstant.TITLE_V3);
+    private final Pattern p4 = Pattern.compile(MarkConstant.TITLE_V4);
 
-    public String translate(String src) {
+    public String translate(String src, TranslatorContext context) {
         if(null == src || src.trim().equals("")) return null;
+        if(getIndent(src) != 0) return null;
 
         src = src.trim();
         if(p1.matcher(src).matches()) {

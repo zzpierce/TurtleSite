@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <my-header></my-header>
-    <div class="main">
+    <div class="blog-main">
       <div class="left">
         <ul>
           <li v-for="blog in blogList">
@@ -19,7 +19,7 @@
   </div>
 </template>
 <style>
-  .main {
+  .blog-main {
     width: 70%;
     min-width: 1000px;
     margin: auto;
@@ -27,7 +27,7 @@
 </style>
 <style scoped>
 
-  .main {
+  .blog-main {
     margin-top: 40px;
   }
 

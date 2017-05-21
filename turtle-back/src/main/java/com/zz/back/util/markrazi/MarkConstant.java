@@ -7,4 +7,6 @@ public class MarkConstant {
     public static final String TITLE_V3 = "^### [^\n]*";
     public static final String TITLE_V4 = "^#### [^\n]*";
 
+    public static final String UNORDERED_LIST = "^\\* [^\n]*";
+
 }

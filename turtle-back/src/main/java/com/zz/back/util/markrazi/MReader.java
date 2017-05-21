@@ -8,7 +8,7 @@ public class MReader {
 
     private List<String> bufferList;
     private int index;
-    private final String sp = "\n";
+    private final String sp = "(\r\n)|(\n)";
 
     public MReader() {
         this("");
