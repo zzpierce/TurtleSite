@@ -27,4 +27,6 @@ public abstract class AbstractTranslator implements Translator {
         return (spaceSize + 7) / 4 ;
     }
 
+    protected void clearContext() {}
+
 }

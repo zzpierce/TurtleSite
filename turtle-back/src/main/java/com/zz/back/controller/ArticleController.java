@@ -49,7 +49,7 @@ public class ArticleController {
     @ResponseBody
     public List<Article> findByTags(String tags) {
         try {
-             return articleService.findByTags(tags);
+            return articleService.findByTags(tags);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -70,7 +70,7 @@ public class ArticleController {
     }
 
     @RequestMapping("/save")
-    public boolean save(@RequestParam(value="article") Article article) {
+    public boolean save(@RequestParam(value = "article") Article article) {
         try {
             articleService.save(article);
             return true;
@@ -81,7 +81,7 @@ public class ArticleController {
     }
 
     @RequestMapping("/delete")
-    public boolean delete(@RequestParam(value="id") Long id) {
+    public boolean delete(@RequestParam(value = "id") Long id) {
         try {
             articleService.delete(id);
             return true;

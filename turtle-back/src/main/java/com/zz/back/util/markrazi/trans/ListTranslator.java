@@ -37,6 +37,7 @@ public class ListTranslator extends AbstractTranslator {
             target.append("<ul class='").append(className).append("'>");
         }
         target.append("<li>").append(src).append("</li></ul>");
+
         if(parentListLevel > listLevel) {
             for(int i = parentListLevel - listLevel; i > 0; i --) {
                 target.append("</ul>");
