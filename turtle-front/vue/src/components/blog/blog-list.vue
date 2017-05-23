@@ -12,7 +12,7 @@
       </div>
       <div class="right">
         <div>
-          <img src="../../assets/keeley_hazell.jpg" />
+          <img src="../../assets/mcree.jpeg" />
         </div>
       </div>
     </div>

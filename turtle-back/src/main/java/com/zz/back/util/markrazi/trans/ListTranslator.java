@@ -23,7 +23,9 @@ public class ListTranslator extends AbstractTranslator {
     }
 
     private void analyze(String src, TranslatorContext context) {
-        listLevel = getIndent(src);
+        int spaceSize = getIndent(src);
+
+        listLevel = (spaceSize + 7) / 4;
         parentListLevel = context.getCurrentListLevel();
         context.setCurrentListLevel(listLevel);
     }
