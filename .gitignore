@@ -3,3 +3,6 @@
 *.iml
 .idea/
 npm-debug.log*
+
+turtle-back/target
+.DS_Store
