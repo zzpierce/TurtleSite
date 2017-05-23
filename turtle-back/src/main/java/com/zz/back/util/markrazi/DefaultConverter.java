@@ -1,27 +1,27 @@
 package com.zz.back.util.markrazi;
 
-import com.zz.back.util.markrazi.trans.ListTranslator;
-import com.zz.back.util.markrazi.trans.TitleTranslator;
-import com.zz.back.util.markrazi.trans.Translator;
-import com.zz.back.util.markrazi.trans.TranslatorContext;
+import com.zz.back.util.markrazi.trans.*;
 import com.zz.back.util.markrazi.util.HTMLTools;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MTranslator {
+public class DefaultConverter implements Converter {
 
-    private static List<Translator> translators;
+    private List<Translator> translators;
+    private TranslatorContext context;
 
-    static {
+    public DefaultConverter() {
+
+        context = new TranslatorContext();
+
         translators = new ArrayList<>();
         translators.add(new TitleTranslator());
         translators.add(new ListTranslator());
+        translators.add(new EmptyLineTranslator());
     }
 
-    public String doTransfer(String src) {
-
-        TranslatorContext context = new TranslatorContext();
+    public String convert(String src) {
 
         for(Translator translator : translators) {
             String target = translator.translate(src, context);

@@ -3,11 +3,11 @@ package com.zz.back.util.markrazi;
 public class Markrazi {
 
     private MReader reader;
-    private MTranslator translator;
+    private DefaultConverter converter;
 
     public Markrazi() {
         reader = new MReader();
-        translator = new MTranslator();
+        converter = new DefaultConverter();
     }
 
     public String doMarkrazi(String src) {
@@ -17,7 +17,7 @@ public class Markrazi {
         String curLine;
 
         while(null != (curLine = reader.readLine())) {
-            String markStr = translator.doTransfer(curLine);
+            String markStr = converter.convert(curLine);
             builder.append(markStr).append('\n');
         }
 

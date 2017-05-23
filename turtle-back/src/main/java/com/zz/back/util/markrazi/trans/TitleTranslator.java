@@ -11,6 +11,7 @@ public class TitleTranslator extends AbstractTranslator{
     private final Pattern p4 = Pattern.compile(MarkConstant.TITLE_V4);
 
     public String translate(String src, TranslatorContext context) {
+
         if(null == src || src.trim().equals("")) return null;
         if(getIndent(src) != 0) return null;
 

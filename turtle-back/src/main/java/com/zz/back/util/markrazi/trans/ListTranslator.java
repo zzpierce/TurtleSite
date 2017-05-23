@@ -16,7 +16,9 @@ public class ListTranslator extends AbstractTranslator {
 
         src = src.trim();
         if(ulPattern.matcher(src).matches()) {
-            return toHTML(src);
+            String ans = toHTML(src);
+            context.setCurrentListLevel(listLevel);
+            return ans;
         }
 
         return null;
@@ -27,7 +29,7 @@ public class ListTranslator extends AbstractTranslator {
 
         listLevel = (spaceSize + 7) / 4;
         parentListLevel = context.getCurrentListLevel();
-        context.setCurrentListLevel(listLevel);
+
     }
 
     private String toHTML(String src) {
@@ -35,17 +37,45 @@ public class ListTranslator extends AbstractTranslator {
         String className = "razi-ul-" + String.valueOf(listLevel);
 
         StringBuilder target = new StringBuilder();
-        if(parentListLevel < listLevel) {
-            target.append("<ul class='").append(className).append("'>");
+        if(parentListLevel > listLevel) {
+            for(int i = parentListLevel - listLevel; i > 0; i --) {
+                target.append("</ul>\n");
+            }
         }
-        target.append("<li>").append(src).append("</li></ul>");
+
+        if(parentListLevel < listLevel) {
+            target.append("<ul class='").append(className).append("'>\n");
+        }
+
+        target.append("<li>").append(src).append("</li>\n");
 
         if(parentListLevel > listLevel) {
             for(int i = parentListLevel - listLevel; i > 0; i --) {
-                target.append("</ul>");
+                target.append("</ul>\n");
             }
         }
 
         return target.toString();
     }
+
+    public void clear() {
+
+    }
+
+    public static String clearContext(TranslatorContext context) {
+
+        StringBuilder paddingBuffer = new StringBuilder();
+        int listLevel = context.getCurrentListLevel();
+
+        while(listLevel -- > 0) {
+            paddingBuffer.append("</ul>");
+        }
+
+        context.setCurrentListLevel(0);
+
+        return paddingBuffer.toString();
+    }
+
+
+
 }

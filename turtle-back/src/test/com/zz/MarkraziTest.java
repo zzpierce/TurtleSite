@@ -1,9 +1,7 @@
 package com.zz;
 
-import com.zz.back.util.markrazi.MTranslator;
 import com.zz.back.util.markrazi.Markrazi;
 import org.junit.Test;
-import org.springframework.test.context.TestPropertySource;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
