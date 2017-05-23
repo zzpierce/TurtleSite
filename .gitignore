@@ -1,5 +1,5 @@
-node_modules/
-.idea/
-TurtleSite.iml
-static/vue/node_modules/
+.idea
+/turtle-site-parent.iml
 *.iml
+.idea/
+npm-debug.log*
