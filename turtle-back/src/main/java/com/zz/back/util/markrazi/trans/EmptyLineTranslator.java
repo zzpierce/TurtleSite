@@ -7,14 +7,17 @@ public class EmptyLineTranslator extends AbstractTranslator {
         if(src == null) return null;
 
         if(src.trim().equals("")) {
-            clear(context);
+            return clear(context) + src;
         }
 
         return src;
     }
 
-    private void clear(TranslatorContext context) {
-        ListTranslator.clearContext(context);
+    private String clear(TranslatorContext context) {
+        StringBuilder buffer = new StringBuilder();
+        buffer.append(ListTranslator.clearContext(context));
+
+        return buffer.toString();
     }
 
 }
