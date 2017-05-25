@@ -47,7 +47,7 @@ public class ListTranslator extends AbstractTranslator {
             target.append("<ul class='").append(className).append("'>\n");
         }
 
-        target.append("<li>").append(src).append("</li>\n");
+        target.append("<li>").append(src.substring(2)).append("</li>");
 
         return target.toString();
     }

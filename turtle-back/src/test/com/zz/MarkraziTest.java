@@ -10,7 +10,7 @@ public class MarkraziTest {
 
     @Test
     public void test() {
-        String mdSrc = ZFileReader.read("C:\\Ideaprojects\\TurtleSite\\turtle-back\\src\\test\\com\\raw\\test.md");
+        String mdSrc = ZFileReader.read("C:\\Ideaprojects\\TurtleSite\\turtle-back\\src\\test\\com\\raw\\test2.md");
         //System.out.println(mdSrc);
 
         Markrazi markrazi = new Markrazi();
@@ -22,14 +22,13 @@ public class MarkraziTest {
 
     @Test
     public void regexTest() {
-        String src = "# yoyocheck it out";
-        Pattern p = Pattern.compile("^# [^\n]*");
+        String src = ZFileReader.read("C:\\Ideaprojects\\TurtleSite\\turtle-back\\src\\test\\com\\raw\\test2.md");
+        Pattern p = Pattern.compile("!\\[[^\\]]+\\]\\[[\\d]+\\]");
         Matcher m = p.matcher(src);
 
-        if(m.matches()) {
-            System.out.println(m.group(0));
-        } else {
-            System.out.println("NOTHING");
+        while(m.find()) {
+            String d = m.group(0);
+            System.out.println(d);
         }
     }
 }
