@@ -30,6 +30,10 @@ public class MReader {
         return bufferList.get(index ++);
     }
 
+    public void reset() {
+        index = 0;
+    }
+
     public void setBuffer(String buffer) {
         this.bufferList = split(buffer);
     }
@@ -45,7 +49,6 @@ public class MReader {
         index = 0;
         return lineList;
     }
-    
 
 
 }

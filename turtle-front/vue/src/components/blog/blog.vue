@@ -10,7 +10,22 @@
   </div>
 </template>
 <style>
+  .content {
+    height: auto;
+    border: 0 none;
+    margin: 0 auto;
+    max-width: 850px;
+    overflow-x: hidden;
+    padding-bottom: 50px;
+    position: relative;
+  }
 
+  .content img {
+    height: auto;
+    max-width: 100%;
+    vertical-align: middle;
+    border: 0;
+  }
 </style>
 <script>
   import { API } from '../../util/constants';
