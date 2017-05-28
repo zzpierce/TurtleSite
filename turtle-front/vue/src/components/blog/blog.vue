@@ -36,6 +36,12 @@
     margin: 0 0 10px 25px;
   }
 
+  .bm hr {
+    border: 0;
+    border-bottom: 1px dashed #cfcfcf;
+    margin: 30px 0;
+  }
+
   .content img {
     height: auto;
     max-width: 100%;

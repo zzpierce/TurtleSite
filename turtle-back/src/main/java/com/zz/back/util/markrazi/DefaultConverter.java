@@ -23,7 +23,10 @@ public class DefaultConverter implements Converter {
         translators.add(new TitleTranslator());
         translators.add(new ListTranslator());
         translators.add(new ImageTranslator());
+        translators.add(new SplitTranslator());
+
         translators.add(new EmptyLineTranslator());
+
     }
 
     public String convert(String src) {

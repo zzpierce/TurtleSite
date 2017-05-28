@@ -16,17 +16,23 @@ public class TitleTranslator extends AbstractTranslator{
         if(getIndent(src) != 0) return null;
 
         src = src.trim();
+        int level = 0;
         if(p1.matcher(src).matches()) {
-            return toHTML(src, 1);
+            level = 1;
         }
-        if(p2.matcher(src).matches()) {
-            return toHTML(src, 2);
+        else if(p2.matcher(src).matches()) {
+            level = 2;
         }
         if(p3.matcher(src).matches()) {
-            return toHTML(src, 3);
+            level = 3;
         }
         if(p4.matcher(src).matches()) {
-            return toHTML(src, 4);
+            level = 4;
+        }
+
+        if(level > 0) {
+            String prefix = clear(context);
+            return prefix + toHTML(src, level);
         }
 
         return null;
@@ -47,4 +53,12 @@ public class TitleTranslator extends AbstractTranslator{
 
         return target;
     }
+
+    private String clear(TranslatorContext context) {
+        StringBuilder buffer = new StringBuilder();
+        buffer.append(ListTranslator.clearContext(context));
+
+        return buffer.toString();
+    }
+    
 }

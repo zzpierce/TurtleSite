@@ -25,9 +25,13 @@ public class ImageTranslator implements RecallTranslator {
         Matcher matcher = pLink.matcher(src);
         if(matcher.matches()) {
             String imageId = matcher.group(1);
-            String target = toHTML(context.getImage(imageId));
+            return toHTML(context.getImage(imageId));
+        }
 
-            return target;
+        //clean the src info
+        Matcher matcher1 = pSrc.matcher(src);
+        if(matcher1.matches()) {
+            return "";
         }
 
         return null;
@@ -35,8 +39,7 @@ public class ImageTranslator implements RecallTranslator {
 
 
     private String toHTML(String src) {
-        String target = "<img src='" + src + "'>";
-        return target;
+        return "<img src='" + src + "'>";
     }
 
 }

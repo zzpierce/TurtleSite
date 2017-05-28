@@ -24,7 +24,7 @@ public class MarkraziTest {
     public void regexTest() {
         String src = ZFileReader.read("C:\\Ideaprojects\\TurtleSite\\turtle-back\\src\\test\\com\\raw\\test2.md");
         //Pattern p = Pattern.compile("!\\[[^]]+]\\[[\\d]+]");
-        Pattern p = Pattern.compile("\\[[\\d]+]: [^\n]+(.png|.jpg)");
+        Pattern p = Pattern.compile("---");
         Matcher m = p.matcher(src);
 
         while(m.find()) {

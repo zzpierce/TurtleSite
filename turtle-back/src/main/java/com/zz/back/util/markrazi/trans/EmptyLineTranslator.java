@@ -7,7 +7,7 @@ public class EmptyLineTranslator extends AbstractTranslator {
         if(src == null) return null;
 
         if(src.trim().equals("")) {
-            return clear(context) + src;
+            return src;
         }
 
         return src;
