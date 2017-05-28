@@ -34,7 +34,12 @@ public class TitleTranslator extends AbstractTranslator{
 
 
     private String toHTML(String src, int level) {
-        src = src.substring(level + 3);
+
+        if(src.length() < level + 1) {
+            return "";
+        }
+
+        src = src.substring(level + 1);
         String levelStr = "h" + String.valueOf(level);
         String target = "<" + levelStr + ">"
                 + src

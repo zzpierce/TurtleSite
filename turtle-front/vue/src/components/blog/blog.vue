@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <my-header></my-header>
-    <div class="blog-main">
+    <div class="bm">
       <h1>{{blog.title}}</h1>
       <div class="content" id="content">
         <div v-html="blog.content"></div>
@@ -10,7 +10,7 @@
   </div>
 </template>
 <style>
-  .content {
+  .bm {
     height: auto;
     border: 0 none;
     margin: 0 auto;
@@ -18,6 +18,22 @@
     overflow-x: hidden;
     padding-bottom: 50px;
     position: relative;
+    color: #2C3E50;
+    font-size: 16px;
+    line-height: 27px;
+  }
+
+  .bm h1, .bm h2, .bm h3, .bm h4, .bm h5 {
+    font-weight: 500;
+  }
+
+  .bm h3 {
+    margin: 20px 0;
+  }
+
+  .bm ul, .bm ol {
+    padding: 0;
+    margin: 0 0 10px 25px;
   }
 
   .content img {
