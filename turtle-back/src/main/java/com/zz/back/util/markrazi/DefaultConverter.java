@@ -24,6 +24,7 @@ public class DefaultConverter implements Converter {
         translators.add(new ListTranslator());
         translators.add(new ImageTranslator());
         translators.add(new SplitTranslator());
+        translators.add(new TagsTranslator());
 
         translators.add(new EmptyLineTranslator());
 

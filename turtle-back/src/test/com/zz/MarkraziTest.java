@@ -24,7 +24,7 @@ public class MarkraziTest {
     public void regexTest() {
         String src = ZFileReader.read("C:\\Ideaprojects\\TurtleSite\\turtle-back\\src\\test\\com\\raw\\test2.md");
         //Pattern p = Pattern.compile("!\\[[^]]+]\\[[\\d]+]");
-        Pattern p = Pattern.compile("---");
+        Pattern p = Pattern.compile("标签（空格分隔）：([^\n]+)");
         Matcher m = p.matcher(src);
 
         while(m.find()) {

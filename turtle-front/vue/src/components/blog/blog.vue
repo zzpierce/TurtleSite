@@ -42,6 +42,18 @@
     margin: 30px 0;
   }
 
+  .bm .blog-tag {
+    display: inline-block;
+    margin-right: 10px;
+    border: 0;
+    background-color: #D6DBDF;
+    border-radius: 4px;
+    color: #2C3E50;
+    font-size: 90%;
+    padding: 2px 4px;
+    white-space: nowrap;
+  }
+
   .content img {
     height: auto;
     max-width: 100%;
