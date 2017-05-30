@@ -1,10 +1,17 @@
 <template>
   <div class="container">
     <my-header></my-header>
-    <div class="bm">
-      <h1>{{blog.title}}</h1>
-      <div class="content" id="content">
-        <div v-html="blog.content"></div>
+    <div class="blog-main">
+      <div class="left">
+        <div class="bm">
+          <h1>{{blog.title}}</h1>
+          <div class="content" id="content">
+            <div v-html="blog.content"></div>
+          </div>
+        </div>
+      </div>
+      <div class="right">
+        <idea-panel></idea-panel>
       </div>
     </div>
   </div>
@@ -12,12 +19,7 @@
 <style>
   .bm {
     height: auto;
-    border: 0 none;
-    margin: 0 auto;
-    max-width: 850px;
     overflow-x: hidden;
-    padding-bottom: 50px;
-    position: relative;
     color: #2C3E50;
     font-size: 16px;
     line-height: 27px;
@@ -64,6 +66,7 @@
 <script>
   import { API } from '../../util/constants';
   import MyHeader from '../util/header.vue';
+  import IdeaPanel from './idea-panel.vue';
 
   export default {
     data() {
@@ -96,7 +99,8 @@
       }
     },
     components: {
-      "my-header": MyHeader
+      "my-header": MyHeader,
+      "idea-panel": IdeaPanel
     }
   }
 </script>

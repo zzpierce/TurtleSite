@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 public class ImageTranslator implements RecallTranslator {
 
     private final Pattern pLink = Pattern.compile("!\\[[^]]+]\\[([\\d]+)]");
-    private final Pattern pSrc = Pattern.compile("\\[([\\d]+)]: ([^\n]+(.png|.jpg))");
+    private final Pattern pSrc = Pattern.compile("\\[([\\d]+)]: ([^\n]+(.png|.jpg|.gif))");
 
     public void collect(String src, TranslatorContext context) {
         src = src.trim();

@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 
 public class TagsTranslator extends AbstractTranslator {
 
-    private Pattern pattern = Pattern.compile("标签（空格分隔）：([^\n]+)");
+    private Pattern pattern = Pattern.compile("tags:([^\n]+)");
 
     public String translate(String src, TranslatorContext context) {
         src = src.trim();
