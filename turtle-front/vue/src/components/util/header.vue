@@ -7,18 +7,18 @@
       <div class="menu-div">
         <ul class="header-menu">
           <li>
-            <a class="menu-link">技术总结</a>
+            <a class="menu-link" v-bind:class="{'chosen-li': chosenFirst}" @click="chosen(1)">技术总结</a>
           </li>
           <li>
-            <a class="menu-link">人生规划</a>
+            <a class="menu-link" v-bind:class="{'chosen-li': chosenSecond}" @click="chosen(2)">人生规划</a>
           </li>
           <li>
-            <a class="menu-link">广告招租</a>
+            <a class="menu-link" v-bind:class="{'chosen-li': chosenThird}" @click="chosen(3)">广告招租</a>
           </li>
         </ul>
       </div>
       <div class="log-div">
-        zzpierce
+        {{userName}}
       </div>
     </div>
   </div>
@@ -27,7 +27,19 @@
   export default {
     data() {
       return {
-        userName: "zz"
+        userName: "zzpierce",
+        chosenList: 0
+      }
+    },
+    computed: {
+      chosenFirst: function() {
+        return this.chosenList === 1;
+      },
+      chosenSecond: function() {
+        return this.chosenList === 2;
+      },
+      chosenThird: function() {
+        return this.chosenList === 3;
       }
     },
     methods: {
@@ -35,6 +47,9 @@
         this.$router.push({
           name : url
         })
+      },
+      chosen(index) {
+        this.chosenList = index;
       }
     }
   }
@@ -67,6 +82,9 @@
     margin: auto;
   }
 
+  .header-main .chosen-li {
+    color: green;
+  }
 
   .icon-div {
     float: left;

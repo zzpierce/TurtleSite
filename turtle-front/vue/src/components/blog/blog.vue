@@ -84,13 +84,9 @@
     methods: {
       init() {
         this.blogId = this.$route.params.id;
-        if(this.blogId !== parseInt(this.blogId)) {
-          this.toUrl('blog-list');
-        } else {
-          this.$http.get(API.LOAD_BLOG_DETAIL + '?id=' + this.blogId).then(res => {
-            this.blog = res.data;
-          })
-        }
+        this.$http.get(API.LOAD_BLOG_DETAIL + '?id=' + this.blogId).then(res => {
+          this.blog = res.data;
+        })
       },
       toUrl(url) {
         this.$router.push({

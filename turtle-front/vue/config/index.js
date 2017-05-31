@@ -4,10 +4,10 @@ var path = require('path')
 module.exports = {
   build: {
     env: require('./prod.env'),
-    index: path.resolve(__dirname, '../../src/main/resources/static/index.html'),
-    assetsRoot: path.resolve(__dirname, '../../src/main/resources/static'),
+    index: path.resolve(__dirname, '../../../turtle-back/src/main/resources/static/index.html'),
+    assetsRoot: path.resolve(__dirname, '../../../turtle-back/src/main/resources/static'),
     assetsSubDirectory: 'build',
-    assetsPublicPath: '/',
+    assetsPublicPath: '',
     productionSourceMap: true,
     // Gzip off by default as many popular static hosts such as
     // Surge or Netlify already gzip all static assets for you.
