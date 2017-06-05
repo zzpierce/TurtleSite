@@ -6,14 +6,16 @@
       </div>
       <div class="menu-div">
         <ul class="header-menu">
-          <li>
-            <a class="menu-link" v-bind:class="{'chosen-li': chosenFirst}" @click="chosen(1)">技术总结</a>
+          <li @click="chosen(1)" v-bind:class="{'chosen-li':chosenFirst}">
+            <router-link class="menu-link" to="/blog/list">
+              技术总结
+            </router-link>
           </li>
-          <li>
-            <a class="menu-link" v-bind:class="{'chosen-li': chosenSecond}" @click="chosen(2)">人生规划</a>
+          <li @click="chosen(2)" v-bind:class="{'chosen-li':chosenSecond}">
+            <router-link class="menu-link" to="/blog/selfie">人生规划</router-link>
           </li>
-          <li>
-            <a class="menu-link" v-bind:class="{'chosen-li': chosenThird}" @click="chosen(3)">广告招租</a>
+          <li @click="chosen(3)" v-bind:class="{'chosen-li':chosenThird}">
+            <router-link class="menu-link" to="/blog/list">广告招租</router-link>
           </li>
         </ul>
       </div>
@@ -82,7 +84,7 @@
     margin: auto;
   }
 
-  .header-main .chosen-li {
+  .header-main .chosen-li .menu-link {
     color: green;
   }
 
@@ -120,6 +122,7 @@
   }
 
   .menu-link {
+    text-decoration: none;
     height: 45px;
     line-height: 45px;
     text-align: center;

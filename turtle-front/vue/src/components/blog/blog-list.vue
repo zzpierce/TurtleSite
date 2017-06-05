@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-    <my-header></my-header>
     <div class="blog-main">
       <div class="left">
         <ul>

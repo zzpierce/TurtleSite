@@ -25,7 +25,7 @@
       },
       toBlog() {
         this.$router.push({
-          name: 'blog-list'
+          path: 'blog/list'
         })
       }
     }
