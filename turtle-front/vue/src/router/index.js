@@ -6,6 +6,7 @@ import BlogList from '@/components/blog/blog-list'
 import Blog from '@/components/blog/blog';
 import Selfie from '@/components/blog/selfie';
 import BlogMain from '@/components/blog/blog-main';
+import BlogNew from '@/components/blog/blog-new';
 
 Vue.use(Router);
 
@@ -27,6 +28,10 @@ export default new Router({
         {
           path: 'selfie',
           component: Selfie
+        },
+        {
+          path: 'new',
+          component: BlogNew
         }
       ]
     },

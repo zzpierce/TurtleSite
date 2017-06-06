@@ -37,8 +37,8 @@ public class ArticleService {
         return (List)articleDao.findAll();
     }
 
-    public Article save(Article article) {
-        return articleDao.save(article);
+    public String save(String article, String verifyCode) {
+        return "success";
     }
 
     public Article update(Article article) {

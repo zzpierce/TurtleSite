@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-    <my-header></my-header>
     <div class="main">计划？不存在的。</div>
   </div>
 </template>

@@ -6,17 +6,20 @@
       </div>
       <div class="menu-div">
         <ul class="header-menu">
+          <transition>
           <li @click="chosen(1)" v-bind:class="{'chosen-li':chosenFirst}">
             <router-link class="menu-link" to="/blog/list">
               技术总结
             </router-link>
           </li>
+          </transition>
           <li @click="chosen(2)" v-bind:class="{'chosen-li':chosenSecond}">
             <router-link class="menu-link" to="/blog/selfie">人生规划</router-link>
           </li>
           <li @click="chosen(3)" v-bind:class="{'chosen-li':chosenThird}">
             <router-link class="menu-link" to="/blog/list">广告招租</router-link>
           </li>
+
         </ul>
       </div>
       <div class="log-div">
@@ -73,7 +76,7 @@
     z-index: 20;
     width: 100%;
     height: 45px;
-    background-color: cadetblue;
+    background-color: #5f9ea0;
     color: white;
   }
 
@@ -84,8 +87,8 @@
     margin: auto;
   }
 
-  .header-main .chosen-li .menu-link {
-    color: green;
+  .header-main .chosen-li{
+    background-color: #6FAEB0;
   }
 
   .icon-div {

@@ -1,13 +1,13 @@
 package com.zz.back.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.zz.back.model.Article;
 import com.zz.back.service.ArticleService;
+import com.zz.back.util.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -70,13 +70,15 @@ public class ArticleController {
     }
 
     @RequestMapping("/save")
-    public boolean save(@RequestParam(value = "article") Article article) {
+    @ResponseBody
+    public String save(@RequestBody String body) {
         try {
-            articleService.save(article);
-            return true;
+            JSONObject bodyJson = JSON.parseObject(body);
+            articleService.save(bodyJson.getString("content"), bodyJson.getString("verifyCode"));
+            return Constants.SUCCESS;
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
+            return Constants.FAIL;
         }
     }
 
