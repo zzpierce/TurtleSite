@@ -74,11 +74,11 @@ public class ArticleController {
     public String save(@RequestBody String body) {
         try {
             JSONObject bodyJson = JSON.parseObject(body);
-            articleService.save(bodyJson.getString("content"), bodyJson.getString("verifyCode"));
+            articleService.save(bodyJson);
             return Constants.SUCCESS;
         } catch (Exception e) {
             e.printStackTrace();
-            return Constants.FAIL;
+            return Constants.FAIL + " " + e.getMessage();
         }
     }
 

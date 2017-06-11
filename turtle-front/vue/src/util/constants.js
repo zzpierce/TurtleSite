@@ -11,4 +11,9 @@ const PRD_URL = {
   SAVE_BLOG : "article/save"
 };
 
-export { DEV_URL as API }
+const POST_RESULT = {
+  SUCCESS: "RESULT_SUCCESS",
+  FAIL: "RESULT_FAIL"
+};
+
+export { POST_RESULT, DEV_URL as API }
