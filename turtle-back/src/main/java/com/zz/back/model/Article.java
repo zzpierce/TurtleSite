@@ -105,4 +105,7 @@ public class Article {
         this.creator = creator;
     }
 
+    public String toString() {
+        return "[" + this.title + "] " + this.updateTime.toString();
+    }
 }
