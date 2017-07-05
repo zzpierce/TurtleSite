@@ -17,6 +17,11 @@
   </div>
 </template>
 <style>
+
+  .left {
+    margin-bottom: 50px;
+  }
+
   .bm {
     height: auto;
     overflow-x: hidden;
@@ -54,6 +59,11 @@
     font-size: 90%;
     padding: 2px 4px;
     white-space: nowrap;
+  }
+
+  .bm .order-row span {
+    margin-right: 10px;
+    font-weight: 700;
   }
 
   .content img {

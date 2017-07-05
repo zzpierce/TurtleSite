@@ -10,7 +10,7 @@ public class MarkraziTest {
 
     @Test
     public void test() {
-        String mdSrc = ZFileReader.read("C:\\Ideaprojects\\TurtleSite\\turtle-back\\src\\test\\com\\raw\\test2.md");
+        String mdSrc = ZFileReader.read("C:\\Ideaprojects\\TurtleSite\\turtle-back\\src\\test\\com\\raw\\test.md");
         //System.out.println(mdSrc);
 
         Markrazi markrazi = new Markrazi();
@@ -22,14 +22,22 @@ public class MarkraziTest {
 
     @Test
     public void regexTest() {
-        String src = ZFileReader.read("C:\\Ideaprojects\\TurtleSite\\turtle-back\\src\\test\\com\\raw\\test2.md");
-        //Pattern p = Pattern.compile("!\\[[^]]+]\\[[\\d]+]");
-        Pattern p = Pattern.compile("标签（空格分隔）：([^\n]+)");
-        Matcher m = p.matcher(src);
+        String src = ZFileReader.read("C:\\Ideaprojects\\TurtleSite\\turtle-back\\src\\test\\com\\raw\\test.md");
 
-        while(m.find()) {
-            String d = m.group(0);
-            System.out.println(d);
+        String[] lines = src.split("\n");
+
+        //Pattern p = Pattern.compile("!\\[[^]]+]\\[[\\d]+]");
+        Pattern p = Pattern.compile("\\*\\*[^\\*]+\\*\\*");
+
+        for(String s : lines) {
+
+            Matcher m = p.matcher(s);
+
+            while(m.find()) {
+                String d = m.group(0);
+                System.out.println(d);
+            }
         }
+
     }
 }

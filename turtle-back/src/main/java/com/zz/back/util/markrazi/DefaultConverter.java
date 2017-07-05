@@ -12,6 +12,8 @@ public class DefaultConverter implements Converter {
     private MReader reader;
 
     private List<Translator> translators;
+    private List<AbstractInlineTranslator> inlineTranslators;
+
     private TranslatorContext context;
 
     public DefaultConverter() {
@@ -22,11 +24,15 @@ public class DefaultConverter implements Converter {
         translators = new ArrayList<>();
         translators.add(new TitleTranslator());
         translators.add(new ListTranslator());
+        translators.add(new OrderListTranslator());
         translators.add(new ImageTranslator());
         translators.add(new SplitTranslator());
         translators.add(new TagsTranslator());
 
         translators.add(new EmptyLineTranslator());
+
+        inlineTranslators = new ArrayList<>();
+        inlineTranslators.add(new BoldTranslator());
 
     }
 
@@ -44,8 +50,10 @@ public class DefaultConverter implements Converter {
 
         while(null != (curLine = reader.readLine())) {
             String markStr = doConvert(curLine);
+            markStr = doInlineConvert(markStr);
             builder.append(markStr).append('\n');
         }
+
 
         return builder.toString();
     }
@@ -61,6 +69,16 @@ public class DefaultConverter implements Converter {
         }
 
         return HTMLTools.appendBr(line);
+    }
+
+    private String doInlineConvert(String line) {
+
+        String target = line;
+        for(Translator translator : inlineTranslators) {
+            target = translator.translate(target, context);
+        }
+
+        return target;
     }
 
     private void collect(String line) {
