@@ -3,6 +3,7 @@ package com.zz.back.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.zz.back.model.Article;
+import com.zz.back.model.vo.ArticleVo;
 import com.zz.back.service.ArticleService;
 import com.zz.back.util.Constants;
 import org.slf4j.Logger;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin
@@ -25,19 +27,20 @@ public class ArticleController {
 
     @RequestMapping("/getById")
     @ResponseBody
-    public Article getById(Long id) {
+    public ArticleVo getById(Long id) {
 
         logger.info("加载ID = " + id);
-        Article article;
+        ArticleVo articleVo;
         try {
-            article = articleService.getById(id);
+            Article article = articleService.getById(id);
+            articleVo = new ArticleVo(article);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
 
-        logger.info("加载结束: " + article);
-        return article;
+        logger.info("加载结束: " + JSON.toJSONString(articleVo));
+        return articleVo;
 
     }
 
@@ -72,18 +75,21 @@ public class ArticleController {
 
     @RequestMapping("/getAll")
     @ResponseBody
-    public List<Article> getAll() {
+    public List<ArticleVo> getAll() {
 
         logger.info("开始加载BLOG列表");
-        List<Article> articles;
+        List<ArticleVo> articleVos = new ArrayList<>();
         try {
-            articles = articleService.getAll();
+            List<Article> articles = articleService.getAll();
+            for (Article article : articles) {
+                articleVos.add(new ArticleVo(article));
+            }
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
-        logger.info("加载BLOG数量：" + articles.size());
-        return articles;
+        logger.info("加载BLOG数量：" + articleVos.size());
+        return articleVos;
 
     }
 

@@ -83,7 +83,8 @@
   .header-main {
     position: relative;
     height: inherit;
-    width: 70%;
+    width: 80%;
+    max-width: 1024px;
     margin: auto;
   }
 
@@ -140,7 +141,7 @@
   }
 
   .log-div {
-    margin: 16px;
+    margin-top: 16px;
     float: right;
   }
 

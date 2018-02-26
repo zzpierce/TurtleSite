@@ -41,3 +41,9 @@
     cursor: pointer;
   }
 </style>
+<style>
+  body {
+    background-color: #f2f4f5;
+    color: #1a1a1a
+  }
+</style>

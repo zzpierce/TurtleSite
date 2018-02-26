@@ -2,13 +2,22 @@
   <div class="container">
     <div class="blog-main">
       <div class="left">
-        <ul>
+        <ul class="blog-list">
           <li v-for="blog in blogList">
-            <div class="blog-title" @click="toBlog(blog.id)">{{blog.title}}</div>
+            <div class="blog-title">
+              <div class="title-link" @click="toBlog(blog.id)">
+                {{blog.title}}
+              </div>
+              <div class="blog-tags title-div">
+                {{blog.tags}}
+              </div>
+              <div class="deal-time title-div">
+                {{blog.createTime}}
+              </div>
+            </div>
             <div class="blog-summary">
               {{blog.summary}}
             </div>
-            <div class="blog-info">{{blog.createTime}}</div>
           </li>
         </ul>
       </div>
@@ -19,68 +28,70 @@
   </div>
 </template>
 <style>
+
   .blog-main {
-    width: 70%;
-    min-width: 1000px;
+    width: 80%;
+    max-width: 1024px;
     margin: auto;
     margin-top: 85px;
   }
 
   .left {
-    width: 60%;
-    min-width: 750px;
+    width: 65%;
+    min-width: 500px;
     float: left;
   }
 
   .right {
     float: left;
-    margin-left: 10%;
+    margin-left: 5%;
     width: 30%;
   }
 </style>
 <style scoped>
 
-  ul {
+  .blog-list {
     margin: 0;
     padding: 0;
     list-style: none;
   }
 
-  ul > li {
-    color: #555;
-  }
-
-  .blog-title {
+  .blog-list > li {
     margin-bottom: 10px;
-    width: 90%;
-    float: left;
-    font-size: 1.5em;
-    color:#222;
+    padding: 10px;
+    color: #555;
+    background-color: #fff;
+    box-shadow: 0 1px 3px rgba(26,26,26,.1);
+    border-radius: 2px;
   }
 
-  .blog-summary {
-    width: 90%;
-    float: left;
-    font-size: 1em;
-    margin-bottom: 20px;
+  .title-link {
+    display: inline-block;
+    margin-bottom: 10px;
+    font-size: 1.2em;
+    font-weight: 600;
+    color:#111;
   }
 
-  .blog-info {
-    line-height: 26px;
-    width: 10%;
-    font-size: 0.8em;
-    color: #777;
-    float: right;
-  }
-
-  .blog-main .blog-title:hover {
+  .title-link:hover {
+    color: #334455;
     text-decoration: underline;
     cursor: pointer;
   }
 
-  li > div:last-child {
-    float: right;
+  .blog-summary {
+    width: 90%;
+    font-size: 1em;
+    margin-bottom: 20px;
   }
+
+  .title-div {
+    display: inline-block;
+    font-size: 0.6em;
+    color: #777;
+  }
+
+
 </style>
 <script>
   import { API } from '../../util/constants';
