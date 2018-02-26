@@ -1,5 +1,8 @@
 package com.zz.back.util.markrazi.trans;
 
+/**
+ * 翻译器接口类，负责将markdown语法翻译为HTML
+ */
 public interface Translator {
 
     /**

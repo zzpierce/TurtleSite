@@ -2,13 +2,13 @@ package com.zz.back.util.markrazi;
 
 public class Markrazi {
 
-    private Converter converter;
+    private IConverter converter;
 
     public Markrazi() {
         converter = new DefaultConverter();
     }
 
-    public Markrazi(Converter converter) {
+    public Markrazi(IConverter converter) {
         this.converter = converter;
     }
 

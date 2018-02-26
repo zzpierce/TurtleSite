@@ -7,8 +7,8 @@ import java.util.Map;
 public class TranslatorContext {
 
     private int CurrentListLevel;
-
     private Map<String, String> imageMap;
+    private boolean quoteOpen = false;
 
     public TranslatorContext() {
         setCurrentListLevel(0);
@@ -29,5 +29,13 @@ public class TranslatorContext {
 
     public String getImage(String id) {
         return imageMap.get(id);
+    }
+
+    public boolean isQuoteOpen() {
+        return quoteOpen;
+    }
+
+    public void setQuoteOpen(boolean quoteOpen) {
+        this.quoteOpen = quoteOpen;
     }
 }

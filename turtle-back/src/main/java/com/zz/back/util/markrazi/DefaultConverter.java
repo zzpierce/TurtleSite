@@ -2,12 +2,14 @@ package com.zz.back.util.markrazi;
 
 import com.zz.back.util.markrazi.trans.*;
 import com.zz.back.util.markrazi.util.HTMLTools;
-import javafx.collections.transformation.TransformationList;
-
 import java.util.ArrayList;
 import java.util.List;
 
-public class DefaultConverter implements Converter {
+/**
+ * 默认的转换类
+ * 实现了基本的markdown语法的转换
+ */
+public class DefaultConverter implements IConverter  {
 
     private MReader reader;
 

@@ -20,7 +20,6 @@ public class ListTranslator extends AbstractTranslator {
             context.setCurrentListLevel(listLevel);
             return ans;
         }
-
         return null;
     }
 

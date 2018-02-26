@@ -16,7 +16,6 @@ public class ImageTranslator implements RecallTranslator {
             String imageHref = matcher.group(2);
             context.putImage(imageId, imageHref);
         }
-
     }
 
     //called when loop the second time
