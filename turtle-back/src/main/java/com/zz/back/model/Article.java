@@ -25,13 +25,16 @@ public class Article {
 
     private String creator;
 
+    private Integer temp;
+
     public Article() {}
 
     public Article(Long id) {
         this.id = id;
     }
 
-    public Article(String title, String tags, String content, String summary, Date createTime, Date updateTime, String creator) {
+    public Article(String title, String tags, String content, String summary,
+                   Date createTime, Date updateTime, String creator, Integer temp) {
         this.title = title;
         this.tags = tags;
         this.content = content;
@@ -39,6 +42,7 @@ public class Article {
         this.createTime = createTime;
         this.updateTime = updateTime;
         this.creator = creator;
+        this.temp = temp;
     }
 
     public Long getId() {
@@ -103,6 +107,14 @@ public class Article {
 
     public void setCreator(String creator) {
         this.creator = creator;
+    }
+
+    public Integer getTemp() {
+        return temp;
+    }
+
+    public void setTemp(Integer temp) {
+        this.temp = temp;
     }
 
     public String toString() {

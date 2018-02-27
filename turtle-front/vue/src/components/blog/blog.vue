@@ -16,6 +16,43 @@
     </div>
   </div>
 </template>
+<script>
+  import { API } from '../../util/constants';
+  import MyHeader from '../util/header.vue';
+  import IdeaPanel from './idea-panel.vue';
+
+  export default {
+    data() {
+      return {
+        blogId : '',
+        blog : {
+          title: '',
+          content: ''
+        }
+      }
+    },
+    mounted() {
+      this.init();
+    },
+    methods: {
+      init() {
+        this.blogId = this.$route.params.id;
+        this.$http.get(API.LOAD_BLOG_DETAIL + '?id=' + this.blogId).then(res => {
+          this.blog = res.data;
+        })
+      },
+      toUrl(url) {
+        this.$router.push({
+          name : url
+        })
+      }
+    },
+    components: {
+      "my-header": MyHeader,
+      "idea-panel": IdeaPanel
+    }
+  }
+</script>
 <style>
 
   .left {
@@ -86,40 +123,4 @@
     padding: 0 10px;
   }
 </style>
-<script>
-  import { API } from '../../util/constants';
-  import MyHeader from '../util/header.vue';
-  import IdeaPanel from './idea-panel.vue';
 
-  export default {
-    data() {
-      return {
-        blogId : '',
-        blog : {
-          title: '',
-          content: ''
-        }
-      }
-    },
-    mounted() {
-      this.init();
-    },
-    methods: {
-      init() {
-        this.blogId = this.$route.params.id;
-        this.$http.get(API.LOAD_BLOG_DETAIL + '?id=' + this.blogId).then(res => {
-          this.blog = res.data;
-        })
-      },
-      toUrl(url) {
-        this.$router.push({
-          name : url
-        })
-      }
-    },
-    components: {
-      "my-header": MyHeader,
-      "idea-panel": IdeaPanel
-    }
-  }
-</script>

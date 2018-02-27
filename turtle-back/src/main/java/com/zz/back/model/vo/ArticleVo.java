@@ -7,7 +7,7 @@ import com.zz.back.util.DateUtil;
  * 文章展示类
  * @author zhanzong
  */
-public class ArticleVo {
+public class ArticleVo extends BaseVo {
 
     private Long id;
 

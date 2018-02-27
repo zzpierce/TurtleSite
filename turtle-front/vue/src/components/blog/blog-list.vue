@@ -27,6 +27,67 @@
     </div>
   </div>
 </template>
+<script>
+  import { API } from '../../util/constants';
+  import MyHeader from '../util/header.vue';
+  import IdeaPanel from './idea-panel.vue';
+
+  export default {
+    data() {
+      return {
+        blogList: [],
+        blogRaw: []
+      }
+    },
+    mounted() {
+      this.loadBlogs();
+    },
+    methods: {
+      loadBlogs() {
+        this.$http.get(API.LOAD_BLOG_LIST)
+          .then(res => {
+            if (res.status === 200) {
+              let data = res.data;
+              console.log(data);
+              if (data.code === 0) {
+                this.blogRaw = data.articles;
+                for(let blog of this.blogRaw) {
+                  let summary = blog.summary;
+                  if (summary === null) {
+                    summary = "";
+                  }
+                  if (summary.length > 90) {
+                    summary = summary.substring(0, 90);
+                  }
+                  summary += "...";
+                  blog.summary = summary;
+                  this.blogList.push(blog);
+                }
+              } else {
+                alert(data.message);
+              }
+            } else {
+              //network error
+              alert("网络情况不良，加载失败");
+            }
+          })
+          .catch(res => {
+            alert("网络情况不良，加载失败");
+          });
+      },
+      toBlog(blogId) {
+        this.$router.push({
+          name : 'blog',
+          params : { id : blogId }
+        })
+      }
+    },
+    components: {
+      "my-header": MyHeader,
+      "idea-panel": IdeaPanel
+    }
+  }
+</script>
 <style>
   .blog-main {
     width: 80%;
@@ -92,54 +153,3 @@
 
 
 </style>
-<script>
-  import { API } from '../../util/constants';
-  import MyHeader from '../util/header.vue';
-  import IdeaPanel from './idea-panel.vue';
-
-  export default {
-    data() {
-      return {
-        blogList: [],
-        blogRaw: []
-      }
-    },
-    mounted() {
-      this.loadBlogs();
-    },
-    methods: {
-      loadBlogs() {
-        this.$http.get(API.LOAD_BLOG_LIST)
-          .then(res => {
-            this.blogRaw = res.data;
-            for(let blog of this.blogRaw) {
-              let summary = blog.summary;
-              if(summary === null) {
-                summary = "";
-              }
-              if(summary.length > 90) {
-                summary = summary.substring(0, 90);
-              }
-              summary += "...";
-              blog.summary = summary;
-              this.blogList.push(blog);
-            }
-            console.log(res.data);
-          })
-          .catch(res => {
-            console.log("error happens when load blogs.");
-          });
-      },
-      toBlog(blogId) {
-        this.$router.push({
-          name : 'blog',
-          params : { id : blogId }
-        })
-      }
-    },
-    components: {
-      "my-header": MyHeader,
-      "idea-panel": IdeaPanel
-    }
-  }
-</script>

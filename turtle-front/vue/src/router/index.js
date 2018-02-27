@@ -32,6 +32,10 @@ export default new Router({
         {
           path: 'new',
           component: BlogNew
+        },
+        {
+          path: 'edit/:id',
+          component: BlogNew
         }
       ]
     },

@@ -3,11 +3,15 @@ package com.zz.back.service;
 import com.alibaba.fastjson.JSONObject;
 import com.zz.back.dao.ArticleDao;
 import com.zz.back.model.Article;
+import com.zz.back.model.vo.ArticleListVo;
+import com.zz.back.model.vo.ArticleVo;
 import com.zz.back.util.RandomCodeGenerator;
+import com.zz.back.util.TurtleConstants;
 import com.zz.back.util.markrazi.Markrazi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -20,29 +24,63 @@ public class ArticleService {
 
     private static Markrazi markrazi = new Markrazi();
 
-    public Article getById(Long id) {
-
+    /**
+     * 通过ID获取文章
+     * @param id id
+     * @return 文章
+     */
+    public ArticleVo getById(Long id) {
         Article article = articleDao.findOne(id);
+        if (article == null) {
+            throw new RuntimeException("对应的文章不存在 ID=" + id);
+        }
         article.setContent(markrazi.doMarkrazi(article.getContent()));
-
-        return article;
-
+        ArticleVo articleVo = new ArticleVo(article);
+        articleVo.setCode(TurtleConstants.RESULT_SUCCESS);
+        return new ArticleVo(article);
     }
 
+    /**
+     * 通过标题获取文章
+     * @param title 标题
+     * @return 文章列表
+     */
     public List<Article> findByTitle(String title) {
         return articleDao.findByTitle(title);
     }
 
+    /**
+     * 通过标签获取文章
+     * @param tags 标签
+     * @return 文章列表
+     */
     public List<Article> findByTags(String tags) {
         return articleDao.findByTags(tags);
     }
 
-    public List<Article> getAll() {
-        return (List)articleDao.findAll();
+    /**
+     * 获取所有文章，不包括临时文章
+     * @return 文章列表
+     */
+    public ArticleListVo getAll() {
+        List<Article> articleList = articleDao.findByTempEquals(TurtleConstants.TEMP_FALSE);
+        List<ArticleVo> voList = new ArrayList<>();
+        for (Article article : articleList) {
+            voList.add(new ArticleVo(article));
+        }
+
+        ArticleListVo vo = new ArticleListVo();
+        vo.setArticles(voList);
+        vo.setCode(TurtleConstants.RESULT_SUCCESS);
+        return vo;
     }
 
+    /**
+     * 保存文章
+     * @param articleJson 文章
+     * @return
+     */
     public Article save(JSONObject articleJson) {
-
         //verify
         String validateCode = articleJson.getString("verifyCode");
         if(!RandomCodeGenerator.matchValidateCode(validateCode)) {
@@ -65,14 +103,10 @@ public class ArticleService {
         article.setCreator("zzpierce");
 
         return articleDao.save(article);
-
-    }
-
-    public Article update(Article article) {
-        return articleDao.save(article);
     }
 
     public void delete(Long id) {
         articleDao.delete(id);
     }
+
 }

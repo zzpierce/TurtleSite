@@ -42,10 +42,25 @@
         summary: "",
         tags: "",
         content: "",
-        verifyCode: ""
+        verifyCode: "",
+        blogBuffer: {
+
+        }
       }
     },
+    mounted() {
+      this.init();
+    },
     methods: {
+      init() {
+        const id = this.$route.params.id;
+        if (id) {
+          this.$http.get(API.LOAD_BLOG_DETAIL + '?id=' + id).then(res => {
+            console.log(res);
+          });
+
+        }
+      },
       add: function() {
         let body = this.content;
         if(body.length < 20) {

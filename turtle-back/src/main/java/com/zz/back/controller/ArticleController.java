@@ -3,9 +3,10 @@ package com.zz.back.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.zz.back.model.Article;
+import com.zz.back.model.vo.ArticleListVo;
 import com.zz.back.model.vo.ArticleVo;
 import com.zz.back.service.ArticleService;
-import com.zz.back.util.Constants;
+import com.zz.back.util.TurtleConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,17 +31,17 @@ public class ArticleController {
     public ArticleVo getById(Long id) {
 
         logger.info("加载ID = " + id);
-        ArticleVo articleVo;
+        ArticleVo article = new ArticleVo();
         try {
-            Article article = articleService.getById(id);
-            articleVo = new ArticleVo(article);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+            article = articleService.getById(id);
+        } catch (RuntimeException e) {
+            logger.error("请求文章失败 ID=" + id, e);
+            article.setCode(TurtleConstants.RESULT_FAIL);
+            article.setMessage("请求文章失败");
+            return article;
         }
-
-        logger.info("加载结束: " + JSON.toJSONString(articleVo));
-        return articleVo;
+        logger.info("加载结束: " + JSON.toJSONString(article));
+        return article;
 
     }
 
@@ -75,22 +76,19 @@ public class ArticleController {
 
     @RequestMapping("/getAll")
     @ResponseBody
-    public List<ArticleVo> getAll() {
-
+    public ArticleListVo getAll() {
         logger.info("开始加载BLOG列表");
-        List<ArticleVo> articleVos = new ArrayList<>();
+        ArticleListVo articleListVo = new ArticleListVo();
         try {
-            List<Article> articles = articleService.getAll();
-            for (Article article : articles) {
-                articleVos.add(new ArticleVo(article));
-            }
+            articleListVo = articleService.getAll();
         } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+            logger.error("获取文章列表失败", e);
+            articleListVo.setCode(TurtleConstants.RESULT_FAIL);
+            articleListVo.setMessage("获取文章列表失败");
+            return articleListVo;
         }
-        logger.info("加载BLOG数量：" + articleVos.size());
-        return articleVos;
-
+        logger.info("加载BLOG数量：" + articleListVo.getArticles().size());
+        return articleListVo;
     }
 
     @RequestMapping("/save")
@@ -102,10 +100,10 @@ public class ArticleController {
             JSONObject bodyJson = JSON.parseObject(body);
             articleService.save(bodyJson);
             logger.info("新建博客成功");
-            return Constants.SUCCESS;
+            return TurtleConstants.SUCCESS;
         } catch (Exception e) {
             e.printStackTrace();
-            return Constants.FAIL + " " + e.getMessage();
+            return TurtleConstants.FAIL + " " + e.getMessage();
         }
 
     }

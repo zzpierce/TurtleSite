@@ -3,14 +3,32 @@ package com.zz.back.dao;
 import com.zz.back.model.Article;
 import org.springframework.data.repository.CrudRepository;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
-@Transactional
+/**
+ * 文章的数据库操作类
+ */
 public interface ArticleDao extends CrudRepository<Article, Long> {
 
-    public List<Article> findByTitle(String title);
+    /**
+     * 根据文章标题获取文章
+     * @param title 文章标题
+     * @return 文章列表
+     */
+    List<Article> findByTitle(String title);
 
-    public List<Article> findByTags(String tags);
+    /**
+     * 根据文章标签获取文章
+     * @param tags 标签
+     * @return 文章列表
+     */
+    List<Article> findByTags(String tags);
+
+    /**
+     * 根据临时标识获取文章
+     * @param temp 临时标识
+     * @return 文章列表
+     */
+    List<Article> findByTempEquals(int temp);
 
 }
