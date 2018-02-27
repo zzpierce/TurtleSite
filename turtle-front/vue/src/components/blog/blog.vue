@@ -72,6 +72,19 @@
     vertical-align: middle;
     border: 0;
   }
+
+  .code {
+    background-color: #ddd;
+    padding: 5px;
+    border-radius: 3px;
+    border-left: 3px solid green;
+    font-size: 1em;
+  }
+
+  .code-inline {
+    background-color: #ddd;
+    padding: 0 10px;
+  }
 </style>
 <script>
   import { API } from '../../util/constants';

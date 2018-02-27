@@ -2,6 +2,9 @@ package com.zz.back.util.markrazi;
 
 import com.zz.back.util.markrazi.trans.*;
 import com.zz.back.util.markrazi.util.HTMLTools;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +13,8 @@ import java.util.List;
  * 实现了基本的markdown语法的转换
  */
 public class DefaultConverter implements IConverter  {
+
+    private static final Logger logger = LoggerFactory.getLogger(DefaultConverter.class);
 
     private MReader reader;
 
@@ -25,6 +30,7 @@ public class DefaultConverter implements IConverter  {
 
         translators = new ArrayList<>();
         translators.add(new TitleTranslator());
+        translators.add(new CodeTranslator());
         translators.add(new ListTranslator());
         translators.add(new OrderListTranslator());
         translators.add(new ImageTranslator());
@@ -35,6 +41,7 @@ public class DefaultConverter implements IConverter  {
 
         inlineTranslators = new ArrayList<>();
         inlineTranslators.add(new BoldTranslator());
+        inlineTranslators.add(new InlineCodeTranslator());
 
     }
 
@@ -56,12 +63,13 @@ public class DefaultConverter implements IConverter  {
             builder.append(markStr).append('\n');
         }
 
-
         return builder.toString();
     }
 
-
     private String doConvert(String line) {
+
+        //由于是转为HTML，首先转译HTML中的实体字符 < > &
+        line = line.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
 
         for(Translator translator : translators) {
             String target = translator.translate(line, context);

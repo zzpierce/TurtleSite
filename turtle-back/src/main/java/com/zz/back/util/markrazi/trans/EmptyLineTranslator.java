@@ -10,7 +10,7 @@ public class EmptyLineTranslator extends AbstractTranslator {
             return src;
         }
 
-        return src;
+        return null;
     }
 
     private String clear(TranslatorContext context) {

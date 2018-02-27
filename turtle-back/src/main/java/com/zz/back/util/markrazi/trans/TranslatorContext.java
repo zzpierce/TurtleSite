@@ -8,7 +8,7 @@ public class TranslatorContext {
 
     private int CurrentListLevel;
     private Map<String, String> imageMap;
-    private boolean quoteOpen = false;
+    private boolean codeOpen = false;
 
     public TranslatorContext() {
         setCurrentListLevel(0);
@@ -31,11 +31,11 @@ public class TranslatorContext {
         return imageMap.get(id);
     }
 
-    public boolean isQuoteOpen() {
-        return quoteOpen;
+    public boolean isCodeOpen() {
+        return codeOpen;
     }
 
-    public void setQuoteOpen(boolean quoteOpen) {
-        this.quoteOpen = quoteOpen;
+    public void setCodeOpen(boolean codeOpen) {
+        this.codeOpen = codeOpen;
     }
 }
