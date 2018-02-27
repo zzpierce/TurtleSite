@@ -1,29 +1,38 @@
 <template>
   <div class="container">
     <div class="blog-main">
-      <div class="new-row title">
-        <input v-model="title" placeholder="标题"/>
+      <div class="left">
+        <div class="new-panel">
+          <div class="new-row title">
+            <input class="blog-input" v-model="title" placeholder="标题"/>
+          </div>
+          <div class="new-row tags">
+            <input class="blog-input" v-model="tags" placeholder="标签"/>
+          </div>
+          <div class="new-row summary">
+            <textarea v-model="summary" placeholder="概要"></textarea>
+          </div>
+          <div class="new-row content">
+            <textarea v-model="content" placeholder="内容"></textarea>
+          </div>
+          <div class="new-row verify">
+            <input class="blog-input" v-model="verifyCode" placeholder="作者"/>
+          </div>
+          <div class="new-row add">
+            <button @click="add()">新建</button>
+            <button @click="tempSave()">暂存</button>
+          </div>
+        </div>
       </div>
-      <div class="new-row tags">
-        <input v-model="tags" placeholder="标签"/>
-      </div>
-      <div class="new-row summary">
-        <textarea v-model="summary" placeholder="概要"></textarea>
-      </div>
-      <div class="new-row content">
-        <textarea v-model="content" placeholder="内容"></textarea>
-      </div>
-      <div class="new-row verify">
-        <input v-model="verifyCode" placeholder="作者"/>
-      </div>
-      <div class="new-row add">
-        <button @click="add()">ADD</button>
+      <div class="right">
+        <idea-panel></idea-panel>
       </div>
     </div>
   </div>
 </template>
 <script>
   import MyHeader from '../util/header.vue';
+  import IdeaPanel from './idea-panel.vue';
   import { POST_RESULT, API } from '../../util/constants';
 
   export default {
@@ -64,30 +73,33 @@
           });
 
       }
+    },
+    components: {
+        'idea-panel': IdeaPanel
     }
   }
 </script>
 <style scoped>
-  .blog-main {
-    width: 70%;
-    min-width: 1000px;
-    margin: auto;
-    margin-top: 85px;
-  }
 
   .verify, .add {
     width: 400px;
   }
 
-  .main input {
-    width: 100%;
+  .blog-main input {
+    width: 70%;
+    min-width: 300px;
+    border: none;
+    font-size: 14px;
+    padding: 5px;
   }
 
   .blog-main textarea {
+    padding: 5px;
     font-size: 14px;
     width: 100%;
     overflow: scroll;
-    min-width: 600px;
+    min-width: 400px;
+    border: none;
   }
 
   .content textarea {
@@ -99,12 +111,22 @@
   }
 
   .new-row {
-    margin-top: 20px;
     margin-bottom: 20px;
     max-width: 1000px;
   }
 
-  .title input, .tags input{
-    font-size: 20px;
+  .add button {
+    border: none;
+    background-color: #6FAEB0;
+    color: #eee;
+    padding: 5px 7px;
+    border-radius: 2px;
+    font-size: 0.8em;
   }
+
+  .add button:hover {
+    cursor: pointer;
+    color: #fff;
+  }
+
 </style>

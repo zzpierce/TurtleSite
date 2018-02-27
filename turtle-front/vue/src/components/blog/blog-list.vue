@@ -28,7 +28,6 @@
   </div>
 </template>
 <style>
-
   .blog-main {
     width: 80%;
     max-width: 1024px;
