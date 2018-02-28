@@ -111,6 +111,7 @@ public class ArticleService {
         article.setContent(content);
         article.setSummary(summary);
         article.setTags(tags);
+        article.setTemp(TurtleConstants.TEMP_FALSE);
 
         Date curDate = new Date();
         article.setCreateTime(curDate);

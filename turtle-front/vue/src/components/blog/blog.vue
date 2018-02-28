@@ -17,7 +17,7 @@
   </div>
 </template>
 <script>
-  import { API } from '../../util/constants';
+  import { POST_RESULT, API } from '../../util/constants';
   import MyHeader from '../util/header.vue';
   import IdeaPanel from './idea-panel.vue';
 
