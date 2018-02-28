@@ -16,7 +16,8 @@
             <textarea v-model="content" placeholder="内容"></textarea>
           </div>
           <div class="new-row verify">
-            <input class="blog-input" v-model="verifyCode" placeholder="作者"/>
+            <input class="blog-input" v-model="creator" placeholder="作者"/>
+            <input class="blog-input" v-model="verifyCode" />
           </div>
           <div class="new-row add">
             <button @click="add()">新建</button>
@@ -42,10 +43,10 @@
         summary: "",
         tags: "",
         content: "",
+        creator: "",
         verifyCode: "",
-        blogBuffer: {
-
-        }
+        blogId: -1,
+        isEdit: false
       }
     },
     mounted() {
@@ -55,38 +56,82 @@
       init() {
         const id = this.$route.params.id;
         if (id) {
-          this.$http.get(API.LOAD_BLOG_DETAIL + '?id=' + id).then(res => {
-            console.log(res);
+          this.blogId = id;
+          this.isEdit = true;
+          this.$http.get(API.LOAD_BLOG_DETAIL + '?id=' + id + '&format=md').then(res => {
+            if (res.status !== 200 || res.data.code !== POST_RESULT.SUCCESS) {
+              this.$message({
+                message: '获取文章失败',
+                type: 'warning'
+              });
+              return;
+            }
+            let data = res.data;
+            this.title = data.title;
+            this.summary = data.summary;
+            this.tags = data.tags;
+            this.content = data.content;
+            this.creator = data.creator;
+          }).catch(res => {
+            this.$message({
+              message: '网络情况不良',
+              type: 'warning'
+            });
           });
-
         }
       },
-      add: function() {
+      add() {
         let body = this.content;
         if(body.length < 20) {
-          alert("that's no good.");
+          this.$message({
+            message: "文章可能短了一些吧.",
+            type: 'warning'
+          });
           return;
         }
         if(!this.verifyCode.startsWith("VVV")) {
-          alert("that's no good.");
+          this.$message({
+            message: "对不起，我是个警察.",
+            type: 'warning'
+          });
           return;
         }
-        this.$http.post(API.SAVE_BLOG,
-          {
-            title: this.title,
-            summary: this.summary,
-            tags: this.tags,
-            content: this.content,
-            verifyCode: this.verifyCode
-          }).then(response => {
-            console.log(response);
-            let data = response.bodyText;
-            console.log(data);
-            if(data === POST_RESULT.SUCCESS) {
-              alert("新建成功.");
-            }
+        let blogJson = {
+          title: this.title,
+          summary: this.summary,
+          tags: this.tags,
+          content: this.content,
+          verifyCode: this.verifyCode,
+          creator: this.creator
+        };
+        if (this.isEdit) {
+          blogJson['id'] = this.blogId;
+        }
+        this.$http.post(API.SAVE_BLOG, blogJson).then(res => {
+          if (res.status !== 200 || res.data.code !== POST_RESULT.SUCCESS) {
+            this.$message({
+              message: '保存文章失败',
+              type: 'warning'
+            });
+            return;
+          }
+          this.$message({
+            message: '保存文章成功',
+            type: 'success'
           });
+        }).catch(res => {
+          this.$message({
+            message: '网络情况不良',
+            type: 'warning'
+          });
+        });
 
+      },
+      tempSave() {
+        this.$message({
+          message: '暂不支持此功能',
+          type: 'info'
+        });
       }
     },
     components: {
@@ -96,8 +141,9 @@
 </script>
 <style scoped>
 
-  .verify, .add {
-    width: 400px;
+  .verify .blog-input {
+    width: 20%;
+    min-width: 100px;
   }
 
   .blog-main input {

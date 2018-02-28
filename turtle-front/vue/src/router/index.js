@@ -34,6 +34,7 @@ export default new Router({
           component: BlogNew
         },
         {
+          name : 'blog-edit',
           path: 'edit/:id',
           component: BlogNew
         }

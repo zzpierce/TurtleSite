@@ -5,9 +5,11 @@ import com.zz.back.dao.ArticleDao;
 import com.zz.back.model.Article;
 import com.zz.back.model.vo.ArticleListVo;
 import com.zz.back.model.vo.ArticleVo;
+import com.zz.back.model.vo.BaseVo;
 import com.zz.back.util.RandomCodeGenerator;
 import com.zz.back.util.TurtleConstants;
 import com.zz.back.util.markrazi.Markrazi;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,16 +27,18 @@ public class ArticleService {
     private static Markrazi markrazi = new Markrazi();
 
     /**
-     * 通过ID获取文章
+     * 通过ID获取文章，内容为HTML格式
      * @param id id
      * @return 文章
      */
-    public ArticleVo getById(Long id) {
+    public ArticleVo getById(Long id, String format) {
         Article article = articleDao.findOne(id);
         if (article == null) {
             throw new RuntimeException("对应的文章不存在 ID=" + id);
         }
-        article.setContent(markrazi.doMarkrazi(article.getContent()));
+        if (TurtleConstants.FORMAT_HTML.equals(format)) {
+            article.setContent(markrazi.doMarkrazi(article.getContent()));
+        }
         ArticleVo articleVo = new ArticleVo(article);
         articleVo.setCode(TurtleConstants.RESULT_SUCCESS);
         return new ArticleVo(article);
@@ -78,9 +82,9 @@ public class ArticleService {
     /**
      * 保存文章
      * @param articleJson 文章
-     * @return
+     * @return 是否成功
      */
-    public Article save(JSONObject articleJson) {
+    public BaseVo save(JSONObject articleJson) {
         //verify
         String validateCode = articleJson.getString("verifyCode");
         if(!RandomCodeGenerator.matchValidateCode(validateCode)) {
@@ -91,7 +95,18 @@ public class ArticleService {
         String content = articleJson.getString("content");
         String summary = articleJson.getString("summary");
         String tags = articleJson.getString("tags");
+        String creator = articleJson.getString("creator");
+        String id = articleJson.getString("id");
+
+        if (StringUtils.isBlank(creator)) {
+            creator = TurtleConstants.DEFAULT_USER;
+        }
+
         Article article = new Article();
+        if (StringUtils.isNotBlank(id)) {
+            article.setId(Long.valueOf(id));
+        }
+
         article.setTitle(title);
         article.setContent(content);
         article.setSummary(summary);
@@ -100,9 +115,11 @@ public class ArticleService {
         Date curDate = new Date();
         article.setCreateTime(curDate);
         article.setUpdateTime(curDate);
-        article.setCreator("zzpierce");
+        article.setCreator(creator);
 
-        return articleDao.save(article);
+        article = articleDao.save(article);
+
+        return new BaseVo(TurtleConstants.RESULT_SUCCESS, "新建文章成功 ID=" + article.getId());
     }
 
     public void delete(Long id) {

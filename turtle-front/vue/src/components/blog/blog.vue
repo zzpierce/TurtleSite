@@ -4,7 +4,7 @@
     <div class="blog-main">
       <div class="left">
         <div class="bm">
-          <h1>{{blog.title}}</h1>
+          <h1>{{blog.title}}<i class="el-icon-edit" @click="editBlog()"></i></h1>
           <div class="content" id="content">
             <div v-html="blog.content"></div>
           </div>
@@ -37,14 +37,33 @@
     methods: {
       init() {
         this.blogId = this.$route.params.id;
-        this.$http.get(API.LOAD_BLOG_DETAIL + '?id=' + this.blogId).then(res => {
+        this.$http.get(API.LOAD_BLOG_DETAIL + '?id=' + this.blogId + '&format=html').then(res => {
+          if (res.status !== 200 || res.data.code !== POST_RESULT.SUCCESS) {
+            this.$message({
+              message: '加载文章失败',
+              type: 'warning'
+            });
+            return;
+          }
           this.blog = res.data;
-        })
+        }).catch(res => {
+          this.$message({
+            message: '网络情况不良',
+            type: 'warning'
+          });
+        });
       },
       toUrl(url) {
         this.$router.push({
           name : url
         })
+      },
+      editBlog() {
+        const blogId = this.blogId;
+        this.$router.push({
+          name : 'blog-edit',
+          params : { blogId }
+        });
       }
     },
     components: {
@@ -53,11 +72,12 @@
     }
   }
 </script>
-<style>
-
+<style scoped>
   .left {
     margin-bottom: 50px;
   }
+</style>
+<style>
 
   .bm {
     height: auto;
@@ -73,6 +93,16 @@
 
   .bm h3 {
     margin: 20px 0;
+  }
+
+  .bm h1>i {
+    font-size: 17px;
+    margin-left: 12px;
+  }
+
+  .bm h1>i:hover {
+    cursor: pointer;
+    color: #6FAEB0;
   }
 
   .bm ul, .bm ol {

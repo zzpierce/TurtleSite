@@ -12,8 +12,8 @@ const PRD_URL = {
 };
 
 const POST_RESULT = {
-  SUCCESS: "RESULT_SUCCESS",
-  FAIL: "RESULT_FAIL"
+  SUCCESS: 0,
+  FAIL: 1
 };
 
 export { POST_RESULT, DEV_URL as API }

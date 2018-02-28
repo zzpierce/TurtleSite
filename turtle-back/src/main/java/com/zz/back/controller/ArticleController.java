@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.zz.back.model.Article;
 import com.zz.back.model.vo.ArticleListVo;
 import com.zz.back.model.vo.ArticleVo;
+import com.zz.back.model.vo.BaseVo;
 import com.zz.back.service.ArticleService;
 import com.zz.back.util.TurtleConstants;
 import org.slf4j.Logger;
@@ -28,12 +29,12 @@ public class ArticleController {
 
     @RequestMapping("/getById")
     @ResponseBody
-    public ArticleVo getById(Long id) {
+    public ArticleVo getById(Long id, String format) {
 
         logger.info("加载ID = " + id);
         ArticleVo article = new ArticleVo();
         try {
-            article = articleService.getById(id);
+            article = articleService.getById(id, format);
         } catch (RuntimeException e) {
             logger.error("请求文章失败 ID=" + id, e);
             article.setCode(TurtleConstants.RESULT_FAIL);
@@ -42,7 +43,6 @@ public class ArticleController {
         }
         logger.info("加载结束: " + JSON.toJSONString(article));
         return article;
-
     }
 
     @RequestMapping("findByTitle")
@@ -93,19 +93,22 @@ public class ArticleController {
 
     @RequestMapping("/save")
     @ResponseBody
-    public String save(@RequestBody String body) {
+    public BaseVo save(@RequestBody String body) {
 
         logger.info("新建博客: " + body);
+        BaseVo vo = new BaseVo();
         try {
             JSONObject bodyJson = JSON.parseObject(body);
-            articleService.save(bodyJson);
-            logger.info("新建博客成功");
-            return TurtleConstants.SUCCESS;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return TurtleConstants.FAIL + " " + e.getMessage();
-        }
+            vo = articleService.save(bodyJson);
+            logger.info(vo.getMessage());
 
+        } catch (Exception e) {
+            logger.error("新建文章失败", e);
+            vo.setCode(TurtleConstants.RESULT_FAIL);
+            vo.setMessage("新建文章失败");
+            return vo;
+        }
+        return vo;
     }
 
     @RequestMapping("/delete")

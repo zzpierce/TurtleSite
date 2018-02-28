@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="blog-main">
-      <div class="left">
+      <div class="left" v-loading="blogLoading">
         <ul class="blog-list">
           <li v-for="blog in blogList">
             <div class="blog-title">
@@ -28,7 +28,7 @@
   </div>
 </template>
 <script>
-  import { API } from '../../util/constants';
+  import { POST_RESULT, API } from '../../util/constants';
   import MyHeader from '../util/header.vue';
   import IdeaPanel from './idea-panel.vue';
 
@@ -36,7 +36,8 @@
     data() {
       return {
         blogList: [],
-        blogRaw: []
+        blogRaw: [],
+        blogLoading: true
       }
     },
     mounted() {
@@ -46,39 +47,41 @@
       loadBlogs() {
         this.$http.get(API.LOAD_BLOG_LIST)
           .then(res => {
-            if (res.status === 200) {
-              let data = res.data;
-              console.log(data);
-              if (data.code === 0) {
-                this.blogRaw = data.articles;
-                for(let blog of this.blogRaw) {
-                  let summary = blog.summary;
-                  if (summary === null) {
-                    summary = "";
-                  }
-                  if (summary.length > 90) {
-                    summary = summary.substring(0, 90);
-                  }
-                  summary += "...";
-                  blog.summary = summary;
-                  this.blogList.push(blog);
-                }
-              } else {
-                alert(data.message);
-              }
-            } else {
-              //network error
-              alert("网络情况不良，加载失败");
+            if (res.status !== 200 || res.data.code !== POST_RESULT.SUCCESS) {
+              this.loadFailed();
+              return;
             }
+            let data = res.data;
+            this.blogRaw = data.articles;
+            for(let blog of this.blogRaw) {
+              let summary = blog.summary;
+              if (summary === null) {
+                summary = "";
+              }
+              if (summary.length > 90) {
+                summary = summary.substring(0, 90);
+              }
+              summary += "...";
+              blog.summary = summary;
+              this.blogList.push(blog);
+            }
+            this.blogLoading = false;
           })
           .catch(res => {
-            alert("网络情况不良，加载失败");
+            this.loadFailed();
+            this.blogLoading = false;
           });
       },
       toBlog(blogId) {
         this.$router.push({
           name : 'blog',
           params : { id : blogId }
+        })
+      },
+      loadFailed() {
+        this.$message({
+          message: '网络情况不良，加载失败',
+          type: 'warning'
         })
       }
     },
