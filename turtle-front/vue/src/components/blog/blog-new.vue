@@ -20,8 +20,8 @@
             <input class="blog-input" v-model="verifyCode" />
           </div>
           <div class="new-row add">
-            <button @click="add()">新建</button>
-            <button @click="tempSave()">暂存</button>
+            <button @click="add()">保存</button>
+            <!--<button @click="tempSave()">暂存</button>-->
           </div>
         </div>
       </div>
