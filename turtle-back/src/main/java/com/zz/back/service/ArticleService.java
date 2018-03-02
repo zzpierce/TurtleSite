@@ -2,17 +2,20 @@ package com.zz.back.service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.zz.back.dao.ArticleDao;
+import com.zz.back.dao.TagDao;
 import com.zz.back.model.Article;
 import com.zz.back.model.vo.ArticleListVo;
 import com.zz.back.model.vo.ArticleVo;
 import com.zz.back.model.vo.BaseVo;
 import com.zz.back.util.RandomCodeGenerator;
 import com.zz.back.util.TurtleConstants;
+import com.zz.back.util.cache.TurtleCache;
 import com.zz.back.util.markrazi.Markrazi;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -21,8 +24,11 @@ import java.util.Random;
 @Service
 public class ArticleService {
 
-    @Autowired
+    @Resource
     private ArticleDao articleDao;
+
+    @Resource
+    private TagDao tagDao;
 
     private static Markrazi markrazi = new Markrazi();
 
@@ -55,11 +61,27 @@ public class ArticleService {
 
     /**
      * 通过标签获取文章
-     * @param tags 标签
+     * @param tag 标签
      * @return 文章列表
      */
-    public List<Article> findByTags(String tags) {
-        return articleDao.findByTags(tags);
+    public ArticleListVo findByTag(String tag) {
+
+        ArticleListVo vo = new ArticleListVo();
+        vo.setCode(TurtleConstants.RESULT_SUCCESS);
+        if (!TurtleCache.tagMap.containsKey(tag)) {
+            vo.setArticles(new ArrayList<>());
+            return vo;
+        }
+
+        Long id = TurtleCache.tagMap.get(tag);
+        List<Article> articleList = articleDao.findByTagId(id);
+        List<ArticleVo> voList = new ArrayList<>();
+        for (Article article : articleList) {
+            voList.add(new ArticleVo(article));
+        }
+
+        vo.setArticles(voList);
+        return vo;
     }
 
     /**
@@ -67,7 +89,7 @@ public class ArticleService {
      * @return 文章列表
      */
     public ArticleListVo getAll() {
-        List<Article> articleList = articleDao.findByTempEquals(TurtleConstants.TEMP_FALSE);
+        List<Article> articleList = articleDao.findByTempEqualsOrderByIdDesc(TurtleConstants.TEMP_FALSE);
         List<ArticleVo> voList = new ArrayList<>();
         for (Article article : articleList) {
             voList.add(new ArticleVo(article));

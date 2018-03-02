@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class ArticleController {
 
     private final static Logger logger = LoggerFactory.getLogger(ArticleController.class);
 
-    @Autowired
+    @Resource
     private ArticleService articleService;
 
     @RequestMapping("/getById")
@@ -45,31 +46,21 @@ public class ArticleController {
         return article;
     }
 
-    @RequestMapping("findByTitle")
+    @RequestMapping("findByTag")
     @ResponseBody
-    public List<Article> findByTitle(String title) {
+    public ArticleListVo findByTag(String tag) {
 
+        logger.info("按标签查找: tag = " + tag);
+        ArticleListVo articles = new ArticleListVo();
         try {
-            return articleService.findByTitle("傲骨贤妻");
+            articles = articleService.findByTag(tag);
         } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+            logger.error("根据标签查找文章失败", e);
+            articles.setCode(TurtleConstants.RESULT_FAIL);
+            articles.setMessage("查找失败");
+            return articles;
         }
-    }
-
-    @RequestMapping("findByTags")
-    @ResponseBody
-    public List<Article> findByTags(String tags) {
-
-        logger.info("按标签查找: tags = " + tags);
-        List<Article> articles;
-        try {
-            articles = articleService.findByTags(tags);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-        logger.info("找到博客的数量 = " + articles.size());
+        logger.info("找到博客的数量 = " + articles.getArticles().size());
         return articles;
 
     }
