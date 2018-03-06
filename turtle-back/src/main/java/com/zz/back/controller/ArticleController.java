@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
+/**
+ * 文章相关接口类
+ */
 @CrossOrigin
 @Controller
 @RequestMapping("/article")
@@ -24,6 +27,33 @@ public class ArticleController {
     @Resource
     private ArticleService articleService;
 
+    /**
+     * 获取所有文章
+     * @return 文章列表
+     */
+    @RequestMapping("/getAll")
+    @ResponseBody
+    public ArticleListVo getAll() {
+        logger.info("开始加载BLOG列表");
+        ArticleListVo articleListVo = new ArticleListVo();
+        try {
+            articleListVo = articleService.getAll();
+        } catch (Exception e) {
+            logger.error("获取文章列表失败", e);
+            articleListVo.setCode(TurtleConstants.RESULT_FAIL);
+            articleListVo.setMessage("获取文章列表失败");
+            return articleListVo;
+        }
+        logger.info("加载BLOG数量：" + articleListVo.getArticles().size());
+        return articleListVo;
+    }
+
+    /**
+     * 通过 id 查找文章
+     * @param id 文章 id
+     * @param format 文章格式，包括 html 和 md 两种
+     * @return 文章
+     */
     @RequestMapping("/getById")
     @ResponseBody
     public ArticleVo getById(Long id, String format) {
@@ -42,6 +72,11 @@ public class ArticleController {
         return article;
     }
 
+    /**
+     * 通过 tag 查找文章
+     * @param tag 标签
+     * @return 文章列表
+     */
     @RequestMapping("findByTag")
     @ResponseBody
     public ArticleListVo findByTag(String tag) {
@@ -61,23 +96,11 @@ public class ArticleController {
 
     }
 
-    @RequestMapping("/getAll")
-    @ResponseBody
-    public ArticleListVo getAll() {
-        logger.info("开始加载BLOG列表");
-        ArticleListVo articleListVo = new ArticleListVo();
-        try {
-            articleListVo = articleService.getAll();
-        } catch (Exception e) {
-            logger.error("获取文章列表失败", e);
-            articleListVo.setCode(TurtleConstants.RESULT_FAIL);
-            articleListVo.setMessage("获取文章列表失败");
-            return articleListVo;
-        }
-        logger.info("加载BLOG数量：" + articleListVo.getArticles().size());
-        return articleListVo;
-    }
-
+    /**
+     * 保存文章
+     * @param body 文章内容
+     * @return 是否成功
+     */
     @RequestMapping("/save")
     @ResponseBody
     public BaseVo save(@RequestBody String body) {
@@ -98,6 +121,11 @@ public class ArticleController {
         return vo;
     }
 
+    /**
+     * 删除文章
+     * @param id 文章 id
+     * @return 是否成功
+     */
     @RequestMapping("/delete")
     public boolean delete(@RequestParam(value = "id") Long id) {
         try {
