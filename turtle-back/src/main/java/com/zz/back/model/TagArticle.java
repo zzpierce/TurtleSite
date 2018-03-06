@@ -7,7 +7,7 @@ import javax.persistence.*;
  * @author zhanzong
  */
 @Entity
-@Table(name="tag_article")
+@Table(name = "tag_article")
 public class TagArticle {
 
     @Id
@@ -16,7 +16,9 @@ public class TagArticle {
 
     private Long tagId;
 
-    private Long articleId;
+    @ManyToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "article_id")
+    private Article article;
 
     public Long getId() {
         return id;
@@ -34,11 +36,11 @@ public class TagArticle {
         this.tagId = tagId;
     }
 
-    public Long getArticleId() {
-        return articleId;
+    public Article getArticle() {
+        return article;
     }
 
-    public void setArticleId(Long articleId) {
-        this.articleId = articleId;
+    public void setArticle(Article article) {
+        this.article = article;
     }
 }

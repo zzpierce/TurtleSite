@@ -2,6 +2,7 @@ package com.zz.back.service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.zz.back.dao.ArticleDao;
+import com.zz.back.dao.TagArticleDao;
 import com.zz.back.dao.TagDao;
 import com.zz.back.model.Article;
 import com.zz.back.model.vo.ArticleListVo;
@@ -12,20 +13,21 @@ import com.zz.back.util.TurtleConstants;
 import com.zz.back.util.cache.TurtleCache;
 import com.zz.back.util.markrazi.Markrazi;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 @Service
 public class ArticleService {
 
     @Resource
     private ArticleDao articleDao;
+
+    @Resource
+    private TagArticleDao tagArticleDao;
 
     @Resource
     private TagDao tagDao;
@@ -74,7 +76,7 @@ public class ArticleService {
         }
 
         Long id = TurtleCache.tagMap.get(tag);
-        List<Article> articleList = articleDao.findByTagId(id);
+        List<Article> articleList = tagArticleDao.findByTagId(id);
         List<ArticleVo> voList = new ArrayList<>();
         for (Article article : articleList) {
             voList.add(new ArticleVo(article));

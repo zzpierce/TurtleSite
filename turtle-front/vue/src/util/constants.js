@@ -16,4 +16,4 @@ const POST_RESULT = {
   FAIL: 1
 };
 
-export { POST_RESULT, PRD_URL as API }
+export { POST_RESULT, DEV_URL as API }
