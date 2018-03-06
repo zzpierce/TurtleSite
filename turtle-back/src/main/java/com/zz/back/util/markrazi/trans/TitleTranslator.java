@@ -1,6 +1,7 @@
 package com.zz.back.util.markrazi.trans;
 
 import com.zz.back.util.markrazi.MarkConstant;
+
 import java.util.regex.Pattern;
 
 public class TitleTranslator extends AbstractTranslator{

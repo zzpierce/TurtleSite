@@ -2,7 +2,6 @@ package com.zz.back.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.zz.back.model.Article;
 import com.zz.back.model.vo.ArticleListVo;
 import com.zz.back.model.vo.ArticleVo;
 import com.zz.back.model.vo.BaseVo;
@@ -10,13 +9,10 @@ import com.zz.back.service.ArticleService;
 import com.zz.back.util.TurtleConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.List;
 
 @CrossOrigin
 @Controller
@@ -108,7 +104,7 @@ public class ArticleController {
             articleService.delete(id);
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("删除文章失败", e);
             return false;
         }
     }

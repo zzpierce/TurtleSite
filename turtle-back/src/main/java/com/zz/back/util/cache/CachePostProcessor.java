@@ -2,7 +2,6 @@ package com.zz.back.util.cache;
 
 import com.zz.back.dao.TagDao;
 import com.zz.back.model.Tag;
-import com.zz.back.service.ArticleService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;

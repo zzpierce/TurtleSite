@@ -1,7 +1,5 @@
 package com.zz.back.util.markrazi.trans;
 
-import com.zz.back.util.markrazi.util.HTMLTools;
-
 /**
  * 引用语法翻译器
  * 负责翻译 ```ABC``` 为引用的格式
