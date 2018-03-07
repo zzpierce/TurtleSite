@@ -3,6 +3,10 @@ package com.zz.back.model;
 import javax.persistence.*;
 import java.util.Date;
 
+/**
+ * 文章实体类
+ * @author zhanzong
+ */
 @Entity
 @Table(name="article")
 public class Article {
@@ -117,7 +121,4 @@ public class Article {
         this.temp = temp;
     }
 
-    public String toString() {
-        return "[" + this.title + "] " + this.updateTime.toString();
-    }
 }
