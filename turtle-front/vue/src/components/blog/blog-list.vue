@@ -2,6 +2,12 @@
   <div class="container">
     <div class="blog-main">
       <div class="left" v-loading="blogLoading">
+        <div class="edit-panel">
+          <div class="search">
+            <el-input data="searchInfo" size="small" placeholder="搜索"></el-input>
+          </div>
+          <i class="el-icon-plus"></i>
+        </div>
         <ul class="blog-list">
           <li v-for="blog in blogList">
             <div class="blog-title">
@@ -37,7 +43,8 @@
       return {
         blogList: [],
         blogRaw: [],
-        blogLoading: true
+        blogLoading: true,
+        searchInfo: ""
       }
     },
     mounted() {
@@ -152,6 +159,24 @@
     display: inline-block;
     font-size: 0.6em;
     color: #777;
+  }
+
+  .edit-panel {
+    margin-bottom: 10px;
+  }
+
+  .edit-panel i {
+    font-size: 1.5em;
+    color: #6FAEB0;
+    vertical-align: middle;
+  }
+
+  .edit-panel i:hover {
+    cursor: pointer;
+  }
+
+  .edit-panel .search {
+    display: inline-block;
   }
 
 
