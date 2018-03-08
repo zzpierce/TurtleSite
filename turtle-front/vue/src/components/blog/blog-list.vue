@@ -4,9 +4,9 @@
       <div class="left" v-loading="blogLoading">
         <div class="edit-panel">
           <div class="search">
-            <el-input data="searchInfo" size="small" placeholder="搜索"></el-input>
+            <el-input v-model="searchInfo" size="small" placeholder="搜索" @change="function1"></el-input>
           </div>
-          <i class="el-icon-plus"></i>
+          <i class="el-icon-plus" @click="toNewBlog()"></i>
         </div>
         <ul class="blog-list">
           <li v-for="blog in blogList">
@@ -22,7 +22,7 @@
               </div>
             </div>
             <div class="blog-summary">
-              {{blog.summary}}
+              {{blog.summary_brief}}
             </div>
           </li>
         </ul>
@@ -51,6 +51,10 @@
       this.loadBlogs();
     },
     methods: {
+      function1() {
+        console.log("yA");
+        alert("YAHAHA");
+      },
       loadBlogs() {
         this.$http.get(API.LOAD_BLOG_LIST)
           .then(res => {
@@ -61,15 +65,7 @@
             let data = res.data;
             this.blogRaw = data.articles;
             for(let blog of this.blogRaw) {
-              let summary = blog.summary;
-              if (summary === null) {
-                summary = "";
-              }
-              if (summary.length > 90) {
-                summary = summary.substring(0, 90);
-              }
-              summary += "...";
-              blog.summary = summary;
+              blog = this.formatBlog(blog);
               this.blogList.push(blog);
             }
             this.blogLoading = false;
@@ -79,10 +75,35 @@
             this.blogLoading = false;
           });
       },
+      search() {
+        let searchText = this.searchInfo;
+        this.blogLoading = true;
+        this.$http.get(API.SEARCH_BLOG + "?tag=" + searchText).then(res => {
+          if (res.status !== 200 || res.data.code !== POST_RESULT.SUCCESS) {
+            this.loadFailed();
+            return;
+          }
+          let data = res.data;
+          this.blogRaw = data.articles;
+          for(let blog of this.blogRaw) {
+            blog = this.formatBlog(blog);
+            this.blogList.push(blog);
+          }
+          this.blogLoading = false;
+        }).catch(res => {
+          this.loadFailed();
+          this.blogLoading = false;
+        });
+      },
       toBlog(blogId) {
         this.$router.push({
           name : 'blog',
           params : { id : blogId }
+        })
+      },
+      toNewBlog() {
+        this.$router.push({
+          name: 'blog-new'
         })
       },
       loadFailed() {
@@ -90,6 +111,15 @@
           message: '网络情况不良，加载失败',
           type: 'warning'
         })
+      },
+      formatBlog(blog) {
+        let summary = blog.summary;
+        if (summary === null || summary.length < 40) {
+          blog.summary_brief = summary;
+        } else {
+          blog.summary_brief = summary.substring(0, 40) + "...";
+        }
+        return blog;
       }
     },
     components: {

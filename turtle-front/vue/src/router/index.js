@@ -30,6 +30,7 @@ export default new Router({
           component: Selfie
         },
         {
+          name: 'blog-new',
           path: 'new',
           component: BlogNew
         },
