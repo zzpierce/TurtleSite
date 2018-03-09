@@ -13,6 +13,10 @@ import com.zz.back.util.TurtleConstants;
 import com.zz.back.util.cache.TurtleCache;
 import com.zz.back.util.markrazi.Markrazi;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -91,9 +95,30 @@ public class ArticleService {
      * @return 文章列表
      */
     public ArticleListVo getAll() {
-        List<Article> articleList = articleDao.findByTempEqualsOrderByIdDesc(TurtleConstants.TEMP_FALSE);
+        List<Article> articleList = articleDao.findByTitleNotNullOrderByIdDesc();
         List<ArticleVo> voList = new ArrayList<>();
         for (Article article : articleList) {
+            voList.add(new ArticleVo(article));
+        }
+
+        ArticleListVo vo = new ArticleListVo();
+        vo.setArticles(voList);
+        vo.setCode(TurtleConstants.RESULT_SUCCESS);
+        return vo;
+    }
+
+    /**
+     * 按页获取文章
+     * @param page 页数
+     * @param count 一页多少个
+     * @return 文章列表
+     */
+    public ArticleListVo getPage(int page, int count) {
+        Sort sort = new Sort(Sort.Direction.DESC, "id");
+        Pageable pageable = new PageRequest(page, count, sort);
+        Page<Article> articlePage = articleDao.findAll(pageable);
+        List<ArticleVo> voList = new ArrayList<>();
+        for (Article article : articlePage) {
             voList.add(new ArticleVo(article));
         }
 

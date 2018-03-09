@@ -8,6 +8,8 @@ import Selfie from '@/components/blog/selfie';
 import BlogMain from '@/components/blog/blog-main';
 import BlogNew from '@/components/blog/blog-new';
 
+import Scroll from '@/components/playground/scroll';
+
 Vue.use(Router);
 
 export default new Router({
@@ -45,7 +47,11 @@ export default new Router({
       path: '/blog/:id',
       name: 'blog',
       component: Blog
+    },
+    {
+      path: '/scroll',
+      name: 'scroll',
+      component: Scroll
     }
-
   ]
 })

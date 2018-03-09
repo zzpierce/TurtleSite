@@ -49,6 +49,29 @@ public class ArticleController {
     }
 
     /**
+     * 按页获取文章列表
+     * @param page 页数
+     * @param count 一页的数量
+     * @return 文章列表
+     */
+    @RequestMapping("/getPage")
+    @ResponseBody
+    public ArticleListVo getPage(int page, int count) {
+        logger.info("开始加载BLOG列表");
+        ArticleListVo articleListVo = new ArticleListVo();
+        try {
+            articleListVo = articleService.getPage(page, count);
+        } catch (Exception e) {
+            logger.error("获取文章列表失败", e);
+            articleListVo.setCode(TurtleConstants.RESULT_FAIL);
+            articleListVo.setMessage("获取文章列表失败");
+            return articleListVo;
+        }
+        logger.info("加载BLOG数量：" + articleListVo.getArticles().size());
+        return articleListVo;
+    }
+
+    /**
      * 通过 id 查找文章
      * @param id 文章 id
      * @param format 文章格式，包括 html 和 md 两种

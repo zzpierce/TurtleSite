@@ -26,6 +26,9 @@
             </div>
           </li>
         </ul>
+        <div class="load-more" @click="loadBlogs()">
+          加载更多...
+        </div>
       </div>
       <div class="right">
         <idea-panel></idea-panel>
@@ -44,7 +47,8 @@
         blogList: [],
         blogRaw: [],
         blogLoading: true,
-        searchInfo: ""
+        searchInfo: "",
+        currentPage: 0
       }
     },
     mounted() {
@@ -52,7 +56,7 @@
     },
     methods: {
       loadBlogs() {
-        this.$http.get(API.LOAD_BLOG_LIST)
+        this.$http.get(API.LOAD_BLOG_PAGE + "?page=" + this.currentPage + "&count=10")
           .then(res => {
             if (res.status !== 200 || res.data.code !== POST_RESULT.SUCCESS) {
               this.loadFailed();
@@ -65,6 +69,7 @@
               this.blogList.push(blog);
             }
             this.blogLoading = false;
+            this.currentPage ++;
           })
           .catch(res => {
             this.loadFailed();
@@ -205,5 +210,16 @@
     display: inline-block;
   }
 
+  .load-more {
+    margin: 10px 0 20px 0;
+    width: 100%;
+    background-color: white;
+    text-align: center;
+    padding: 5px 0;
+    color: #6FAEB0;
+  }
 
+  .load-more:hover {
+    cursor: pointer;
+  }
 </style>
