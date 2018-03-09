@@ -88,7 +88,7 @@
   }
 
   .bm h1, .bm h2, .bm h3, .bm h4, .bm h5 {
-    font-weight: 500;
+    font-weight: 600;
   }
 
   .bm h3 {

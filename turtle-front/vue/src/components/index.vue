@@ -44,6 +44,7 @@
 <style>
   body {
     background-color: #f2f4f5;
-    color: #1a1a1a
+    color: #1a1a1a;
+    font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
   }
 </style>

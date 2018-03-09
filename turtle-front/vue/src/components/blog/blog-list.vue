@@ -4,7 +4,7 @@
       <div class="left" v-loading="blogLoading">
         <div class="edit-panel">
           <div class="search">
-            <el-input v-model="searchInfo" size="small" placeholder="搜索" @change="function1"></el-input>
+            <el-input v-model="searchInfo" size="small" placeholder="搜索" @keyup.enter.native="search"></el-input>
           </div>
           <i class="el-icon-plus" @click="toNewBlog()"></i>
         </div>
@@ -51,10 +51,6 @@
       this.loadBlogs();
     },
     methods: {
-      function1() {
-        console.log("yA");
-        alert("YAHAHA");
-      },
       loadBlogs() {
         this.$http.get(API.LOAD_BLOG_LIST)
           .then(res => {
@@ -87,7 +83,7 @@
           this.blogRaw = data.articles;
           for(let blog of this.blogRaw) {
             blog = this.formatBlog(blog);
-            this.blogList.push(blog);
+            this.blogList = this.blogRaw;
           }
           this.blogLoading = false;
         }).catch(res => {
