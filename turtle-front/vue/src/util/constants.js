@@ -1,14 +1,18 @@
 const DEV_URL = {
   LOAD_BLOG_LIST : "http://localhost:8080/article/getAll",
   LOAD_BLOG_DETAIL : "http://localhost:8080/article/getById",
-  SAVE_BLOG : "http://localhost:8080/article/save"
+  SAVE_BLOG : "http://localhost:8080/article/save",
+  SEARCH_BLOG : "http://localhost:8080/article/findByTag",
+  LOAD_BLOG_PAGE : "http://localhost:8080/article/getPage"
 };
 
 
 const PRD_URL = {
   LOAD_BLOG_LIST : "/article/getAll",
   LOAD_BLOG_DETAIL : "article/getById",
-  SAVE_BLOG : "article/save"
+  SAVE_BLOG : "article/save",
+  SEARCH_BLOG : "article/findByTag",
+  LOAD_BLOG_PAGE : "article/getPage"
 };
 
 const POST_RESULT = {
