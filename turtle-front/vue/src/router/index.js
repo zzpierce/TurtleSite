@@ -9,6 +9,8 @@ import BlogMain from '@/components/blog/blog-main';
 import BlogNew from '@/components/blog/blog-new';
 
 import Scroll from '@/components/playground/scroll';
+import DinosaurRun from '@/components/playground/dinosaur-run';
+
 
 Vue.use(Router);
 
@@ -52,6 +54,11 @@ export default new Router({
       path: '/scroll',
       name: 'scroll',
       component: Scroll
+    },
+    {
+      path: '/dinosaur',
+      name: 'dinosaur',
+      component: DinosaurRun
     }
   ]
 })
