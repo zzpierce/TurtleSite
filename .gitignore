@@ -8,3 +8,4 @@ turtle-back/target
 !turtle-back/target/turtle-back-1.0-SNAPSHOT.jar
 
 .DS_Store
+/temp.log
