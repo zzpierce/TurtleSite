@@ -19,7 +19,7 @@ import javax.annotation.Resource;
  */
 @CrossOrigin
 @Controller
-@RequestMapping("/article")
+@RequestMapping("/api/article")
 public class ArticleController {
 
     private final static Logger logger = LoggerFactory.getLogger(ArticleController.class);
@@ -31,7 +31,7 @@ public class ArticleController {
      * 获取所有文章
      * @return 文章列表
      */
-    @RequestMapping("/getAll")
+    @RequestMapping(value = "/getAll", method = RequestMethod.GET)
     @ResponseBody
     public ArticleListVo getAll() {
         logger.info("开始加载BLOG列表");
@@ -54,7 +54,7 @@ public class ArticleController {
      * @param count 一页的数量
      * @return 文章列表
      */
-    @RequestMapping("/getPage")
+    @RequestMapping(value = "/getPage", method = RequestMethod.GET)
     @ResponseBody
     public ArticleListVo getPage(int page, int count) {
         logger.info("开始加载BLOG列表");
@@ -77,7 +77,7 @@ public class ArticleController {
      * @param format 文章格式，包括 html 和 md 两种
      * @return 文章
      */
-    @RequestMapping("/getById")
+    @RequestMapping(value = "/getById", method = RequestMethod.GET)
     @ResponseBody
     public ArticleVo getById(Long id, String format) {
 
@@ -100,7 +100,7 @@ public class ArticleController {
      * @param tag 标签
      * @return 文章列表
      */
-    @RequestMapping("findByTag")
+    @RequestMapping(value = "findByTag", method = RequestMethod.GET)
     @ResponseBody
     public ArticleListVo findByTag(String tag) {
 
@@ -124,7 +124,7 @@ public class ArticleController {
      * @param body 文章内容
      * @return 是否成功
      */
-    @RequestMapping("/save")
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
     @ResponseBody
     public BaseVo save(@RequestBody String body) {
 
@@ -149,7 +149,7 @@ public class ArticleController {
      * @param id 文章 id
      * @return 是否成功
      */
-    @RequestMapping("/delete")
+    @RequestMapping(value = "/delete", method = RequestMethod.GET)
     public boolean delete(@RequestParam(value = "id") Long id) {
         try {
             articleService.delete(id);
@@ -161,3 +161,6 @@ public class ArticleController {
     }
 
 }
+
+
+

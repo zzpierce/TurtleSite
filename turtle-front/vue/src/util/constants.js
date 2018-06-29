@@ -6,7 +6,6 @@ const DEV_URL = {
   LOAD_BLOG_PAGE : "http://localhost:8080/article/getPage"
 };
 
-
 const PRD_URL = {
   LOAD_BLOG_LIST : "/article/getAll",
   LOAD_BLOG_DETAIL : "article/getById",
