@@ -56,7 +56,7 @@
     },
     methods: {
       loadBlogs() {
-        this.$http.get(API.LOAD_BLOG_PAGE + "?page=" + this.currentPage + "&count=10")
+        this.$http.get(API.LOAD_BLOG_LIST + "?page=" + this.currentPage + "&count=10")
           .then(res => {
             if (res.status !== 200 || res.data.code !== POST_RESULT.SUCCESS) {
               this.loadFailed();

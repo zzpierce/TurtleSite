@@ -4,7 +4,6 @@ const DEV_URL = {
   SAVE_BLOG : "http://localhost:8080/article/save"
 };
 
-
 const PRD_URL = {
   LOAD_BLOG_LIST : "/article/getAll",
   LOAD_BLOG_DETAIL : "article/getById",

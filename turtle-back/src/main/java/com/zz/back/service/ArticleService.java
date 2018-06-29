@@ -168,7 +168,6 @@ public class ArticleService {
         article.setCreator(creator);
 
         article = articleDao.save(article);
-
         return new BaseVo(TurtleConstants.RESULT_SUCCESS, "新建文章成功 ID=" + article.getId());
     }
 
