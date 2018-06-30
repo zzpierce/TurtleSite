@@ -8,7 +8,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "tag_article")
-public class TagArticle {
+public class TagArticleEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -16,9 +16,9 @@ public class TagArticle {
 
     private Long tagId;
 
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne(cascade = {CascadeType.MERGE})
     @JoinColumn(name = "article_id")
-    private Article article;
+    private ArticleEntity article;
 
     public Long getId() {
         return id;
@@ -36,11 +36,11 @@ public class TagArticle {
         this.tagId = tagId;
     }
 
-    public Article getArticle() {
+    public ArticleEntity getArticle() {
         return article;
     }
 
-    public void setArticle(Article article) {
+    public void setArticle(ArticleEntity article) {
         this.article = article;
     }
 }

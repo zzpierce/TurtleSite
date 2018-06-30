@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.zz.back.dao.ArticleDao;
 import com.zz.back.dao.TagArticleDao;
 import com.zz.back.dao.TagDao;
-import com.zz.back.model.Article;
+import com.zz.back.model.ArticleEntity;
 import com.zz.back.model.vo.ArticleListVo;
 import com.zz.back.model.vo.ArticleVo;
 import com.zz.back.model.vo.BaseVo;
@@ -44,7 +44,7 @@ public class ArticleService {
      * @return 文章
      */
     public ArticleVo getById(Long id, String format) {
-        Article article = articleDao.findOne(id);
+        ArticleEntity article = articleDao.findOne(id);
         if (article == null) {
             throw new RuntimeException("对应的文章不存在 ID=" + id);
         }
@@ -61,7 +61,7 @@ public class ArticleService {
      * @param title 标题
      * @return 文章列表
      */
-    public List<Article> findByTitle(String title) {
+    public List<ArticleEntity> findByTitle(String title) {
         return articleDao.findByTitle(title);
     }
 
@@ -73,20 +73,20 @@ public class ArticleService {
     public ArticleListVo findByTag(String tag) {
 
         ArticleListVo vo = new ArticleListVo();
-        vo.setCode(TurtleConstants.RESULT_SUCCESS);
-        if (!TurtleCache.tagMap.containsKey(tag)) {
-            vo.setArticles(new ArrayList<>());
-            return vo;
-        }
-
-        Long id = TurtleCache.tagMap.get(tag);
-        List<Article> articleList = tagArticleDao.findByTagId(id);
-        List<ArticleVo> voList = new ArrayList<>();
-        for (Article article : articleList) {
-            voList.add(new ArticleVo(article));
-        }
-
-        vo.setArticles(voList);
+//        vo.setCode(TurtleConstants.RESULT_SUCCESS);
+//        if (!TurtleCache.tagMap.containsKey(tag)) {
+//            vo.setArticles(new ArrayList<>());
+//            return vo;
+//        }
+//
+//        Long id = TurtleCache.tagMap.get(tag);
+//        List<ArticleEntity> articleList = tagArticleDao.findByTagId(id);
+//        List<ArticleVo> voList = new ArrayList<>();
+//        for (ArticleEntity article : articleList) {
+//            voList.add(new ArticleVo(article));
+//        }
+//
+//        vo.setArticles(voList);
         return vo;
     }
 
@@ -95,9 +95,9 @@ public class ArticleService {
      * @return 文章列表
      */
     public ArticleListVo getAll() {
-        List<Article> articleList = articleDao.findByTitleNotNullOrderByIdDesc();
+        List<ArticleEntity> articleList = articleDao.findByTitleNotNullOrderByIdDesc();
         List<ArticleVo> voList = new ArrayList<>();
-        for (Article article : articleList) {
+        for (ArticleEntity article : articleList) {
             voList.add(new ArticleVo(article));
         }
 
@@ -116,9 +116,9 @@ public class ArticleService {
     public ArticleListVo getPage(int page, int count) {
         Sort sort = new Sort(Sort.Direction.DESC, "id");
         Pageable pageable = new PageRequest(page, count, sort);
-        Page<Article> articlePage = articleDao.findAll(pageable);
+        Page<ArticleEntity> articlePage = articleDao.findAll(pageable);
         List<ArticleVo> voList = new ArrayList<>();
-        for (Article article : articlePage) {
+        for (ArticleEntity article : articlePage) {
             voList.add(new ArticleVo(article));
         }
 
@@ -151,7 +151,7 @@ public class ArticleService {
             creator = TurtleConstants.DEFAULT_USER;
         }
 
-        Article article = new Article();
+        ArticleEntity article = new ArticleEntity();
         if (StringUtils.isNotBlank(id)) {
             article.setId(Long.valueOf(id));
         }

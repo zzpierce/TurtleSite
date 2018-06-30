@@ -9,7 +9,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name="article")
-public class Article {
+public class ArticleEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -31,14 +31,14 @@ public class Article {
 
     private Integer temp;
 
-    public Article() {}
+    public ArticleEntity() {}
 
-    public Article(Long id) {
+    public ArticleEntity(Long id) {
         this.id = id;
     }
 
-    public Article(String title, String tags, String content, String summary,
-                   Date createTime, Date updateTime, String creator, Integer temp) {
+    public ArticleEntity(String title, String tags, String content, String summary,
+                         Date createTime, Date updateTime, String creator, Integer temp) {
         this.title = title;
         this.tags = tags;
         this.content = content;

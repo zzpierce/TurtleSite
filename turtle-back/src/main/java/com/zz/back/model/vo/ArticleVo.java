@@ -1,6 +1,6 @@
 package com.zz.back.model.vo;
 
-import com.zz.back.model.Article;
+import com.zz.back.model.ArticleEntity;
 import com.zz.back.util.DateUtil;
 
 /**
@@ -27,7 +27,7 @@ public class ArticleVo extends BaseVo {
 
     public ArticleVo() {}
 
-    public ArticleVo(Article article) {
+    public ArticleVo(ArticleEntity article) {
         this.id = article.getId();
         this.title = article.getTitle();
         this.tags = article.getTags();

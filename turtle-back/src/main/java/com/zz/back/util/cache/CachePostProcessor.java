@@ -1,7 +1,7 @@
 package com.zz.back.util.cache;
 
 import com.zz.back.dao.TagDao;
-import com.zz.back.model.Tag;
+import com.zz.back.model.TagEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -31,11 +31,11 @@ public class CachePostProcessor implements BeanPostProcessor {
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
         try {
             if (bean instanceof TagDao) {
-                List<Tag> tagList = ((TagDao) bean).findAll();
+                List<TagEntity> tagList = ((TagDao) bean).findAll();
                 if (TurtleCache.tagMap == null) {
                     TurtleCache.tagMap = new HashMap<>();
                 }
-                for (Tag tag : tagList) {
+                for (TagEntity tag : tagList) {
                     TurtleCache.tagMap.put(tag.getName(), tag.getId());
                 }
             }

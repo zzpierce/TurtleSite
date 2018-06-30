@@ -36,6 +36,8 @@
         chosenList: 0
       }
     },
+    mounted() {
+    },
     computed: {
       chosenFirst: function() {
         return this.chosenList === 1;
@@ -78,6 +80,12 @@
     height: 45px;
     background-color: #5f9ea0;
     color: white;
+    -webkit-transition-duration: .5s;
+    transition-duration: .5s;
+    -webkit-transition-timing-function: cubic-bezier( 0.215, 0.610, 0.355, 1.000 );
+    transition-timing-function: cubic-bezier( 0.215, 0.610, 0.355, 1.000 );
+    -webkit-transition-property: -webkit-transform;
+    transition-property: transform;
   }
 
   .header-main {
@@ -147,5 +155,11 @@
 
   .header-main div, .header-main li{
     display: inline-block;
+  }
+
+  .myheader-hidden {
+    -webkit-transform: translateY( -100% );
+    -ms-transform: translateY( -100% );
+    transform: translateY( -100% );
   }
 </style>
