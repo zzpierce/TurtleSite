@@ -37,29 +37,29 @@ public class TagTest {
     @Test
     public void test1() {
 
-        Iterable<ArticleEntity> articleEntity = articleDao.findAll();
-        for (ArticleEntity entity : articleEntity) {
-            String tags = entity.getTags();
-            if (StringUtils.isNotBlank(tags)) {
-                String[] tagArray = tags.split(",");
-                for (String tag: tagArray) {
-                    List<TagEntity> tagEntityList = tagDao.findByName(tag);
-                    Long tagId = 0L;
-                    if (tagEntityList.size() == 0) {
-                        TagEntity saveTagEntity = new TagEntity();
-                        saveTagEntity.setName(tag);
-                        saveTagEntity = tagDao.save(saveTagEntity);
-                        tagId = saveTagEntity.getId();
-                    } else {
-                        tagId = tagEntityList.get(0).getId();
-                    }
-                    TagArticleEntity saveTagArticleEntity = new TagArticleEntity();
-                    saveTagArticleEntity.setArticle(entity);
-                    saveTagArticleEntity.setTagId(tagId);
-                    tagArticleDao.save(saveTagArticleEntity);
-                }
-            }
-        }
+//        Iterable<ArticleEntity> articleEntity = articleDao.findAll();
+//        for (ArticleEntity entity : articleEntity) {
+//            String tags = entity.getTags();
+//            if (StringUtils.isNotBlank(tags)) {
+//                String[] tagArray = tags.split(",");
+//                for (String tag: tagArray) {
+//                    List<TagEntity> tagEntityList = tagDao.findByName(tag);
+//                    Long tagId = 0L;
+//                    if (tagEntityList.size() == 0) {
+//                        TagEntity saveTagEntity = new TagEntity();
+//                        saveTagEntity.setName(tag);
+//                        saveTagEntity = tagDao.save(saveTagEntity);
+//                        tagId = saveTagEntity.getId();
+//                    } else {
+//                        tagId = tagEntityList.get(0).getId();
+//                    }
+//                    TagArticleEntity saveTagArticleEntity = new TagArticleEntity();
+//                    saveTagArticleEntity.setArticle(entity);
+//                    saveTagArticleEntity.setTagId(tagId);
+//                    tagArticleDao.save(saveTagArticleEntity);
+//                }
+//            }
+//        }
     }
 
 

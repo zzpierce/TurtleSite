@@ -5,7 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.zz.back.model.vo.ArticleListVo;
 import com.zz.back.model.vo.ArticleVo;
 import com.zz.back.model.vo.BaseVo;
-import com.zz.back.service.ArticleService;
+import com.zz.back.service.impl.ArticleServiceImpl;
 import com.zz.back.util.TurtleConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +25,7 @@ public class ArticleController {
     private final static Logger logger = LoggerFactory.getLogger(ArticleController.class);
 
     @Resource
-    private ArticleService articleService;
+    private ArticleServiceImpl articleService;
 
     /**
      * 获取所有文章

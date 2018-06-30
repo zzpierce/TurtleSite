@@ -1,13 +1,16 @@
-package com.zz.back.service;
+package com.zz.back.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.zz.back.dao.ArticleDao;
 import com.zz.back.dao.TagArticleDao;
 import com.zz.back.dao.TagDao;
 import com.zz.back.model.ArticleEntity;
+import com.zz.back.model.TagArticleEntity;
+import com.zz.back.model.TagEntity;
 import com.zz.back.model.vo.ArticleListVo;
 import com.zz.back.model.vo.ArticleVo;
 import com.zz.back.model.vo.BaseVo;
+import com.zz.back.service.IArticleService;
 import com.zz.back.util.RandomCodeGenerator;
 import com.zz.back.util.TurtleConstants;
 import com.zz.back.util.cache.TurtleCache;
@@ -20,12 +23,14 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Service
-public class ArticleService {
+@Transactional
+public class ArticleServiceImpl implements IArticleService {
 
     @Resource
     private ArticleDao articleDao;
@@ -38,11 +43,6 @@ public class ArticleService {
 
     private static Markrazi markrazi = new Markrazi();
 
-    /**
-     * 通过ID获取文章，内容为HTML格式
-     * @param id id
-     * @return 文章
-     */
     public ArticleVo getById(Long id, String format) {
         ArticleEntity article = articleDao.findOne(id);
         if (article == null) {
@@ -56,20 +56,10 @@ public class ArticleService {
         return new ArticleVo(article);
     }
 
-    /**
-     * 通过标题获取文章
-     * @param title 标题
-     * @return 文章列表
-     */
     public List<ArticleEntity> findByTitle(String title) {
         return articleDao.findByTitle(title);
     }
 
-    /**
-     * 通过标签获取文章
-     * @param tag 标签
-     * @return 文章列表
-     */
     public ArticleListVo findByTag(String tag) {
 
         ArticleListVo vo = new ArticleListVo();
@@ -107,12 +97,6 @@ public class ArticleService {
         return vo;
     }
 
-    /**
-     * 按页获取文章
-     * @param page 页数
-     * @param count 一页多少个
-     * @return 文章列表
-     */
     public ArticleListVo getPage(int page, int count) {
         Sort sort = new Sort(Sort.Direction.DESC, "id");
         Pageable pageable = new PageRequest(page, count, sort);
@@ -128,11 +112,6 @@ public class ArticleService {
         return vo;
     }
 
-    /**
-     * 保存文章
-     * @param articleJson 文章
-     * @return 是否成功
-     */
     public BaseVo save(JSONObject articleJson) {
         //verify
         String validateCode = articleJson.getString("verifyCode");
@@ -159,15 +138,35 @@ public class ArticleService {
         article.setTitle(title);
         article.setContent(content);
         article.setSummary(summary);
-        article.setTags(tags);
         article.setTemp(TurtleConstants.TEMP_FALSE);
 
         Date curDate = new Date();
         article.setCreateTime(curDate);
         article.setUpdateTime(curDate);
         article.setCreator(creator);
-
         article = articleDao.save(article);
+
+        //resolve tags
+        if (StringUtils.isNotBlank(tags)) {
+            String[] tagArray = tags.split(",");
+            for (String tag : tagArray) {
+                List<TagEntity> tagEntityList = tagDao.findByName(tag);
+                Long tagId = 0L;
+                if (tagEntityList.size() == 0) {
+                    TagEntity saveTagEntity = new TagEntity();
+                    saveTagEntity.setName(tag);
+                    saveTagEntity = tagDao.save(saveTagEntity);
+                    tagId = saveTagEntity.getId();
+                } else {
+                    tagId = tagEntityList.get(0).getId();
+                }
+                TagArticleEntity saveTagArticleEntity = new TagArticleEntity();
+                saveTagArticleEntity.setArticle(article);
+                saveTagArticleEntity.setTagId(tagId);
+                tagArticleDao.save(saveTagArticleEntity);
+            }
+        }
+
         return new BaseVo(TurtleConstants.RESULT_SUCCESS, "新建文章成功 ID=" + article.getId());
     }
 

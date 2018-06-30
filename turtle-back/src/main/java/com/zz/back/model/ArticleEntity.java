@@ -17,8 +17,6 @@ public class ArticleEntity {
 
     private String title;
 
-    private String tags;
-
     private String content;
 
     private String summary;
@@ -37,10 +35,9 @@ public class ArticleEntity {
         this.id = id;
     }
 
-    public ArticleEntity(String title, String tags, String content, String summary,
+    public ArticleEntity(String title, String content, String summary,
                          Date createTime, Date updateTime, String creator, Integer temp) {
         this.title = title;
-        this.tags = tags;
         this.content = content;
         this.summary = summary;
         this.createTime = createTime;
@@ -63,14 +60,6 @@ public class ArticleEntity {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public String getTags() {
-        return tags;
-    }
-
-    public void setTags(String tags) {
-        this.tags = tags;
     }
 
     public String getContent() {
