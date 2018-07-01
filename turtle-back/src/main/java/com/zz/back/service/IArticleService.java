@@ -2,6 +2,7 @@ package com.zz.back.service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.zz.back.model.ArticleEntity;
+import com.zz.back.model.request.ArticleSaveRequest;
 import com.zz.back.model.vo.ArticleListVo;
 import com.zz.back.model.vo.ArticleVo;
 import com.zz.back.model.vo.BaseVo;
@@ -50,10 +51,10 @@ public interface IArticleService {
 
     /**
      * 保存文章
-     * @param articleJson 文章
+     * @param request 文章
      * @return 是否成功
      */
-    BaseVo save(JSONObject articleJson);
+    BaseVo save(ArticleSaveRequest request);
 
     /**
      * 删除文章

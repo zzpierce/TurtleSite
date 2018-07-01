@@ -2,6 +2,7 @@ package com.zz.back.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.zz.back.model.request.ArticleSaveRequest;
 import com.zz.back.model.vo.ArticleListVo;
 import com.zz.back.model.vo.ArticleVo;
 import com.zz.back.model.vo.BaseVo;
@@ -121,18 +122,17 @@ public class ArticleController {
 
     /**
      * 保存文章
-     * @param body 文章内容
+     * @param article 文章内容
      * @return 是否成功
      */
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     @ResponseBody
-    public BaseVo save(@RequestBody String body) {
+    public BaseVo save(@RequestBody ArticleSaveRequest article) {
 
-        logger.info("新建博客: " + body);
+        logger.info("新建博客: " + JSON.toJSONString(article));
         BaseVo vo = new BaseVo();
         try {
-            JSONObject bodyJson = JSON.parseObject(body);
-            vo = articleService.save(bodyJson);
+            vo = articleService.save(article);
             logger.info(vo.getMessage());
 
         } catch (Exception e) {

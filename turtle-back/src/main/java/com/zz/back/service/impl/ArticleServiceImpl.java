@@ -7,15 +7,20 @@ import com.zz.back.dao.TagDao;
 import com.zz.back.model.ArticleEntity;
 import com.zz.back.model.TagArticleEntity;
 import com.zz.back.model.TagEntity;
+import com.zz.back.model.exception.EmptyParamException;
+import com.zz.back.model.exception.NotFoundException;
+import com.zz.back.model.request.ArticleSaveRequest;
 import com.zz.back.model.vo.ArticleListVo;
 import com.zz.back.model.vo.ArticleVo;
 import com.zz.back.model.vo.BaseVo;
 import com.zz.back.service.IArticleService;
+import com.zz.back.util.BeanUtil;
 import com.zz.back.util.RandomCodeGenerator;
 import com.zz.back.util.TurtleConstants;
 import com.zz.back.util.cache.TurtleCache;
 import com.zz.back.util.markrazi.Markrazi;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -46,14 +51,15 @@ public class ArticleServiceImpl implements IArticleService {
     public ArticleVo getById(Long id, String format) {
         ArticleEntity article = articleDao.findOne(id);
         if (article == null) {
-            throw new RuntimeException("对应的文章不存在 ID=" + id);
+            throw new NotFoundException("对应的文章不存在 ID=" + id);
         }
+        ArticleVo articleVo = BeanUtil.toArticle(article);
         if (TurtleConstants.FORMAT_HTML.equals(format)) {
-            article.setContent(markrazi.doMarkrazi(article.getContent()));
+            articleVo.setContent(markrazi.doMarkrazi(article.getContent()));
         }
-        ArticleVo articleVo = new ArticleVo(article);
+
         articleVo.setCode(TurtleConstants.RESULT_SUCCESS);
-        return new ArticleVo(article);
+        return articleVo;
     }
 
     public List<ArticleEntity> findByTitle(String title) {
@@ -88,7 +94,7 @@ public class ArticleServiceImpl implements IArticleService {
         List<ArticleEntity> articleList = articleDao.findByTitleNotNullOrderByIdDesc();
         List<ArticleVo> voList = new ArrayList<>();
         for (ArticleEntity article : articleList) {
-            voList.add(new ArticleVo(article));
+            voList.add(BeanUtil.toArticle(article));
         }
 
         ArticleListVo vo = new ArticleListVo();
@@ -103,7 +109,7 @@ public class ArticleServiceImpl implements IArticleService {
         Page<ArticleEntity> articlePage = articleDao.findAll(pageable);
         List<ArticleVo> voList = new ArrayList<>();
         for (ArticleEntity article : articlePage) {
-            voList.add(new ArticleVo(article));
+            voList.add(BeanUtil.toArticle(article));
         }
 
         ArticleListVo vo = new ArticleListVo();
@@ -112,57 +118,48 @@ public class ArticleServiceImpl implements IArticleService {
         return vo;
     }
 
-    public BaseVo save(JSONObject articleJson) {
+    public BaseVo save(ArticleSaveRequest request) {
+        if (request == null) {
+            throw new EmptyParamException("articleRequest = null");
+        }
         //verify
-        String validateCode = articleJson.getString("verifyCode");
-        if(!RandomCodeGenerator.matchValidateCode(validateCode)) {
+        String verifyCode = request.getVerifyCode();
+        if(!RandomCodeGenerator.matchVeryfyCode(verifyCode)) {
             throw new RuntimeException("认证码无效");
         }
-        
-        String title = articleJson.getString("title");
-        String content = articleJson.getString("content");
-        String summary = articleJson.getString("summary");
-        String tags = articleJson.getString("tags");
-        String creator = articleJson.getString("creator");
-        String id = articleJson.getString("id");
-
-        if (StringUtils.isBlank(creator)) {
-            creator = TurtleConstants.DEFAULT_USER;
-        }
-
         ArticleEntity article = new ArticleEntity();
-        if (StringUtils.isNotBlank(id)) {
-            article.setId(Long.valueOf(id));
+        BeanUtils.copyProperties(request, article);
+
+        if (StringUtils.isBlank(request.getCreator())) {
+            request.setCreator(TurtleConstants.DEFAULT_USER);
         }
 
-        article.setTitle(title);
-        article.setContent(content);
-        article.setSummary(summary);
+        if (StringUtils.isNotBlank(request.getId())) {
+            article.setId(Long.valueOf(request.getId()));
+        }
+
         article.setTemp(TurtleConstants.TEMP_FALSE);
 
         Date curDate = new Date();
         article.setCreateTime(curDate);
         article.setUpdateTime(curDate);
-        article.setCreator(creator);
         article = articleDao.save(article);
 
         //resolve tags
-        if (StringUtils.isNotBlank(tags)) {
-            String[] tagArray = tags.split(",");
+        if (StringUtils.isNotBlank(request.getTags())) {
+            String[] tagArray = request.getTags().split(",");
             for (String tag : tagArray) {
                 List<TagEntity> tagEntityList = tagDao.findByName(tag);
-                Long tagId = 0L;
+                TagEntity saveTagEntity;
                 if (tagEntityList.size() == 0) {
-                    TagEntity saveTagEntity = new TagEntity();
+                    saveTagEntity = new TagEntity();
                     saveTagEntity.setName(tag);
-                    saveTagEntity = tagDao.save(saveTagEntity);
-                    tagId = saveTagEntity.getId();
                 } else {
-                    tagId = tagEntityList.get(0).getId();
+                    saveTagEntity = tagEntityList.get(0);
                 }
                 TagArticleEntity saveTagArticleEntity = new TagArticleEntity();
                 saveTagArticleEntity.setArticle(article);
-                saveTagArticleEntity.setTagId(tagId);
+                saveTagArticleEntity.setTag(saveTagEntity);
                 tagArticleDao.save(saveTagArticleEntity);
             }
         }

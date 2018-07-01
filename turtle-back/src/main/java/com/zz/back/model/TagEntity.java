@@ -1,11 +1,14 @@
 package com.zz.back.model;
 
+import lombok.Data;
+
 import javax.persistence.*;
 
 /**
  * 标签类
  * @author zhanzong
  */
+@Data
 @Entity
 @Table(name="tag")
 public class TagEntity {
@@ -16,19 +19,4 @@ public class TagEntity {
 
     private String name;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 }

@@ -1,5 +1,7 @@
 package com.zz.back.model;
 
+import lombok.Data;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -7,6 +9,7 @@ import java.util.Date;
  * 文章实体类
  * @author zhanzong
  */
+@Data
 @Entity
 @Table(name="article")
 public class ArticleEntity {
@@ -28,86 +31,5 @@ public class ArticleEntity {
     private String creator;
 
     private Integer temp;
-
-    public ArticleEntity() {}
-
-    public ArticleEntity(Long id) {
-        this.id = id;
-    }
-
-    public ArticleEntity(String title, String content, String summary,
-                         Date createTime, Date updateTime, String creator, Integer temp) {
-        this.title = title;
-        this.content = content;
-        this.summary = summary;
-        this.createTime = createTime;
-        this.updateTime = updateTime;
-        this.creator = creator;
-        this.temp = temp;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public String getSummary() {
-        return summary;
-    }
-
-    public void setSummary(String summary) {
-        this.summary = summary;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public String getCreator() {
-        return creator;
-    }
-
-    public void setCreator(String creator) {
-        this.creator = creator;
-    }
-
-    public Integer getTemp() {
-        return temp;
-    }
-
-    public void setTemp(Integer temp) {
-        this.temp = temp;
-    }
 
 }

@@ -2,7 +2,7 @@ package com.zz.back.util;
 
 public class RandomCodeGenerator {
 
-    public static String validateCode = null;
+    public static String verifyCode = null;
 
     public static String generate(int length, String prefix) {
 
@@ -15,23 +15,23 @@ public class RandomCodeGenerator {
             builder.append(pool.charAt(index));
         }
 
-        validateCode = prefix + builder.toString();
+        verifyCode = prefix + builder.toString();
 
-        return validateCode;
+        return verifyCode;
     }
 
 
-    public static boolean matchValidateCode(String code) {
+    public static boolean matchVeryfyCode(String code) {
 
         boolean result = false;
-        if(code == null || code.equals("") || !code.equals(validateCode)) {
+        if(code == null || code.equals("") || !code.equals(verifyCode)) {
             result = false;
         }
-        else if(code.equals(validateCode)) {
+        else if(code.equals(verifyCode)) {
             result = true;
         }
         //destroy validate code after matching
-        validateCode = null;
+        verifyCode = null;
         return result;
 
     }
