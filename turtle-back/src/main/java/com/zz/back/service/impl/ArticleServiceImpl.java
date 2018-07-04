@@ -57,8 +57,6 @@ public class ArticleServiceImpl implements IArticleService {
         if (TurtleConstants.FORMAT_HTML.equals(format)) {
             articleVo.setContent(markrazi.doMarkrazi(article.getContent()));
         }
-
-        articleVo.setCode(TurtleConstants.RESULT_SUCCESS);
         return articleVo;
     }
 
@@ -99,7 +97,6 @@ public class ArticleServiceImpl implements IArticleService {
 
         ArticleListVo vo = new ArticleListVo();
         vo.setArticles(voList);
-        vo.setCode(TurtleConstants.RESULT_SUCCESS);
         return vo;
     }
 
@@ -114,7 +111,6 @@ public class ArticleServiceImpl implements IArticleService {
 
         ArticleListVo vo = new ArticleListVo();
         vo.setArticles(voList);
-        vo.setCode(TurtleConstants.RESULT_SUCCESS);
         return vo;
     }
 
@@ -163,8 +159,7 @@ public class ArticleServiceImpl implements IArticleService {
                 tagArticleDao.save(saveTagArticleEntity);
             }
         }
-
-        return new BaseVo(TurtleConstants.RESULT_SUCCESS, "新建文章成功 ID=" + article.getId());
+        return BeanUtil.success("新建文章成功 ID=" + article.getId());
     }
 
     public void delete(Long id) {

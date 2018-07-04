@@ -11,7 +11,7 @@ import java.util.Date;
  * @author zhanzong
  */
 @Data
-public class ArticleVo extends BaseVo {
+public class ArticleVo {
 
     private Long id;
 

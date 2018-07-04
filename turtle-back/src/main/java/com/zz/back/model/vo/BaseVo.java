@@ -11,10 +11,11 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BaseVo {
+public class BaseVo<T> {
 
     private int code;
 
     private String message;
 
+    private T data;
 }

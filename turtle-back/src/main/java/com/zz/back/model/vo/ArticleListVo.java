@@ -9,7 +9,7 @@ import java.util.List;
  * @author zhanzong
  */
 @Data
-public class ArticleListVo extends BaseVo {
+public class ArticleListVo {
 
     private List<ArticleVo> articles;
 

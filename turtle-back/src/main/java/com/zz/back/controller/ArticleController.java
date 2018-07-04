@@ -1,15 +1,14 @@
 package com.zz.back.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.zz.back.model.request.ArticleSaveRequest;
 import com.zz.back.model.vo.ArticleListVo;
 import com.zz.back.model.vo.ArticleVo;
 import com.zz.back.model.vo.BaseVo;
 import com.zz.back.service.impl.ArticleServiceImpl;
+import com.zz.back.util.BeanUtil;
 import com.zz.back.util.TurtleConstants;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,13 +17,12 @@ import javax.annotation.Resource;
 /**
  * 文章相关接口类
  */
+@Slf4j
 @CrossOrigin
 @Controller
 @RequestMapping("/api/article")
 public class ArticleController {
-
-    private final static Logger logger = LoggerFactory.getLogger(ArticleController.class);
-
+    
     @Resource
     private ArticleServiceImpl articleService;
 
@@ -34,19 +32,15 @@ public class ArticleController {
      */
     @RequestMapping(value = "/getAll", method = RequestMethod.GET)
     @ResponseBody
-    public ArticleListVo getAll() {
-        logger.info("开始加载BLOG列表");
-        ArticleListVo articleListVo = new ArticleListVo();
+    public BaseVo<ArticleListVo> getAll() {
+        log.info("开始加载BLOG列表");
         try {
-            articleListVo = articleService.getAll();
+            ArticleListVo articleListVo = articleService.getAll();
+            return BeanUtil.success(articleListVo, "获取文章列表成功");
         } catch (Exception e) {
-            logger.error("获取文章列表失败", e);
-            articleListVo.setCode(TurtleConstants.RESULT_FAIL);
-            articleListVo.setMessage("获取文章列表失败");
-            return articleListVo;
+            log.error("获取文章列表失败", e);
+            return BeanUtil.fail("获取文章列表失败");
         }
-        logger.info("加载BLOG数量：" + articleListVo.getArticles().size());
-        return articleListVo;
     }
 
     /**
@@ -57,19 +51,15 @@ public class ArticleController {
      */
     @RequestMapping(value = "/getPage", method = RequestMethod.GET)
     @ResponseBody
-    public ArticleListVo getPage(int page, int count) {
-        logger.info("开始加载BLOG列表");
-        ArticleListVo articleListVo = new ArticleListVo();
+    public BaseVo<ArticleListVo> getPage(int page, int count) {
+        log.info("开始加载BLOG列表");
         try {
-            articleListVo = articleService.getPage(page, count);
+            ArticleListVo articleListVo = articleService.getPage(page, count);
+            return BeanUtil.success(articleListVo, "按页获取文章列表成功");
         } catch (Exception e) {
-            logger.error("获取文章列表失败", e);
-            articleListVo.setCode(TurtleConstants.RESULT_FAIL);
-            articleListVo.setMessage("获取文章列表失败");
-            return articleListVo;
+            log.error("获取文章列表失败", e);
+            return BeanUtil.fail("获取文章列表失败");
         }
-        logger.info("加载BLOG数量：" + articleListVo.getArticles().size());
-        return articleListVo;
     }
 
     /**
@@ -80,20 +70,21 @@ public class ArticleController {
      */
     @RequestMapping(value = "/getById", method = RequestMethod.GET)
     @ResponseBody
-    public ArticleVo getById(Long id, String format) {
+    public BaseVo<ArticleVo> getById(Long id, String format) {
 
-        logger.info("加载ID = " + id);
-        ArticleVo article = new ArticleVo();
+        log.info("加载ARTICLE ID = " + id);
+        BaseVo<ArticleVo> baseVo = new BaseVo<>();
         try {
-            article = articleService.getById(id, format);
+            ArticleVo article = articleService.getById(id, format);
+            baseVo.setData(article);
         } catch (RuntimeException e) {
-            logger.error("请求文章失败 ID=" + id, e);
-            article.setCode(TurtleConstants.RESULT_FAIL);
-            article.setMessage("请求文章失败");
-            return article;
+            log.error("请求文章失败 ID=" + id, e);
+            baseVo.setCode(TurtleConstants.RESULT_FAIL);
+            baseVo.setMessage("请求文章失败");
+            return baseVo;
         }
-        logger.info("加载结束: " + JSON.toJSONString(article));
-        return article;
+        log.info("加载结束: " + JSON.toJSONString(baseVo));
+        return baseVo;
     }
 
     /**
@@ -103,20 +94,20 @@ public class ArticleController {
      */
     @RequestMapping(value = "findByTag", method = RequestMethod.GET)
     @ResponseBody
-    public ArticleListVo findByTag(String tag) {
+    public BaseVo<ArticleListVo> findByTag(String tag) {
 
-        logger.info("按标签查找: tag = " + tag);
-        ArticleListVo articles = new ArticleListVo();
+        log.info("按标签查找: tag = " + tag);
+        BaseVo<ArticleListVo> baseVo = new BaseVo<>();
         try {
-            articles = articleService.findByTag(tag);
+            ArticleListVo articles = articleService.findByTag(tag);
+            baseVo.setData(articles);
         } catch (Exception e) {
-            logger.error("根据标签查找文章失败", e);
-            articles.setCode(TurtleConstants.RESULT_FAIL);
-            articles.setMessage("查找失败");
-            return articles;
+            log.error("根据标签查找文章失败", e);
+            baseVo.setCode(TurtleConstants.RESULT_FAIL);
+            baseVo.setMessage("查找失败");
+            return baseVo;
         }
-        logger.info("找到博客的数量 = " + articles.getArticles().size());
-        return articles;
+        return baseVo;
 
     }
 
@@ -129,17 +120,14 @@ public class ArticleController {
     @ResponseBody
     public BaseVo save(@RequestBody ArticleSaveRequest article) {
 
-        logger.info("新建博客: " + JSON.toJSONString(article));
-        BaseVo vo = new BaseVo();
+        log.info("新建博客: " + JSON.toJSONString(article));
+        BaseVo vo;
         try {
             vo = articleService.save(article);
-            logger.info(vo.getMessage());
-
+            log.info(vo.getMessage());
         } catch (Exception e) {
-            logger.error("新建文章失败", e);
-            vo.setCode(TurtleConstants.RESULT_FAIL);
-            vo.setMessage("新建文章失败");
-            return vo;
+            log.error("新建文章失败", e);
+            return BeanUtil.fail("新建文章失败");
         }
         return vo;
     }
@@ -155,7 +143,7 @@ public class ArticleController {
             articleService.delete(id);
             return true;
         } catch (Exception e) {
-            logger.error("删除文章失败", e);
+            log.error("删除文章失败", e);
             return false;
         }
     }
