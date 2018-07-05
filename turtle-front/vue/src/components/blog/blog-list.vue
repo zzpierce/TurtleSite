@@ -56,13 +56,13 @@
     },
     methods: {
       loadBlogs() {
-        this.$http.get(API.LOAD_BLOG_LIST + "?page=" + this.currentPage + "&count=10")
+        this.$http.get(API.LOAD_BLOG_PAGE + "?page=" + this.currentPage + "&count=10")
           .then(res => {
             if (res.status !== 200 || res.data.code !== POST_RESULT.SUCCESS) {
               this.loadFailed();
               return;
             }
-            let data = res.data;
+            let data = res.data.data;
             this.blogRaw = data.articles;
             for(let blog of this.blogRaw) {
               blog = this.formatBlog(blog);
@@ -84,9 +84,9 @@
             this.loadFailed();
             return;
           }
-          let data = res.data;
+          let data = res.data.data;
           this.blogRaw = data.articles;
-          for(let blog of this.blogRaw) {
+          for (let blog of this.blogRaw) {
             blog = this.formatBlog(blog);
             this.blogList = this.blogRaw;
           }
