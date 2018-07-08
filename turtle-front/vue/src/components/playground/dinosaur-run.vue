@@ -10,23 +10,24 @@
   export default {
     data() {
       return {
+        meImg: '',
         wHeight: 600,
         wWidth: 800,
         ctx: '',
-        position: {
-          x: 300,
-          y: 300
-        },
-        speed: {
-          jump: -12,
-          xs: 0,
-          ys: 0
+        ds: {
+          air: false,
+          position: {
+            x: 300,
+            y: 300
+          },
+          speed: {
+            jump: -12,
+            xs: 0,
+            ys: 0
+          }
         },
         g: 0.4,
-        meImg: '',
-        me: {
-          air: false
-        }
+
       }
     },
     mounted() {
@@ -44,32 +45,37 @@
 
         this.meImg = new Image();
         this.meImg.src = "http://the-tinysaur-generator.herokuapp.com/?small=true&2";
-
         window.addEventListener('keydown', e => {
-          if (!this.me.air && e.keyCode === 13) {
+          if (!this.ds.air && e.keyCode === 13) {
             this.jump();
           }
         });
 
       },
       move() {
-        this.ctx.clearRect(this.position.x - 100, this.position.y - 100, 600, 600);
-        this.speed.ys += this.g;
-        this.position.x += this.speed.xs;
-        this.position.y += this.speed.ys;
-        this.ctx.drawImage(this.meImg, this.position.x, this.position.y);
-        if (this.position.y > this.wHeight - 200) {
-          this.position.y = this.wHeight - 200;
-          this.speed.ys = 0;
-          this.me.air = false;
-        }
-        if (this.position.x < 0 || this.position.x > window.innerWidth) {
-          this.speed.xs *= -1;
-        }
+        this.ctx.clearRect(this.ds.position.x - 100, this.ds.position.y - 100, 600, 600);
+        this.moveDinosaur();
       },
       jump() {
-        this.speed.ys = this.speed.jump;
-        this.me.air = true;
+        this.ds.speed.ys = this.ds.speed.jump;
+        this.ds.air = true;
+      },
+      moveDinosaur() {
+        this.ds.speed.ys += this.g;
+        this.ds.position.x += this.ds.speed.xs;
+        this.ds.position.y += this.ds.speed.ys;
+        this.ctx.drawImage(this.meImg, this.ds.position.x, this.ds.position.y);
+        if (this.ds.position.y > this.wHeight - 200) {
+          this.ds.position.y = this.wHeight - 200;
+          this.ds.speed.ys = 0;
+          this.ds.air = false;
+        }
+        if (this.ds.position.x < 0 || this.ds.position.x > window.innerWidth) {
+          this.ds.speed.xs *= -1;
+        }
+      },
+      moveObstacle() {
+
       }
     }
   }
