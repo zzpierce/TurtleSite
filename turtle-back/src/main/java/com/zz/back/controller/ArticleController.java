@@ -27,23 +27,6 @@ public class ArticleController {
     private ArticleServiceImpl articleService;
 
     /**
-     * 获取所有文章
-     * @return 文章列表
-     */
-    @RequestMapping(value = "/getAll", method = RequestMethod.GET)
-    @ResponseBody
-    public BaseVo<ArticleListVo> getAll() {
-        log.info("开始加载BLOG列表");
-        try {
-            ArticleListVo articleListVo = articleService.getAll();
-            return BeanUtil.success(articleListVo, "获取文章列表成功");
-        } catch (Exception e) {
-            log.error("获取文章列表失败", e);
-            return BeanUtil.fail("获取文章列表失败");
-        }
-    }
-
-    /**
      * 按页获取文章列表
      * @param page 页数
      * @param count 一页的数量

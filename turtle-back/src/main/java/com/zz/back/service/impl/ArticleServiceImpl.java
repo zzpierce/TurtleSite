@@ -1,7 +1,5 @@
 package com.zz.back.service.impl;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.zz.back.dao.ArticleDao;
 import com.zz.back.dao.TagArticleDao;
 import com.zz.back.dao.TagDao;
@@ -127,7 +125,7 @@ public class ArticleServiceImpl implements IArticleService {
         }
         //验证认证码是否有效
         String verifyCode = request.getVerifyCode();
-        if(!RandomCodeGenerator.matchVeryfyCode(verifyCode)) {
+        if(!RandomCodeGenerator.matchVerifyCode(verifyCode)) {
             throw new RuntimeException("认证码无效");
         }
 

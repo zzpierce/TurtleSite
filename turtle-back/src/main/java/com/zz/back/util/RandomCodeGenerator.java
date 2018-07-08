@@ -1,5 +1,8 @@
 package com.zz.back.util;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class RandomCodeGenerator {
 
     public static String verifyCode = null;
@@ -16,12 +19,12 @@ public class RandomCodeGenerator {
         }
 
         verifyCode = prefix + builder.toString();
-
+        log.info("[BLOG]生成认证码：" + verifyCode);
         return verifyCode;
     }
 
 
-    public static boolean matchVeryfyCode(String code) {
+    public static boolean matchVerifyCode(String code) {
 
         boolean result = false;
         if(code == null || code.equals("") || !code.equals(verifyCode)) {

@@ -1,11 +1,6 @@
 .idea
-/turtle-site-parent.iml
 *.iml
-.idea/
-npm-debug.log*
-
 turtle-back/target
 !turtle-back/target/turtle-back-1.0-SNAPSHOT.jar
-
 .DS_Store
-/temp.log
+*.log
