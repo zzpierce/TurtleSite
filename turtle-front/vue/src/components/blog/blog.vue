@@ -18,6 +18,7 @@
 </template>
 <script>
   import { POST_RESULT, API } from '../../util/constants';
+  import { parse_article } from '../../util/func';
   import MyHeader from '../util/header.vue';
   import IdeaPanel from './idea-panel.vue';
 
@@ -45,7 +46,8 @@
             });
             return;
           }
-          this.blog = res.data;
+          let data = res.data.data;
+          this.blog = parse_article(data);
         }).catch(res => {
           this.$message({
             message: '网络情况不良',

@@ -28,6 +28,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
@@ -47,9 +48,6 @@ public class ArticleServiceImpl implements IArticleService {
     @Resource
     private TagDao tagDao;
 
-    @Resource
-    private TurtleCache turtleCache;
-
     private static Markrazi markrazi = new Markrazi();
 
     public ArticleVo getById(Long id, String format) {
@@ -57,7 +55,9 @@ public class ArticleServiceImpl implements IArticleService {
         if (article == null) {
             throw new NotFoundException("对应的文章不存在 ID=" + id);
         }
-        ArticleVo articleVo = BeanUtil.toArticle(article);
+        List<TagArticleEntity> tagList = tagArticleDao.findByArticleId(id);
+        ArticleVo articleVo = BeanUtil.toArticle(article, tagList);
+
         if (TurtleConstants.FORMAT_HTML.equals(format)) {
             articleVo.setContent(markrazi.doMarkrazi(article.getContent()));
         }
@@ -85,22 +85,6 @@ public class ArticleServiceImpl implements IArticleService {
                 voList.add(BeanUtil.toArticle(articleEntity));
             }
         }
-        vo.setArticles(voList);
-        return vo;
-    }
-
-    /**
-     * 获取所有文章，不包括临时文章
-     * @return 文章列表
-     */
-    public ArticleListVo getAll() {
-        List<ArticleEntity> articleList = articleDao.findByTitleNotNullOrderByIdDesc();
-        List<ArticleVo> voList = new ArrayList<>();
-        for (ArticleEntity article : articleList) {
-            voList.add(BeanUtil.toArticle(article));
-        }
-
-        ArticleListVo vo = new ArticleListVo();
         vo.setArticles(voList);
         return vo;
     }
@@ -133,7 +117,7 @@ public class ArticleServiceImpl implements IArticleService {
         ArticleEntity article = new ArticleEntity();
         BeanUtils.copyProperties(request, article);
         if (StringUtils.isBlank(article.getCreator())) {
-            request.setCreator(TurtleConstants.DEFAULT_USER);
+            article.setCreator(TurtleConstants.DEFAULT_USER);
         }
         if (StringUtils.isNotBlank(request.getId())) {
             article.setId(Long.valueOf(request.getId()));
@@ -149,12 +133,14 @@ public class ArticleServiceImpl implements IArticleService {
         //解析文章标签
         if (StringUtils.isNotBlank(request.getTags())) {
             String[] tagArray = request.getTags().split(",");
+            List<TagEntity> tagEntityList;
+            TagEntity saveTagEntity;
             for (String tag : tagArray) {
-                List<TagEntity> tagEntityList = tagDao.findByName(tag);
-                TagEntity saveTagEntity;
-                if (tagEntityList.size() == 0) {
+                tagEntityList = tagDao.findByName(tag);
+                if (tagEntityList == null || tagEntityList.size() == 0) {
                     saveTagEntity = new TagEntity();
                     saveTagEntity.setName(tag);
+                    tagDao.save(saveTagEntity);
                 } else {
                     saveTagEntity = tagEntityList.get(0);
                 }
@@ -165,7 +151,8 @@ public class ArticleServiceImpl implements IArticleService {
             }
         }
         //添加文章后更新缓存
-        turtleCache.recache();
+        List<TagEntity> tagList = tagDao.findAll();
+        TurtleCache.refresh(tagDao.findAll());
         log.info("更新后的cache size = " + TurtleCache.tagMap.size());
         return BeanUtil.success("新建文章成功 ID=" + article.getId());
     }

@@ -38,6 +38,7 @@
 </template>
 <script>
   import { POST_RESULT, API } from '../../util/constants';
+  import { parse_article } from '../../util/func';
   import MyHeader from '../util/header.vue';
   import IdeaPanel from './idea-panel.vue';
 
@@ -113,7 +114,8 @@
           type: 'warning'
         })
       },
-      formatBlog(blog) {
+      formatBlog(rawBlog) {
+        let blog = parse_article(rawBlog);
         let summary = blog.summary;
         if (summary === null || summary.length < 40) {
           blog.summary_brief = summary;

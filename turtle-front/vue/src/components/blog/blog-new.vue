@@ -66,7 +66,7 @@
               });
               return;
             }
-            let data = res.data;
+            let data = res.data.data;
             this.title = data.title;
             this.summary = data.summary;
             this.tags = data.tags;

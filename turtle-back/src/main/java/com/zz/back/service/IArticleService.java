@@ -36,12 +36,6 @@ public interface IArticleService {
     ArticleListVo findByTag(String tag);
 
     /**
-     * 获取所有文章，不包括临时文章
-     * @return 文章列表
-     */
-    ArticleListVo getAll();
-
-    /**
      * 按页获取文章
      * @param page 页数
      * @param count 一页多少个

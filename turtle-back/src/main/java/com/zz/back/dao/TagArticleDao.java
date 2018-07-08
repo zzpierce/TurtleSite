@@ -14,6 +14,5 @@ public interface TagArticleDao extends JpaRepository<TagArticleEntity, Long> {
 
     List<TagArticleEntity> findByTagId(Long tagId);
 
-    @Query("select ta.article from TagArticleEntity ta inner join ta.article where ta.article = ?1")
     List<TagArticleEntity> findByArticleId(Long articleId);
 }

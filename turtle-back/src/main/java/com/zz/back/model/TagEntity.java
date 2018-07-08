@@ -1,7 +1,6 @@
 package com.zz.back.model;
 
 import lombok.Data;
-
 import javax.persistence.*;
 
 /**
