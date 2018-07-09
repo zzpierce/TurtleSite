@@ -13,6 +13,7 @@
         meImg: '',
         wHeight: 600,
         wWidth: 800,
+        ground: 400,
         ctx: '',
         ds: {
           air: false,
@@ -25,6 +26,10 @@
             xs: 0,
             ys: 0
           }
+        },
+        ob: {
+          p: [100, 300, 600],
+          speed: 4
         },
         g: 0.4,
 
@@ -53,8 +58,9 @@
 
       },
       move() {
-        this.ctx.clearRect(this.ds.position.x - 100, this.ds.position.y - 100, 600, 600);
+        this.ctx.clearRect(0, 0, this.wWidth, this.wHeight);
         this.moveDinosaur();
+        this.moveObstacle();
       },
       jump() {
         this.ds.speed.ys = this.ds.speed.jump;
@@ -75,7 +81,25 @@
         }
       },
       moveObstacle() {
-
+        let p = this.ob.p;
+        if (p.length < 3) {
+          let maxp;
+          if (p.length > 0) {
+            maxp = p[p.length - 1];
+          } else {
+            maxp = 600;
+          }
+          p.push(maxp + 250 + Math.floor(Math.random() * 500));
+        }
+        for (let i = 0; i < p.length; i ++) {
+          let pi = p[i];
+          this.ctx.strokeRect(pi, this.ground, 20, 40);
+          if (p[i] < 100) {
+            p.splice(0, 1); i --;
+          } else {
+            p[i] = p[i] - this.ob.speed;
+          }
+        }
       }
     }
   }
