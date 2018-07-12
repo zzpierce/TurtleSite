@@ -26,10 +26,12 @@ export default new Router({
       component: BlogMain,
       children: [
         {
+          name: 'blog-list',
           path: 'list',
           component: BlogList
         },
         {
+          name: 'selfie',
           path: 'selfie',
           component: Selfie
         },

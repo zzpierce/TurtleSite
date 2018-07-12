@@ -89,9 +89,9 @@
           });
           return;
         }
-        if(!this.verifyCode.startsWith("VVV")) {
+        if(!this.verifyCode.startsWith("1")) {
           this.$message({
-            message: "对不起，我是个警察.",
+            message: "我看见你了.",
             type: 'warning'
           });
           return;

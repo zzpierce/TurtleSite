@@ -1,4 +1,4 @@
-package com.zz.back.util;
+package com.zz.back.util.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;

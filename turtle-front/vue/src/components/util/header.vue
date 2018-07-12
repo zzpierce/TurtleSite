@@ -14,12 +14,11 @@
           </li>
           </transition>
           <li @click="chosen(2)" v-bind:class="{'chosen-li':chosenSecond}">
-            <router-link class="menu-link" to="/blog/selfie">人生规划</router-link>
+            <router-link class="menu-link" to="/blog/selfie">唧唧歪歪</router-link>
           </li>
           <li @click="chosen(3)" v-bind:class="{'chosen-li':chosenThird}">
-            <router-link class="menu-link" to="/blog/list">广告招租</router-link>
+            <router-link class="menu-link" to="/blog/selfie">广告招租</router-link>
           </li>
-
         </ul>
       </div>
       <div class="log-div">
@@ -33,10 +32,16 @@
     data() {
       return {
         userName: "zzpierce",
-        chosenList: 0
+        chosenList: 1
       }
     },
     mounted() {
+      let name = this.$route.name;
+      if (name === 'blog-list') {
+        this.chosenList = 1;
+      } else if (name === 'selfie') {
+        this.chosenList = 2;
+      }
     },
     computed: {
       chosenFirst: function() {

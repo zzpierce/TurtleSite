@@ -16,6 +16,7 @@ import com.zz.back.service.IArticleService;
 import com.zz.back.util.BeanUtil;
 import com.zz.back.util.RandomCodeGenerator;
 import com.zz.back.util.TurtleConstants;
+import com.zz.back.util.VerifyUtil;
 import com.zz.back.util.cache.TurtleCache;
 import com.zz.back.util.markrazi.Markrazi;
 import lombok.extern.slf4j.Slf4j;
@@ -47,6 +48,9 @@ public class ArticleServiceImpl implements IArticleService {
 
     @Resource
     private TagDao tagDao;
+
+    @Resource
+    private VerifyUtil verifyUtil;
 
     private static Markrazi markrazi = new Markrazi();
 
@@ -109,7 +113,7 @@ public class ArticleServiceImpl implements IArticleService {
         }
         //验证认证码是否有效
         String verifyCode = request.getVerifyCode();
-        if(!RandomCodeGenerator.matchVerifyCode(verifyCode)) {
+        if(!verifyUtil.check(verifyCode)) {
             throw new RuntimeException("认证码无效");
         }
 
