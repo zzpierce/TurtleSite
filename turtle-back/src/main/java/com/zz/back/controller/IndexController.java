@@ -21,14 +21,4 @@ public class IndexController {
         return "forward://index.html";
     }
 
-    /**
-     * 生成一个新的验证码
-     * @return 验证码
-     */
-    @RequestMapping(value = "/generateNewValidateCode", method = RequestMethod.GET)
-    @ResponseBody
-    public String generateCode() {
-        return RandomCodeGenerator.generate(20, "VVV");
-    }
-
 }

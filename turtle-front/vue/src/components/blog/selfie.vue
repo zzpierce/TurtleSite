@@ -1,16 +1,23 @@
 <template>
   <div class="container">
-    <div class="main">计划？不存在的。</div>
+    <div class="main">
+      <pre>
+        <code class="java">
+          public class A() {}
+        </code>
+      </pre>
+    </div>
   </div>
 </template>
 <script>
   import MyHeader from '../util/header.vue';
-
   export default {
     data() {
       return {
 
       }
+    },
+    mounted() {
     },
     components: {
       'my-header': MyHeader
@@ -21,6 +28,5 @@
   .main {
     text-align: center;
     margin-top: 20%;
-    font-size: 6em;
   }
 </style>

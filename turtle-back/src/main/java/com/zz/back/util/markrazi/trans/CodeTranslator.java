@@ -11,17 +11,22 @@ public class CodeTranslator implements Translator {
 
     public String translate(String src, TranslatorContext context) {
         String answer;
-        if (src.equals(codeMark)) {
+        if (src.startsWith(codeMark)) {
             if (!context.isCodeOpen()) {
-                answer = "<div class='code'>";
+                //find syntax
+                String syntax;
+                if (src.length() > 3) {
+                    syntax = src.substring(3);
+                } else {
+                    syntax = "java";
+                }
+                answer = "<pre><code class='" + syntax + "'>";
             } else {
-                answer = "</div>";
+                answer = "</code></pre>";
             }
             context.setCodeOpen(!context.isCodeOpen());
             return answer;
         }
-
         return null;
     }
-
 }

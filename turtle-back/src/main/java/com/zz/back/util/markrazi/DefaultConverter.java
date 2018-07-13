@@ -47,7 +47,7 @@ public class DefaultConverter implements IConverter  {
 
     public String convert(String src) {
 
-        StringBuilder builder = new StringBuilder("");
+        StringBuilder builder = new StringBuilder();
         reader.setBuffer(src);
         String curLine;
 
@@ -60,7 +60,7 @@ public class DefaultConverter implements IConverter  {
         while(null != (curLine = reader.readLine())) {
             String markStr = doConvert(curLine);
             markStr = doInlineConvert(markStr);
-            builder.append(markStr).append('\n');
+            builder.append(markStr);
         }
 
         return builder.toString();
@@ -77,7 +77,9 @@ public class DefaultConverter implements IConverter  {
                 return target;
             }
         }
-
+//        if (!context.isCodeOpen()) {
+//            line = HTMLTools.appendBr(line);
+//        }
         return HTMLTools.appendBr(line);
     }
 

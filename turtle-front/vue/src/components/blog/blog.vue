@@ -48,6 +48,13 @@
           }
           let data = res.data.data;
           this.blog = parse_article(data);
+          this.$nextTick(() => {
+            let d = document.getElementsByTagName("code");
+            hljs.configure({useBR: true});
+            for (let f of d) {
+              hljs.highlightBlock(f);
+            }
+          });
         }).catch(res => {
           this.$message({
             message: '网络情况不良',
