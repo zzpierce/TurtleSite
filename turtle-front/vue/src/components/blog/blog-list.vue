@@ -71,11 +71,11 @@
             }
             let data = res.data.data;
             this.blogRaw = data.articles;
+            this.blogLoading = false;
             for(let blog of this.blogRaw) {
               blog = this.formatBlog(blog);
               this.blogList.push(blog);
             }
-            this.blogLoading = false;
             this.currentPage ++;
           })
           .catch(res => {
@@ -85,7 +85,6 @@
       },
       search() {
         let searchText = this.searchInfo;
-        this.blogLoading = true;
         this.doSearchByTag(searchText);
       },
       toBlog(blogId) {
@@ -116,26 +115,27 @@
         return blog;
       },
       searchByTag(text) {
-        console.log('receive' + text);
         if (text) {
           this.loadMore = false;
           this.doSearchByTag(text);
         }
       },
       doSearchByTag(searchText) {
+        this.blogList = [];
+        this.blogLoading = true;
         this.$http.get(API.SEARCH_BLOG + "?tag=" + searchText).then(res => {
           if (res.status !== 200 || res.data.code !== POST_RESULT.SUCCESS) {
             this.loadFailed();
             return;
           }
+          this.blogLoading = false;
+          this.loadMore = false;
           let data = res.data.data;
           this.blogRaw = data.articles;
           for (let blog of this.blogRaw) {
             blog = this.formatBlog(blog);
             this.blogList = this.blogRaw;
           }
-          this.blogLoading = false;
-          this.loadMore = false;
         }).catch(res => {
           this.loadFailed();
           this.blogLoading = false;

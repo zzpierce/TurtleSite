@@ -1,6 +1,6 @@
 <template>
   <div class="tag-panel">
-    <span v-for="t in tags" v-bind:key="t.id" @click="searchBlog(t.name)">
+    <span class="tag-span" v-for="t in tags" v-bind:key="t.id" @click="searchBlog(t.name)">
       <el-tag class="el-tag" type="info">
         {{t.name}}
       </el-tag>
@@ -10,6 +10,9 @@
 <style scoped>
   .tag-panel {
     margin: 10px 0;
+  }
+  .tag-panel .tag-span:hover {
+    cursor: pointer;
   }
   .el-tag {
     margin-bottom: 10px;
@@ -21,7 +24,8 @@
   export default {
     data() {
       return {
-        tags: []
+        tags: [],
+        chosenTag: -1
       }
     },
     mounted() {
@@ -38,8 +42,6 @@
         });
       },
       searchBlog(text) {
-        console.log('emit' + text);
-
         this.$emit('search-tag', text);
       }
     }
