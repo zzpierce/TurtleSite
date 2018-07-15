@@ -24,14 +24,11 @@
           speed: {
             jump: -12,
             xs: 0,
-            ys: 0
+            ys: 0,
+            run: 5
           }
         },
-        ob: {
-          p: [100, 300, 600],
-          speed: 4
-        },
-        g: 0.4,
+        g: 0.8,
 
       }
     },
@@ -46,21 +43,35 @@
       draw() {
         this.ctx.fillStyle = 'green';
         this.ctx.lineWidth = 0.3;
-        setInterval(this.move, 10);
-
         this.meImg = new Image();
         this.meImg.src = "http://the-tinysaur-generator.herokuapp.com/?small=true&2";
+        this.move();
+
         window.addEventListener('keydown', e => {
-          if (!this.ds.air && e.keyCode === 13) {
-            this.jump();
+//          console.log(e.keyCode);
+          if (e.keyCode === 37) {
+            this.ds.speed.xs = -1 * this.ds.speed.run;
+          }
+          if (e.keyCode === 39) {
+            this.ds.speed.xs = this.ds.speed.run;
+          }
+          if (!this.ds.air) {
+            if (e.keyCode === 32) {
+              this.jump();
+            }
           }
         });
 
+        window.addEventListener('keyup', e => {
+          if (e.keyCode === 37 || e.keyCode === 39) {
+            this.ds.speed.xs = 0;
+          }
+        })
       },
       move() {
         this.ctx.clearRect(0, 0, this.wWidth, this.wHeight);
         this.moveDinosaur();
-        this.moveObstacle();
+        requestAnimationFrame(this.move);
       },
       jump() {
         this.ds.speed.ys = this.ds.speed.jump;
@@ -76,30 +87,6 @@
           this.ds.speed.ys = 0;
           this.ds.air = false;
         }
-        if (this.ds.position.x < 0 || this.ds.position.x > window.innerWidth) {
-          this.ds.speed.xs *= -1;
-        }
-      },
-      moveObstacle() {
-        let p = this.ob.p;
-        if (p.length < 3) {
-          let maxp;
-          if (p.length > 0) {
-            maxp = p[p.length - 1];
-          } else {
-            maxp = 600;
-          }
-          p.push(maxp + 250 + Math.floor(Math.random() * 500));
-        }
-        for (let i = 0; i < p.length; i ++) {
-          let pi = p[i];
-          this.ctx.strokeRect(pi, this.ground, 20, 40);
-          if (p[i] < 100) {
-            p.splice(0, 1); i --;
-          } else {
-            p[i] = p[i] - this.ob.speed;
-          }
-        }
       }
     }
   }
@@ -114,7 +101,7 @@
     vertical-align: center;
   }
   canvas {
-    border: 1px solid red;
+    border: 1px solid #eee;
     margin-top: 10%;
   }
 </style>
