@@ -6,6 +6,7 @@ import com.zz.back.model.request.ArticleSaveRequest;
 import com.zz.back.model.vo.ArticleListVo;
 import com.zz.back.model.vo.ArticleVo;
 import com.zz.back.model.vo.BaseVo;
+import com.zz.back.model.vo.TagVo;
 
 import java.util.List;
 
@@ -55,4 +56,10 @@ public interface IArticleService {
      * @param id 文章id
      */
     void delete(Long id);
+
+    /**
+     * 获取所有的标签
+     * @return 标签列表
+     */
+    List<TagVo> getAllTags();
 }

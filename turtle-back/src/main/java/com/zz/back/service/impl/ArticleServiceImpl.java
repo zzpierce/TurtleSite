@@ -12,6 +12,7 @@ import com.zz.back.model.request.ArticleSaveRequest;
 import com.zz.back.model.vo.ArticleListVo;
 import com.zz.back.model.vo.ArticleVo;
 import com.zz.back.model.vo.BaseVo;
+import com.zz.back.model.vo.TagVo;
 import com.zz.back.service.IArticleService;
 import com.zz.back.util.BeanUtil;
 import com.zz.back.util.RandomCodeGenerator;
@@ -113,28 +114,45 @@ public class ArticleServiceImpl implements IArticleService {
         }
         //验证认证码是否有效
         String verifyCode = request.getVerifyCode();
-        if(!verifyUtil.check(verifyCode)) {
-            throw new RuntimeException("认证码无效");
-        }
+//        if(!verifyUtil.check(verifyCode)) {
+//            throw new RuntimeException("认证码无效");
+//        }
 
         //初始化入库的参数
-        ArticleEntity article = new ArticleEntity();
-        BeanUtils.copyProperties(request, article);
-        if (StringUtils.isBlank(article.getCreator())) {
-            article.setCreator(TurtleConstants.DEFAULT_USER);
-        }
+        ArticleEntity article;
+        boolean update = false;
         if (StringUtils.isNotBlank(request.getId())) {
-            article.setId(Long.valueOf(request.getId()));
+            article = articleDao.findOne(Long.valueOf(request.getId()));
+            if (article == null) {
+                throw new NotFoundException("更新的文章未找到 ID=" + request.getId());
+            }
+            update = true;
+        } else {
+            article = new ArticleEntity();
         }
-        article.setTemp(TurtleConstants.TEMP_FALSE);
-        Date curDate = new Date();
-        article.setCreateTime(curDate);
-        article.setUpdateTime(curDate);
 
+        BeanUtils.copyProperties(request, article);
+        Date curDate = new Date();
+        if (!update) {
+            article.setCreator(TurtleConstants.DEFAULT_USER);
+            article.setCreateTime(curDate);
+            article.setId(Long.valueOf(request.getId()));
+            article.setTemp(TurtleConstants.TEMP_FALSE);
+        }
+        article.setUpdateTime(curDate);
         //执行存库操作
         article = articleDao.save(article);
 
         //解析文章标签
+        //将文章已有的标签关系，全部删除
+        if (update) {
+            List<TagArticleEntity> relationList = tagArticleDao.findByArticleId(article.getId());
+            for (TagArticleEntity entity : relationList) {
+                tagArticleDao.delete(entity.getId());
+            }
+        }
+
+        //存入新的标签和关系
         if (StringUtils.isNotBlank(request.getTags())) {
             String[] tagArray = request.getTags().split(",");
             List<TagEntity> tagEntityList;
@@ -155,7 +173,6 @@ public class ArticleServiceImpl implements IArticleService {
             }
         }
         //添加文章后更新缓存
-        List<TagEntity> tagList = tagDao.findAll();
         TurtleCache.refresh(tagDao.findAll());
         log.info("更新后的cache size = " + TurtleCache.tagMap.size());
         return BeanUtil.success("新建文章成功 ID=" + article.getId());
@@ -165,4 +182,17 @@ public class ArticleServiceImpl implements IArticleService {
         articleDao.delete(id);
     }
 
+    public List<TagVo> getAllTags() {
+        List<TagEntity> tagEntityList = tagDao.findAll();
+        List<TagVo> tagVoList = new ArrayList<>();
+        if (tagEntityList != null) {
+            for (TagEntity entity : tagEntityList) {
+                TagVo vo = new TagVo();
+                vo.setId(entity.getId());
+                vo.setName(entity.getName());
+                tagVoList.add(vo);
+            }
+        }
+        return tagVoList;
+    }
 }

@@ -41,4 +41,11 @@ public class TestController {
 
         return null;
     }
+
+    @RequestMapping(value = "test", method = RequestMethod.GET)
+    @ResponseBody
+    public List<TagEntity> test() {
+        return tagDao.findEmptyTag();
+    }
+
 }

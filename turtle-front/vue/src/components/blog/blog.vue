@@ -149,17 +149,14 @@
     border: 0;
   }
 
-  .code {
-    background-color: #ddd;
-    padding: 5px;
-    border-radius: 3px;
-    border-left: 3px solid green;
-    font-size: 1em;
+  .content code {
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
   }
 
   .code-inline {
-    background-color: #ddd;
+    background-color: #eee;
     padding: 0 10px;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
   }
 </style>
 

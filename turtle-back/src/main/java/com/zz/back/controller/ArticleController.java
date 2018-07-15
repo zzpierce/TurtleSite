@@ -2,19 +2,19 @@ package com.zz.back.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.zz.back.model.request.ArticleSaveRequest;
-import com.zz.back.model.request.VerifyRequest;
 import com.zz.back.model.vo.ArticleListVo;
 import com.zz.back.model.vo.ArticleVo;
 import com.zz.back.model.vo.BaseVo;
+import com.zz.back.model.vo.TagVo;
 import com.zz.back.service.impl.ArticleServiceImpl;
 import com.zz.back.util.BeanUtil;
 import com.zz.back.util.TurtleConstants;
-import com.zz.back.util.VerifyUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 文章相关接口类
@@ -133,6 +133,21 @@ public class ArticleController {
         }
     }
 
+    /**
+     * 获取所有标签
+     * @return 标签列表
+     */
+    @RequestMapping(value = "/getAllTags", method = RequestMethod.GET)
+    @ResponseBody
+    public BaseVo<List<TagVo>> getAllTags() {
+        try {
+            List<TagVo> voList = articleService.getAllTags();
+            return BeanUtil.success(voList, "获取所有标签");
+        } catch (Exception e) {
+            log.error("获取所有标签失败", e);
+            return BeanUtil.fail("获取所有标签失败");
+        }
+    }
 }
 
 

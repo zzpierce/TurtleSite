@@ -26,12 +26,13 @@
             </div>
           </li>
         </ul>
-        <div class="load-more" @click="loadBlogs()">
+        <div v-if="loadMore" class="load-more" @click="loadBlogs()">
           加载更多...
         </div>
       </div>
       <div class="right">
         <idea-panel></idea-panel>
+        <tag-panel v-on:search-tag="searchByTag"></tag-panel>
       </div>
     </div>
   </div>
@@ -41,6 +42,7 @@
   import { parse_article } from '../../util/func';
   import MyHeader from '../util/header.vue';
   import IdeaPanel from './idea-panel.vue';
+  import TagPanel from './tag-panel.vue';
 
   export default {
     data() {
@@ -49,13 +51,17 @@
         blogRaw: [],
         blogLoading: true,
         searchInfo: "",
-        currentPage: 0
+        currentPage: 0,
+        loadMore: true
       }
     },
     mounted() {
-      this.loadBlogs();
+      this.init();
     },
     methods: {
+      init() {
+        this.loadBlogs();
+      },
       loadBlogs() {
         this.$http.get(API.LOAD_BLOG_PAGE + "?page=" + this.currentPage + "&count=10")
           .then(res => {
@@ -80,22 +86,7 @@
       search() {
         let searchText = this.searchInfo;
         this.blogLoading = true;
-        this.$http.get(API.SEARCH_BLOG + "?tag=" + searchText).then(res => {
-          if (res.status !== 200 || res.data.code !== POST_RESULT.SUCCESS) {
-            this.loadFailed();
-            return;
-          }
-          let data = res.data.data;
-          this.blogRaw = data.articles;
-          for (let blog of this.blogRaw) {
-            blog = this.formatBlog(blog);
-            this.blogList = this.blogRaw;
-          }
-          this.blogLoading = false;
-        }).catch(res => {
-          this.loadFailed();
-          this.blogLoading = false;
-        });
+        this.doSearchByTag(searchText);
       },
       toBlog(blogId) {
         this.$router.push({
@@ -123,11 +114,38 @@
           blog.summary_brief = summary.substring(0, 40) + "...";
         }
         return blog;
+      },
+      searchByTag(text) {
+        console.log('receive' + text);
+        if (text) {
+          this.loadMore = false;
+          this.doSearchByTag(text);
+        }
+      },
+      doSearchByTag(searchText) {
+        this.$http.get(API.SEARCH_BLOG + "?tag=" + searchText).then(res => {
+          if (res.status !== 200 || res.data.code !== POST_RESULT.SUCCESS) {
+            this.loadFailed();
+            return;
+          }
+          let data = res.data.data;
+          this.blogRaw = data.articles;
+          for (let blog of this.blogRaw) {
+            blog = this.formatBlog(blog);
+            this.blogList = this.blogRaw;
+          }
+          this.blogLoading = false;
+          this.loadMore = false;
+        }).catch(res => {
+          this.loadFailed();
+          this.blogLoading = false;
+        });
       }
     },
     components: {
       "my-header": MyHeader,
-      "idea-panel": IdeaPanel
+      "idea-panel": IdeaPanel,
+      "tag-panel": TagPanel
     }
   }
 </script>
