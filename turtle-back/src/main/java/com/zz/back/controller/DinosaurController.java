@@ -1,6 +1,9 @@
 package com.zz.back.controller;
 
+import com.zz.back.model.DinosaurEntity;
+import com.zz.back.model.vo.BaseVo;
 import com.zz.back.service.IDinosaurService;
+import com.zz.back.util.BeanUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,15 +24,17 @@ public class DinosaurController {
     @Resource
     private IDinosaurService dinosaurService;
 
-    @RequestMapping(value = "/getDinosaur", method = RequestMethod.GET)
+    @RequestMapping(value = "/create", method = RequestMethod.GET)
     @ResponseBody
-    public boolean getDinosaur() {
+    public BaseVo<DinosaurEntity> create(String name) {
         try {
-            dinosaurService.getPic();
-        } catch (IOException e) {
-            log.error("error", e);
+            DinosaurEntity entity = dinosaurService.create(name);
+            return BeanUtil.success(entity);
+        } catch (Exception e) {
+            String failMessage = "创建小恐龙失败";
+            log.error(failMessage, e);
+            return BeanUtil.fail(failMessage);
         }
-        return true;
     }
 
 }

@@ -1,11 +1,13 @@
 package com.zz;
 
 import com.zz.back.dao.ArticleDao;
+import com.zz.back.dao.DinosaurDao;
 import com.zz.back.dao.TagArticleDao;
 import com.zz.back.dao.TagDao;
 import com.zz.back.model.ArticleEntity;
 import com.zz.back.model.TagArticleEntity;
 import com.zz.back.model.TagEntity;
+import com.zz.back.service.IDinosaurService;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,9 +36,12 @@ public class SpringTest {
     @Resource
     private TagArticleDao tagArticleDao;
 
+    @Resource
+    private IDinosaurService dinosaurService;
+
     @Test
     public void test1() {
-
+        dinosaurService.create("yoyo");
     }
 
 

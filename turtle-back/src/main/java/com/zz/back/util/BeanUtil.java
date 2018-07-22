@@ -58,4 +58,7 @@ public class BeanUtil {
         return fail(null, message);
     }
 
+    public static <T> BaseVo<T> success(T t) {
+        return success(t, "");
+    }
 }
