@@ -17,9 +17,11 @@
         ctx: '',
         ds: {
           air: false,
-          position: {
+          p: {
             x: 300,
-            y: 300
+            y: 300,
+            headLeft: false,
+            headRight: false
           },
           speed: {
             jump: -12,
@@ -50,10 +52,10 @@
         window.addEventListener('keydown', e => {
 //          console.log(e.keyCode);
           if (e.keyCode === 37) {
-            this.ds.speed.xs = -1 * this.ds.speed.run;
+            this.ds.p.headLeft = true;
           }
           if (e.keyCode === 39) {
-            this.ds.speed.xs = this.ds.speed.run;
+            this.ds.p.headRight = true;
           }
           if (!this.ds.air) {
             if (e.keyCode === 32) {
@@ -63,10 +65,13 @@
         });
 
         window.addEventListener('keyup', e => {
-          if (e.keyCode === 37 || e.keyCode === 39) {
-            this.ds.speed.xs = 0;
+          if (e.keyCode === 37) {
+            this.ds.p.headLeft = false;
           }
-        })
+          if (e.keyCode === 39) {
+            this.ds.p.headRight = false;
+          }
+        });
       },
       move() {
         this.ctx.clearRect(0, 0, this.wWidth, this.wHeight);
@@ -78,12 +83,30 @@
         this.ds.air = true;
       },
       moveDinosaur() {
+        //change speed
+        if (this.ds.p.headLeft) {
+          if (this.ds.p.headRight) {
+            this.ds.speed.xs = 0;
+          } else {
+            this.ds.speed.xs = - this.ds.speed.run;
+          }
+        } else {
+          if (this.ds.p.headRight) {
+            this.ds.speed.xs = this.ds.speed.run;
+          } else {
+            this.ds.speed.xs = 0;
+          }
+        }
         this.ds.speed.ys += this.g;
-        this.ds.position.x += this.ds.speed.xs;
-        this.ds.position.y += this.ds.speed.ys;
-        this.ctx.drawImage(this.meImg, this.ds.position.x, this.ds.position.y);
-        if (this.ds.position.y > this.wHeight - 200) {
-          this.ds.position.y = this.wHeight - 200;
+        this.ds.p.x += this.ds.speed.xs;
+        this.ds.p.y += this.ds.speed.ys;
+
+        //draw
+        this.ctx.drawImage(this.meImg, this.ds.p.x, this.ds.p.y);
+
+        //after draw
+        if (this.ds.p.y > this.wHeight - 200) {
+          this.ds.p.y = this.wHeight - 200;
           this.ds.speed.ys = 0;
           this.ds.air = false;
         }

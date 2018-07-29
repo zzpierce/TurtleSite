@@ -14,7 +14,7 @@
           </li>
           </transition>
           <li @click="chosen(2)" v-bind:class="{'chosen-li':chosenSecond}">
-            <router-link class="menu-link" to="/blog/selfie">唧唧歪歪</router-link>
+            <router-link class="menu-link" to="/blog/garage">唧唧歪歪</router-link>
           </li>
           <li @click="chosen(3)" v-bind:class="{'chosen-li':chosenThird}">
             <router-link class="menu-link" to="/blog/selfie">广告招租</router-link>

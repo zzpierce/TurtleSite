@@ -1,18 +1,15 @@
 <template>
-  <div class="container">
-    <my-header></my-header>
-    <div class="blog-main">
-      <div class="left">
-        <div class="bm">
-          <h1>{{blog.title}}<i class="el-icon-edit" @click="editBlog()"></i></h1>
-          <div class="content" id="content">
-            <div v-html="blog.content"></div>
-          </div>
+  <div class="blog-main">
+    <div class="left">
+      <div class="bm">
+        <h1>{{blog.title}}<i class="el-icon-edit" @click="editBlog()"></i></h1>
+        <div class="content" id="content">
+          <div v-html="blog.content"></div>
         </div>
       </div>
-      <div class="right">
-        <idea-panel></idea-panel>
-      </div>
+    </div>
+    <div class="right">
+      <idea-panel></idea-panel>
     </div>
   </div>
 </template>

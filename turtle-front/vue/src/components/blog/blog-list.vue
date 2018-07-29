@@ -1,39 +1,37 @@
 <template>
-  <div class="container">
-    <div class="blog-main">
-      <div class="left" v-loading="blogLoading">
-        <div class="edit-panel">
-          <div class="search">
-            <el-input v-model="searchInfo" size="small" placeholder="搜索" @keyup.enter.native="search"></el-input>
+  <div class="blog-main">
+    <div class="left" v-loading="blogLoading">
+      <div class="edit-panel">
+        <div class="search">
+          <el-input v-model="searchInfo" size="small" placeholder="搜索" @keyup.enter.native="search"></el-input>
+        </div>
+        <i class="el-icon-plus" @click="toNewBlog()"></i>
+      </div>
+      <ul class="blog-list">
+        <li v-for="blog in blogList">
+          <div class="blog-title">
+            <div class="title-link" @click="toBlog(blog.id)">
+              {{blog.title}}
+            </div>
+            <div class="blog-tags title-div">
+              {{blog.tags}}
+            </div>
+            <div class="deal-time title-div">
+              {{blog.createTime}}
+            </div>
           </div>
-          <i class="el-icon-plus" @click="toNewBlog()"></i>
-        </div>
-        <ul class="blog-list">
-          <li v-for="blog in blogList">
-            <div class="blog-title">
-              <div class="title-link" @click="toBlog(blog.id)">
-                {{blog.title}}
-              </div>
-              <div class="blog-tags title-div">
-                {{blog.tags}}
-              </div>
-              <div class="deal-time title-div">
-                {{blog.createTime}}
-              </div>
-            </div>
-            <div class="blog-summary">
-              {{blog.summary_brief}}
-            </div>
-          </li>
-        </ul>
-        <div v-if="loadMore" class="load-more" @click="loadBlogs()">
-          加载更多...
-        </div>
+          <div class="blog-summary">
+            {{blog.summary_brief}}
+          </div>
+        </li>
+      </ul>
+      <div v-if="loadMore" class="load-more" @click="loadBlogs()">
+        加载更多...
       </div>
-      <div class="right">
-        <idea-panel></idea-panel>
-        <tag-panel v-on:search-tag="searchByTag"></tag-panel>
-      </div>
+    </div>
+    <div class="right">
+      <idea-panel></idea-panel>
+      <tag-panel v-on:search-tag="searchByTag"></tag-panel>
     </div>
   </div>
 </template>
@@ -89,7 +87,7 @@
       },
       toBlog(blogId) {
         this.$router.push({
-          name : 'blog',
+          name : 'blog-detail',
           params : { id : blogId }
         })
       },
@@ -154,7 +152,6 @@
     width: 80%;
     max-width: 1024px;
     margin: auto;
-    margin-top: 85px;
   }
 
   .left {

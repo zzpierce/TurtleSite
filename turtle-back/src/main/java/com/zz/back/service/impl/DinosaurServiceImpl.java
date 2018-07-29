@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Base64;
 import java.util.List;
 import java.util.UUID;
 import java.util.regex.Matcher;
@@ -43,7 +44,11 @@ public class DinosaurServiceImpl implements IDinosaurService {
         //查找是否存在
         List<DinosaurEntity> dinosaurList = dinosaurDao.findByName(name);
         if (dinosaurList.size() > 0) {
-            return dinosaurList.get(0);
+            DinosaurEntity entity = dinosaurList.get(0);
+            //判断图片是否存在
+            String picName = entity.getPicName();
+            //TODO
+            return entity;
         } else {
             return createDinosaur(name);
         }
@@ -77,9 +82,9 @@ public class DinosaurServiceImpl implements IDinosaurService {
             boolean dir = path.mkdir();
         }
         URL url = new URL(GET_DINOSAUR_URL);
-        UUID uuid = UUID.randomUUID();
-        String fileName = uuid + ".png";
-        String flipName = uuid + "_r.png";
+        String id = Base64.getEncoder().encodeToString(name.getBytes());
+        String fileName = id + ".png";
+        String flipName = id + "_r.png";
 
         try (BufferedInputStream buf = new BufferedInputStream(url.openStream());
              FileOutputStream fout = new FileOutputStream(new File(DINO_FOLDER + fileName))) {

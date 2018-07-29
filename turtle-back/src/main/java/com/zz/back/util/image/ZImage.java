@@ -55,7 +55,7 @@ public class ZImage {
      */
     public void saveAs(String fileName){
         saveImage(new File(fileName));
-        this.fileName = fileName;
+        //this.fileName = fileName;
     }
 
 
